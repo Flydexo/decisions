@@ -1,0 +1,306 @@
+{
+  "protocol": "bounded streaming source-split pilot",
+  "edition_reference": "0.2.1",
+  "official_decision_index": null,
+  "complete": false,
+  "note": "First N source-split rows, not the frozen edition's selected rows. Accuracy is over supported requests; unsupported requests are counted separately. Entropy confidence is distinct from the chosen-option probability used for calibration.",
+  "max_rows_per_source": 32,
+  "sources": {
+    "ARC-Easy": {
+      "requested": 32,
+      "answered": 32,
+      "unsupported": 0,
+      "errors": 0,
+      "source_error": null,
+      "median_ms": 38.928624999243766,
+      "source": {
+        "path": "allenai/ai2_arc",
+        "name": "ARC-Easy",
+        "revision": "210d026faf9955653af8916fad021475a3f00453"
+      },
+      "split": "test",
+      "questions": 32,
+      "accuracy": 0.21875,
+      "nll": 1.3881578482687473,
+      "brier": 0.750952510163188,
+      "entropy_confidence": 8.996576070785522e-05,
+      "probability_ece": 0.03701986651867628,
+      "entropy_accuracy_gap": 0.21866003423929214
+    },
+    "ARC-Challenge": {
+      "requested": 32,
+      "answered": 32,
+      "unsupported": 0,
+      "errors": 0,
+      "source_error": null,
+      "median_ms": 48.299166999640875,
+      "source": {
+        "path": "allenai/ai2_arc",
+        "name": "ARC-Challenge",
+        "revision": "210d026faf9955653af8916fad021475a3f00453"
+      },
+      "split": "test",
+      "questions": 32,
+      "accuracy": 0.21875,
+      "nll": 1.3852693513035774,
+      "brier": 0.7494975924491882,
+      "entropy_confidence": 5.081109702587128e-05,
+      "probability_ece": 0.035115351900458336,
+      "entropy_accuracy_gap": 0.21869918890297413
+    },
+    "MMLU": {
+      "requested": 32,
+      "answered": 32,
+      "unsupported": 0,
+      "errors": 0,
+      "source_error": null,
+      "median_ms": 44.80683300062083,
+      "source": {
+        "path": "cais/mmlu",
+        "name": "all",
+        "revision": "c30699e8356da336a370243923dbaf21066bb9fe"
+      },
+      "split": "test",
+      "questions": 32,
+      "accuracy": 0.15625,
+      "nll": 1.389110155403614,
+      "brier": 0.7514462172985077,
+      "entropy_confidence": 0.00011479482054710388,
+      "probability_ece": 0.09985568933188915,
+      "entropy_accuracy_gap": 0.1561352051794529
+    },
+    "WinoGrande": {
+      "requested": 32,
+      "answered": 32,
+      "unsupported": 0,
+      "errors": 0,
+      "source_error": null,
+      "median_ms": 37.287958002707455,
+      "source": {
+        "path": "allenai/winogrande",
+        "name": "winogrande_xl",
+        "revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5"
+      },
+      "split": "validation",
+      "questions": 32,
+      "accuracy": 0.4375,
+      "nll": 0.6971518807113171,
+      "brier": 0.5040041096508503,
+      "entropy_confidence": 0.00017249956727027893,
+      "probability_ece": 0.06948350556194782,
+      "entropy_accuracy_gap": 0.4373275004327297
+    },
+    "HellaSwag": {
+      "requested": 32,
+      "answered": 32,
+      "unsupported": 0,
+      "errors": 0,
+      "source_error": null,
+      "median_ms": 47.43429100199137,
+      "source": {
+        "path": "allenai/hellaswag",
+        "name": "default",
+        "revision": "55aa56627db098098f50549e650a00be2684f4bf"
+      },
+      "split": "validation",
+      "questions": 32,
+      "accuracy": 0.21875,
+      "nll": 1.3872087933123112,
+      "brier": 0.7504583057016134,
+      "entropy_confidence": 0.00016355887055397034,
+      "probability_ece": 0.039150613360106945,
+      "entropy_accuracy_gap": 0.21858644112944603
+    },
+    "ANLI": {
+      "requested": 32,
+      "answered": 32,
+      "unsupported": 0,
+      "errors": 0,
+      "source_error": null,
+      "median_ms": 52.777958000660874,
+      "source": {
+        "path": "facebook/anli",
+        "name": "plain_text",
+        "revision": "8e4813d81f46d313dac7892e1c28076917cfcdf9"
+      },
+      "split": "test_r1",
+      "questions": 32,
+      "accuracy": 0.375,
+      "nll": 1.0988896302878857,
+      "brier": 0.6668517217040062,
+      "entropy_confidence": 5.8731064200401306e-05,
+      "probability_ece": 0.03693299554288387,
+      "entropy_accuracy_gap": 0.3749412689357996
+    },
+    "BANKING77": {
+      "requested": 32,
+      "answered": 0,
+      "unsupported": 32,
+      "errors": 0,
+      "source_error": null,
+      "median_ms": null,
+      "source": {
+        "path": "legacy-datasets/banking77",
+        "name": "default",
+        "revision": "f54121560de48f2852f90be299010d1d6dc612ec"
+      },
+      "split": "test",
+      "questions": 0,
+      "accuracy": null
+    }
+  },
+  "provenance": {
+    "checkpoint_sha256": "a90556da6baeebe4f941f178e3a434fc2b84674cdd885ba68887f5c92a40b072",
+    "encoder": {
+      "encoder": "answerdotai/ModernBERT-base",
+      "revision": "8949b909ec900327062f0ebf497f51aef5e6f0c8",
+      "nhead": 16,
+      "num_layers": 2,
+      "dim_feedforward": 4096,
+      "dropout": 0.1,
+      "max_len": 512,
+      "head_max_len": 192,
+      "option_max_len": 48
+    },
+    "ablation": {
+      "objective": "sampled_reward",
+      "no_question_type": false,
+      "no_transformer": false,
+      "linear_scorer": false,
+      "reward_weights": {
+        "log": 1.0,
+        "spherical": 0.5,
+        "rps": 1.0
+      },
+      "name": "baseline"
+    },
+    "training_sources": [
+      {
+        "name": "ag_news",
+        "source": {
+          "path": "fancyzhx/ag_news",
+          "name": "default",
+          "revision": "eb185aade064a813bc0b7f42de02595523103ca4"
+        },
+        "splits": {
+          "train": "train",
+          "eval": "test"
+        },
+        "schema": {
+          "state": {
+            "field": "text"
+          },
+          "questions": {
+            "label": {
+              "type": "choice",
+              "instructions": "Classify the topic of this news article.",
+              "target": {
+                "field": "label",
+                "mode": "index"
+              },
+              "labels_from_feature": "label"
+            }
+          }
+        }
+      },
+      {
+        "name": "boolq",
+        "source": {
+          "path": "google/boolq",
+          "name": "default",
+          "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5"
+        },
+        "splits": {
+          "train": "train",
+          "eval": "validation"
+        },
+        "schema": {
+          "state": {
+            "field": "passage"
+          },
+          "questions": {
+            "answer": {
+              "type": "noul",
+              "instructions": "{question}",
+              "target": {
+                "field": "answer",
+                "mode": "boolean"
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "sst5",
+        "source": {
+          "path": "SetFit/sst5",
+          "name": "default",
+          "revision": "e51bdcd8cd3a30da231967c1a249ba59361279a3"
+        },
+        "splits": {
+          "train": "train",
+          "eval": "test"
+        },
+        "schema": {
+          "state": {
+            "field": "text"
+          },
+          "questions": {
+            "label": {
+              "type": "score",
+              "instructions": "Rate the sentiment of this text.",
+              "target": {
+                "field": "label",
+                "mode": "index"
+              },
+              "criteria": [
+                "very negative",
+                "negative",
+                "neutral",
+                "positive",
+                "very positive"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "arc_challenge",
+        "source": {
+          "path": "allenai/ai2_arc",
+          "name": "ARC-Challenge",
+          "revision": "210d026faf9955653af8916fad021475a3f00453"
+        },
+        "splits": {
+          "train": "train",
+          "eval": "test"
+        },
+        "schema": {
+          "state": {
+            "literal": ""
+          },
+          "questions": {
+            "answer": {
+              "type": "choice",
+              "instructions": "{question}",
+              "target": {
+                "field": "answerKey",
+                "mode": "label"
+              },
+              "options": {
+                "texts": "choices.text",
+                "keys": "choices.label"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "strict_context": true,
+    "confidence": "1 - normalized Shannon entropy"
+  },
+  "runtime": {
+    "device": "mps",
+    "torch": "2.14.0"
+  }
+}

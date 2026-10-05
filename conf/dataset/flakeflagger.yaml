@@ -1,0 +1,53 @@
+name: flakeflagger
+provenance: https://zenodo.org/records/5014076; https://github.com/AlshammariA/FlakeFlagger
+source:
+  format: csv
+  storage_options:
+    client_kwargs:
+      trust_env: true
+  data_files:
+    train: https://zenodo.org/api/records/5014076/files/test_features.csv/content
+splits:
+  train: train
+  eval: train
+holdout:
+  field: project
+  fraction: 0.2
+  seed: 42
+schema:
+  id_field: test_name
+  state:
+    fields:
+      assertion-roulette: assertion-roulette
+      conditional-test-logic: conditional-test-logic
+      eager-test: eager-test
+      fire-and-forget: fire-and-forget
+      indirect-testing: indirect-testing
+      mystery-guest: mystery-guest
+      resource-optimism: resource-optimism
+      test-run-war: test-run-war
+      testLength: testLength
+      numAsserts: numAsserts
+      numCoveredLines: numCoveredLines
+      ExecutionTime: ExecutionTime
+      projectSourceLinesCovered: projectSourceLinesCovered
+      projectSourceClassesCovered: projectSourceClassesCovered
+      hIndexModificationsPerCoveredLine_window5: hIndexModificationsPerCoveredLine_window5
+      hIndexModificationsPerCoveredLine_window10: hIndexModificationsPerCoveredLine_window10
+      hIndexModificationsPerCoveredLine_window25: hIndexModificationsPerCoveredLine_window25
+      hIndexModificationsPerCoveredLine_window50: hIndexModificationsPerCoveredLine_window50
+      hIndexModificationsPerCoveredLine_window75: hIndexModificationsPerCoveredLine_window75
+      hIndexModificationsPerCoveredLine_window100: hIndexModificationsPerCoveredLine_window100
+      hIndexModificationsPerCoveredLine_window500: hIndexModificationsPerCoveredLine_window500
+      hIndexModificationsPerCoveredLine_window10000: hIndexModificationsPerCoveredLine_window10000
+      num_third_party_libs: num_third_party_libs
+  questions:
+    flaky:
+      type: choice
+      instructions: Predict whether this test is flaky from its measured test features.
+      target:
+        field: flaky
+        mode: index
+      criteria:
+      - non-flaky
+      - flaky

@@ -1,0 +1,35 @@
+name: codereviewer
+provenance: https://zenodo.org/records/6900648; microsoft/CodeBERT/CodeReviewer
+source:
+  archive:
+    url: https://zenodo.org/api/records/6900648/files/Diff_Quality_Estimation.zip/content
+    size: 2807894289
+    max_transfer_bytes: 134217728
+    members:
+      train:
+      - Diff_Quality_Estimation/cls-train-chunk-0.jsonl
+      - Diff_Quality_Estimation/cls-train-chunk-1.jsonl
+      - Diff_Quality_Estimation/cls-train-chunk-2.jsonl
+      - Diff_Quality_Estimation/cls-train-chunk-3.jsonl
+      test:
+      - Diff_Quality_Estimation/cls-test.jsonl
+      validation:
+      - Diff_Quality_Estimation/cls-valid.jsonl
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    fields:
+      old_file: oldf
+      diff_hunk: patch
+  questions:
+    comment:
+      type: choice
+      instructions: Predict whether this code-review hunk receives a reviewer comment.
+      target:
+        field: 'y'
+        mode: comment_presence
+      criteria:
+      - no comment
+      - comment

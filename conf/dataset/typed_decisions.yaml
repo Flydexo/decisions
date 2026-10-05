@@ -1,0 +1,10 @@
+name: typed_decisions
+source:
+  path: LocalLLaMA/typed-decisions
+  name: customer_service
+  revision: d0e2f0c42fef86cc15d1688d25a19f5ba7c85b18
+splits:
+  train: train
+  eval: test
+schema:
+  native: true

@@ -1,0 +1,48 @@
+defaults:
+  - model: default
+  - dataset: ag_news
+  - ablation: baseline
+  - _self_
+  - optional experiment: null
+
+seed: 42
+device: auto
+cpu_threads: 4
+resume: null
+mixture: null
+
+training:
+  batch_size: 2
+  epochs: 1
+  max_steps: 1000
+  shuffle_buffer: 2048
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  sigma: 1.0
+  candidates: 8
+  clip_grad: 1.0
+  log_every: 10
+  checkpoint_every: 100
+  cache_clear_every: 10
+
+evaluation:
+  batch_size: 2
+  max_rows: 128
+  shuffle_buffer: 2048
+  every_steps: 0
+  strict: false
+
+logging:
+  enabled: true
+  project: decisions
+  space_id: null
+  server_url: null
+
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S-%f}
+  sweep:
+    dir: outputs/ablations/${now:%Y-%m-%d}/${now:%H-%M-%S-%f}
+    subdir: ${hydra.job.num}

@@ -1,0 +1,122 @@
+{
+  "aegis": {
+    "status": "ok",
+    "questions": 2,
+    "types": [
+      "choice",
+      "choice"
+    ]
+  },
+  "ag_news": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "amazon_reviews_multi_en": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "score"
+    ]
+  },
+  "arc_challenge": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "banking77": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "boolq": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "noul"
+    ]
+  },
+  "codereviewer": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "commonsenseqa": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "consumer_finance": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "dbpedia14": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "flakeflagger": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "imdb": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "mnli": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "openbookqa": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "sst5": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "score"
+    ]
+  },
+  "trec": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "choice"
+    ]
+  },
+  "yelp_review_full": {
+    "status": "ok",
+    "questions": 1,
+    "types": [
+      "score"
+    ]
+  }
+}

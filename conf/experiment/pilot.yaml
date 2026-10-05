@@ -1,0 +1,10 @@
+# @package _global_
+# Exercise classification, ordinal, Boolean, and variable-option MCQ schemas.
+mixture: [ag_news, boolq, sst5, arc_challenge]
+training:
+  max_steps: 64
+  shuffle_buffer: 2048
+  checkpoint_every: 32
+  log_every: 8
+evaluation:
+  max_rows: 32

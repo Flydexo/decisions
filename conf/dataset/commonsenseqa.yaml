@@ -1,0 +1,21 @@
+name: commonsenseqa
+source:
+  path: tau/commonsense_qa
+  name: default
+  revision: 94630fe30dad47192a8546eb75f094926d47e155
+splits:
+  train: train
+  eval: validation
+schema:
+  state:
+    literal: ''
+  questions:
+    answer:
+      type: choice
+      instructions: '{question}'
+      target:
+        field: answerKey
+        mode: label
+      options:
+        texts: choices.text
+        keys: choices.label

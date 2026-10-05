@@ -1,0 +1,24 @@
+name: yelp_review_full
+source:
+  path: Yelp/yelp_review_full
+  name: yelp_review_full
+  revision: c1f9ee939b7d05667af864ee1cb066393154bf85
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    field: text
+  questions:
+    label:
+      type: score
+      instructions: Rate this review from one to five stars.
+      target:
+        field: label
+        mode: index
+      criteria:
+      - 1 star
+      - 2 stars
+      - 3 stars
+      - 4 stars
+      - 5 stars

@@ -1,0 +1,21 @@
+name: mnli
+source:
+  path: nyu-mll/multi_nli
+  name: default
+  revision: da70db2af9d09693783c3320c4249840212ee221
+splits:
+  train: train
+  eval: validation_matched
+schema:
+  state:
+    fields:
+      premise: premise
+      hypothesis: hypothesis
+  questions:
+    relation:
+      type: choice
+      instructions: Classify the relationship between the premise and hypothesis.
+      target:
+        field: label
+        mode: index
+      labels_from_feature: label

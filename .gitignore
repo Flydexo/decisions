@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Local training artifacts and streamed dataset caches
+outputs/
+*.pt
+.cache/
+
+# Notebook autosaves, local settings, and credentials
+.ipynb_checkpoints/
+.DS_Store
+.env
+.env.*
+!.env.example

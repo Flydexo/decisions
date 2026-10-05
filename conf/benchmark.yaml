@@ -1,0 +1,137 @@
+checkpoint: null
+device: auto
+question_batch_size: 2
+max_rows_per_source: 32
+sources:
+- name: ARC-Easy
+  layout: arc
+  split: test
+  source:
+    path: allenai/ai2_arc
+    name: ARC-Easy
+    revision: 210d026faf9955653af8916fad021475a3f00453
+- name: ARC-Challenge
+  layout: arc
+  split: test
+  source:
+    path: allenai/ai2_arc
+    name: ARC-Challenge
+    revision: 210d026faf9955653af8916fad021475a3f00453
+- name: MMLU
+  layout: mmlu
+  split: test
+  source:
+    path: cais/mmlu
+    name: all
+    revision: c30699e8356da336a370243923dbaf21066bb9fe
+- name: WinoGrande
+  layout: winogrande
+  split: validation
+  source:
+    path: allenai/winogrande
+    name: winogrande_xl
+    revision: 01e74176c63542e6b0bcb004dcdea22d94fb67b5
+- name: HellaSwag
+  layout: hellaswag
+  split: validation
+  source:
+    path: allenai/hellaswag
+    name: default
+    revision: 55aa56627db098098f50549e650a00be2684f4bf
+- name: ANLI
+  layout: anli
+  split: test_r1
+  source:
+    path: facebook/anli
+    name: plain_text
+    revision: 8e4813d81f46d313dac7892e1c28076917cfcdf9
+- name: BANKING77
+  layout: banking77
+  split: test
+  source:
+    path: legacy-datasets/banking77
+    name: default
+    revision: f54121560de48f2852f90be299010d1d6dc612ec
+  option_names:
+  - card_arrival
+  - card_linking
+  - exchange_rate
+  - card_payment_wrong_exchange_rate
+  - extra_charge_on_statement
+  - pending_cash_withdrawal
+  - fiat_currency_support
+  - card_delivery_estimate
+  - automatic_top_up
+  - card_not_working
+  - exchange_via_app
+  - lost_or_stolen_card
+  - age_limit
+  - pin_blocked
+  - contactless_not_working
+  - top_up_by_bank_transfer_charge
+  - pending_top_up
+  - cancel_transfer
+  - top_up_limits
+  - wrong_amount_of_cash_received
+  - card_payment_fee_charged
+  - transfer_not_received_by_recipient
+  - supported_cards_and_currencies
+  - getting_virtual_card
+  - card_acceptance
+  - top_up_reverted
+  - balance_not_updated_after_cheque_or_cash_deposit
+  - card_payment_not_recognised
+  - edit_personal_details
+  - why_verify_identity
+  - unable_to_verify_identity
+  - get_physical_card
+  - visa_or_mastercard
+  - topping_up_by_card
+  - disposable_card_limits
+  - compromised_card
+  - atm_support
+  - direct_debit_payment_not_recognised
+  - passcode_forgotten
+  - declined_cash_withdrawal
+  - pending_card_payment
+  - lost_or_stolen_phone
+  - request_refund
+  - declined_transfer
+  - Refund_not_showing_up
+  - declined_card_payment
+  - pending_transfer
+  - terminate_account
+  - card_swallowed
+  - transaction_charged_twice
+  - verify_source_of_funds
+  - transfer_timing
+  - reverted_card_payment?
+  - change_pin
+  - beneficiary_not_allowed
+  - transfer_fee_charged
+  - receiving_money
+  - failed_transfer
+  - transfer_into_account
+  - verify_top_up
+  - getting_spare_card
+  - top_up_by_cash_or_cheque
+  - order_physical_card
+  - virtual_card_not_working
+  - wrong_exchange_rate_for_cash_withdrawal
+  - get_disposable_virtual_card
+  - top_up_failed
+  - balance_not_updated_after_bank_transfer
+  - cash_withdrawal_not_recognised
+  - exchange_charge
+  - top_up_by_card_charge
+  - activate_my_card
+  - cash_withdrawal_charge
+  - card_about_to_expire
+  - apple_pay_or_google_pay
+  - verify_my_identity
+  - country_support
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: outputs/benchmark/${now:%Y-%m-%d}/${now:%H-%M-%S-%f}

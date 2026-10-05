@@ -1,0 +1,11 @@
+encoder: answerdotai/ModernBERT-large
+revision: 45bb4654a4d5aaff24dd11d4781fa46d39bf8c13
+nhead: 16
+num_layers: 2
+dim_feedforward: 4096
+dropout: 0.1
+max_len: 1024
+head_max_len: 384
+option_max_len: 64
+preserve_options: true
+balanced_state: true

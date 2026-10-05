@@ -1,0 +1,19 @@
+name: ag_news
+source:
+  path: fancyzhx/ag_news
+  name: default
+  revision: eb185aade064a813bc0b7f42de02595523103ca4
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    field: text
+  questions:
+    label:
+      type: choice
+      instructions: Classify the topic of this news article.
+      target:
+        field: label
+        mode: index
+      labels_from_feature: label

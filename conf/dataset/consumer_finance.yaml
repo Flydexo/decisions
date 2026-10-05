@@ -1,0 +1,48 @@
+name: consumer_finance
+source:
+  path: davidheineman/consumer-finance-complaints-large
+  name: default
+  revision: 44cfa170a402e254407470275ce05d7dcaccde30
+splits:
+  train: train
+  eval: train
+filters:
+- field: complaint_what_happened
+  nonempty: true
+holdout:
+  field: complaint_id
+  fraction: 0.1
+  seed: 42
+schema:
+  id_field: complaint_id
+  state:
+    field: complaint_what_happened
+  questions:
+    product:
+      type: choice
+      instructions: Route this consumer complaint to the appropriate product.
+      target:
+        field: product
+        mode: label
+      criteria:
+      - Bank account or service
+      - Checking or savings account
+      - Consumer Loan
+      - Credit card
+      - Credit card or prepaid card
+      - Credit reporting
+      - Credit reporting, credit repair services, or other personal consumer reports
+      - Credit reporting or other personal consumer reports
+      - Debt collection
+      - Debt or credit management
+      - Money transfers
+      - Money transfer, virtual currency, or money service
+      - Mortgage
+      - Other financial service
+      - Payday loan
+      - Payday loan, title loan, or personal loan
+      - Payday loan, title loan, personal loan, or advance loan
+      - Prepaid card
+      - Student loan
+      - Vehicle loan or lease
+      - Virtual currency

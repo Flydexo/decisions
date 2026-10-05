@@ -1,0 +1,24 @@
+name: sst5
+source:
+  path: SetFit/sst5
+  name: default
+  revision: e51bdcd8cd3a30da231967c1a249ba59361279a3
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    field: text
+  questions:
+    label:
+      type: score
+      instructions: Rate the sentiment of this text.
+      target:
+        field: label
+        mode: index
+      criteria:
+      - very negative
+      - negative
+      - neutral
+      - positive
+      - very positive

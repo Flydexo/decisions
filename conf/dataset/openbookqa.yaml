@@ -1,0 +1,21 @@
+name: openbookqa
+source:
+  path: allenai/openbookqa
+  name: main
+  revision: 388097ea7776314e93a529163e0fea805b8a6454
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    literal: ''
+  questions:
+    answer:
+      type: choice
+      instructions: '{question_stem}'
+      target:
+        field: answerKey
+        mode: label
+      options:
+        texts: choices.text
+        keys: choices.label

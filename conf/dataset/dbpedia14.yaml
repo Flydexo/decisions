@@ -1,0 +1,21 @@
+name: dbpedia14
+source:
+  path: fancyzhx/dbpedia_14
+  name: dbpedia_14
+  revision: 9abd46cf7fc8b4c64290f26993c540b92aa145ac
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    fields:
+      title: title
+      content: content
+  questions:
+    topic:
+      type: choice
+      instructions: Classify the type of entity described.
+      target:
+        field: label
+        mode: index
+      labels_from_feature: label

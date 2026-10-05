@@ -1,0 +1,222 @@
+{
+  "encoder": {
+    "encoder": "answerdotai/ModernBERT-large",
+    "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+    "nhead": 16,
+    "num_layers": 2,
+    "dim_feedforward": 4096,
+    "dropout": 0.1,
+    "max_len": 1024,
+    "head_max_len": 384,
+    "option_max_len": 64,
+    "preserve_options": true
+  },
+  "selection_role": "validation",
+  "final_evaluation_role": "eval",
+  "datasets": [
+    {
+      "name": "banking77",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "boolq",
+      "splits": {
+        "train": "train",
+        "eval": "validation",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "ag_news",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "mnli",
+      "splits": {
+        "train": "train",
+        "eval": "validation_matched",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "sst5",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "yelp_review_full",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "trec",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "dbpedia14",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "amazon_reviews_multi_en",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "imdb",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "arc_challenge",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "openbookqa",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "commonsenseqa",
+      "splits": {
+        "train": "train",
+        "eval": "validation",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "codereviewer",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "validation"
+      }
+    },
+    {
+      "name": "aegis",
+      "splits": {
+        "train": "train",
+        "eval": "test",
+        "validation": "train"
+      },
+      "validation_holdout": {
+        "fraction": 0.1,
+        "seed": 42
+      }
+    },
+    {
+      "name": "consumer_finance",
+      "splits": {
+        "train": "train",
+        "eval": "train",
+        "validation": "train"
+      },
+      "holdout": {
+        "field": "complaint_id",
+        "fraction": 0.1,
+        "seed": 42,
+        "validation_fraction": 0.1
+      }
+    },
+    {
+      "name": "flakeflagger",
+      "splits": {
+        "train": "train",
+        "eval": "train",
+        "validation": "train"
+      },
+      "holdout": {
+        "field": "project",
+        "fraction": 0.2,
+        "seed": 42,
+        "validation_fraction": 0.1
+      }
+    }
+  ]
+}

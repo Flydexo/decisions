@@ -1,0 +1,18 @@
+name: boolq
+source:
+  path: google/boolq
+  name: default
+  revision: 35b264d03638db9f4ce671b711558bf7ff0f80d5
+splits:
+  train: train
+  eval: validation
+schema:
+  state:
+    field: passage
+  questions:
+    answer:
+      type: noul
+      instructions: '{question}'
+      target:
+        field: answer
+        mode: boolean

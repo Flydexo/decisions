@@ -1,0 +1,9 @@
+objective: sampled_reward
+no_question_type: false
+no_transformer: true
+linear_scorer: false
+reward_weights:
+  log: 1.0
+  spherical: 0.5
+  rps: 1.0
+name: no_transformer

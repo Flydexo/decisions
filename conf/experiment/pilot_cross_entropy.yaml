@@ -1,0 +1,23 @@
+# @package _global_
+mixture:
+- ag_news
+- boolq
+- sst5
+- arc_challenge
+training:
+  max_steps: 64
+  shuffle_buffer: 2048
+  checkpoint_every: 32
+  log_every: 8
+evaluation:
+  max_rows: 32
+ablation:
+  objective: cross_entropy
+  no_question_type: false
+  no_transformer: false
+  linear_scorer: false
+  reward_weights:
+    log: 1.0
+    spherical: 0.5
+    rps: 1.0
+  name: cross_entropy

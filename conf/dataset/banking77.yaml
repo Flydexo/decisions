@@ -1,0 +1,19 @@
+name: banking77
+source:
+  path: legacy-datasets/banking77
+  name: default
+  revision: f54121560de48f2852f90be299010d1d6dc612ec
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    field: text
+  questions:
+    label:
+      type: choice
+      instructions: Classify the banking intent of this user request.
+      target:
+        field: label
+        mode: index
+      labels_from_feature: label

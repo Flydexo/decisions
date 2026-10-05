@@ -1,0 +1,24 @@
+name: amazon_reviews_multi_en
+source:
+  path: SetFit/amazon_reviews_multi_en
+  name: default
+  revision: ec73b665e4be0f567b69d39425355401cfe0d29b
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    field: text
+  questions:
+    label:
+      type: score
+      instructions: Rate this review from one to five stars.
+      target:
+        field: label
+        mode: index
+      criteria:
+      - 1 star
+      - 2 stars
+      - 3 stars
+      - 4 stars
+      - 5 stars

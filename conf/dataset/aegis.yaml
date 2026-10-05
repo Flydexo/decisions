@@ -1,0 +1,41 @@
+name: aegis
+source:
+  path: nvidia/Aegis-AI-Content-Safety-Dataset-2.0
+  name: default
+  revision: d86bb8bedff51d25ac834ab7838f1cc61acb7a2c
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    fields:
+      prompt: prompt
+      response: response
+  questions:
+    prompt_safety:
+      type: choice
+      instructions: Classify the safety of the prompt.
+      target:
+        field: prompt_label
+        mode: label
+      criteria:
+      - safe
+      - unsafe
+    response_safety:
+      type: choice
+      instructions: Classify the safety of the response in the context of the prompt.
+      target:
+        field: response_label
+        mode: label
+      criteria:
+      - safe
+      - unsafe
+filters:
+- field: prompt_label
+  in:
+  - safe
+  - unsafe
+- field: response_label
+  in:
+  - safe
+  - unsafe

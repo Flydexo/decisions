@@ -1,0 +1,21 @@
+name: arc_challenge
+source:
+  path: allenai/ai2_arc
+  name: ARC-Challenge
+  revision: 210d026faf9955653af8916fad021475a3f00453
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    literal: ''
+  questions:
+    answer:
+      type: choice
+      instructions: '{question}'
+      target:
+        field: answerKey
+        mode: label
+      options:
+        texts: choices.text
+        keys: choices.label

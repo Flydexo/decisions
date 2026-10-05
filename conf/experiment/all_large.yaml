@@ -1,0 +1,37 @@
+# @package _global_
+defaults:
+  - override /model: large
+  - override /ablation: cross_entropy
+
+mixture: [banking77, boolq, ag_news, mnli, sst5, yelp_review_full, trec, dbpedia14, amazon_reviews_multi_en, imdb, arc_challenge, openbookqa, commonsenseqa, codereviewer, aegis, consumer_finance, flakeflagger]
+data:
+  separate_validation: true
+  validation_fraction: 0.1
+  train_pool_rows: 4000
+  train_cache_dir: null
+  archive_max_transfer_bytes: 536870912
+  archive_block_size_bytes: 4194304
+  shuffle_buffers:
+    banking77: {train: 10000, validation: 10000, eval: 3000}
+    codereviewer: {train: 128, validation: 128, eval: 128}
+    consumer_finance: {train: 512, validation: 512, eval: 512}
+    flakeflagger: {train: 2048, validation: 2048, eval: 2048}
+training:
+  batch_size: 4
+  mps_memory_budget_gib: 9
+  epochs: 3
+  max_steps: 17000
+  learning_rate: 0.0002
+  warmup_steps: 100
+  decay_steps: 17000
+  min_learning_rate_ratio: 0.1
+  max_seconds: 7200
+  validation_role: validation
+  early_stopping_patience: 4
+  min_free_disk_gib: 0.7
+  best_checkpoint_optimizer: false
+  checkpoint_every: 500
+  log_every: 50
+evaluation:
+  max_rows: 128
+  every_steps: 1000

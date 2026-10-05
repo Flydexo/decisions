@@ -1,0 +1,28 @@
+name: trec
+provenance: CogComp/trec; pinned parquet-converter export (datasets 5 does not load
+  the original script)
+source:
+  format: parquet
+  data_files:
+    train: https://huggingface.co/datasets/CogComp/trec/resolve/6957b2fd5f183e0fcb58ff0eb46aa33f18f709bf/default/trec-train.parquet
+    test: https://huggingface.co/datasets/CogComp/trec/resolve/6957b2fd5f183e0fcb58ff0eb46aa33f18f709bf/default/trec-test.parquet
+splits:
+  train: train
+  eval: test
+schema:
+  state:
+    field: text
+  questions:
+    type:
+      type: choice
+      instructions: Classify the coarse question type.
+      criteria:
+      - ABBR
+      - ENTY
+      - DESC
+      - HUM
+      - LOC
+      - NUM
+      target:
+        field: coarse_label
+        mode: index
