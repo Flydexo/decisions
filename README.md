@@ -269,6 +269,18 @@ uv run python scripts/run_all_large.py --hours 8 --run-dir outputs/all_large_8h 
 ```
 
 The training budget accumulates across resumes.
+DBpedia 14, Amazon Reviews and IMDb are class-ordered. Their bounded training,
+validation and final samples use equal class quotas from label-filtered Parquet
+streams, followed by training-pool shuffling. Other sources keep their existing
+bounded sampling. This prevents a small shuffle buffer from selecting just the
+first class; their reported accuracy measures a class-balanced sample rather
+than the original frequency distribution. Training and validation still use
+disjoint input hashes; final samples come only from the original evaluation split.
+The initial single-class control is archived and excluded from checkpoint selection.
+`reports/sampling_correction.json` records its exposure and consumed budget.
+
+When restarting a corrected experiment from a fresh head, `--budget-spent-seconds`
+deducts archived training/validation time from the total `--hours` allowance.
 The time limit applies to training including periodic validation; source preparation
 and final evaluation add time. Training also stops after four validation checks
 without improved mean accuracy or if the disk reserve is reached.

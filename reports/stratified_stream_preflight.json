@@ -1,0 +1,44 @@
+{
+  "protocol": "one training-partition example per class from filtered streaming sources; no evaluation rows read",
+  "datasets": [
+    {
+      "dataset": "dbpedia14",
+      "rows": 14,
+      "classes": [
+        "Company",
+        "EducationalInstitution",
+        "Artist",
+        "Athlete",
+        "OfficeHolder",
+        "MeanOfTransportation",
+        "Building",
+        "NaturalPlace",
+        "Village",
+        "Animal",
+        "Plant",
+        "Album",
+        "Film",
+        "WrittenWork"
+      ]
+    },
+    {
+      "dataset": "amazon_reviews_multi_en",
+      "rows": 5,
+      "classes": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "dataset": "imdb",
+      "rows": 2,
+      "classes": [
+        "neg",
+        "pos"
+      ]
+    }
+  ]
+}

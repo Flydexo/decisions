@@ -11,7 +11,14 @@ data:
   train_cache_dir: null
   archive_max_transfer_bytes: 536870912
   archive_block_size_bytes: 4194304
+  stratified_sampling:
+    dbpedia14: {field: label, values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], shuffle_buffer: 128}
+    amazon_reviews_multi_en: {field: label, values: [0, 1, 2, 3, 4], shuffle_buffer: 128}
+    imdb: {field: label, values: [0, 1], shuffle_buffer: 128}
   shuffle_buffers:
+    dbpedia14: {train: 4000, validation: 128, eval: 128}
+    amazon_reviews_multi_en: {train: 4000, validation: 128, eval: 128}
+    imdb: {train: 4000, validation: 128, eval: 128}
     banking77: {train: 10000, validation: 10000, eval: 3000}
     codereviewer: {train: 128, validation: 128, eval: 128}
     consumer_finance: {train: 512, validation: 512, eval: 512}

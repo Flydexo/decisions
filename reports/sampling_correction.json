@@ -1,0 +1,263 @@
+{
+  "reason": "Class-ordered sources yielded single-class training and validation samples despite bounded shuffling.",
+  "affected_datasets": [
+    "dbpedia14",
+    "amazon_reviews_multi_en",
+    "imdb"
+  ],
+  "control_progress": {
+    "step": 1251,
+    "epoch": 0,
+    "rows_in_epoch": 5004,
+    "rows": 5004,
+    "best_accuracy": 0.43670895612343297,
+    "training_elapsed_seconds": 4034.4269196250025,
+    "dataset_rows": {
+      "banking77": 295,
+      "boolq": 295,
+      "ag_news": 295,
+      "mnli": 295,
+      "sst5": 295,
+      "yelp_review_full": 295,
+      "trec": 294,
+      "dbpedia14": 294,
+      "amazon_reviews_multi_en": 294,
+      "imdb": 294,
+      "arc_challenge": 294,
+      "openbookqa": 294,
+      "commonsenseqa": 294,
+      "codereviewer": 294,
+      "aegis": 294,
+      "consumer_finance": 294,
+      "flakeflagger": 294
+    },
+    "validation_without_improvement": 0,
+    "best_step": 1000
+  },
+  "control_training_class_counts": {
+    "aegis": {
+      "prompt_safety": {
+        "unsafe": 3477,
+        "safe": 523
+      },
+      "response_safety": {
+        "safe": 3606,
+        "unsafe": 394
+      }
+    },
+    "ag_news": {
+      "label": {
+        "Sci/Tech": 1184,
+        "Business": 985,
+        "Sports": 827,
+        "World": 1004
+      }
+    },
+    "amazon_reviews_multi_en": {
+      "label": {
+        "0": 4000
+      }
+    },
+    "arc_challenge": {
+      "answer": {
+        "B": 252,
+        "A": 207,
+        "C": 261,
+        "D": 254,
+        "1": 6,
+        "2": 3,
+        "4": 10,
+        "3": 4
+      }
+    },
+    "banking77": {
+      "label": {
+        "fiat_currency_support": 59,
+        "verify_top_up": 46,
+        "verify_source_of_funds": 44,
+        "order_physical_card": 49,
+        "pending_transfer": 61,
+        "card_payment_wrong_exchange_rate": 65,
+        "passcode_forgotten": 45,
+        "declined_card_payment": 58,
+        "transfer_not_received_by_recipient": 78,
+        "unable_to_verify_identity": 51,
+        "top_up_by_bank_transfer_charge": 41,
+        "transfer_timing": 53,
+        "compromised_card": 41,
+        "card_linking": 51,
+        "direct_debit_payment_not_recognised": 75,
+        "top_up_failed": 56,
+        "declined_cash_withdrawal": 73,
+        "get_disposable_virtual_card": 37,
+        "exchange_rate": 44,
+        "atm_support": 37,
+        "getting_virtual_card": 35,
+        "card_payment_fee_charged": 76,
+        "top_up_by_card_charge": 52,
+        "cash_withdrawal_charge": 58,
+        "transfer_fee_charged": 57,
+        "pending_top_up": 64,
+        "wrong_amount_of_cash_received": 67,
+        "pending_cash_withdrawal": 55,
+        "failed_transfer": 59,
+        "exchange_charge": 50,
+        "country_support": 61,
+        "declined_transfer": 46,
+        "wrong_exchange_rate_for_cash_withdrawal": 64,
+        "lost_or_stolen_card": 35,
+        "supported_cards_and_currencies": 55,
+        "receiving_money": 32,
+        "transaction_charged_twice": 77,
+        "cash_withdrawal_not_recognised": 69,
+        "get_physical_card": 44,
+        "pending_card_payment": 70,
+        "reverted_card_payment?": 68,
+        "exchange_via_app": 43,
+        "verify_my_identity": 46,
+        "beneficiary_not_allowed": 54,
+        "visa_or_mastercard": 62,
+        "activate_my_card": 56,
+        "card_swallowed": 25,
+        "request_refund": 76,
+        "top_up_limits": 27,
+        "pin_blocked": 41,
+        "card_arrival": 63,
+        "change_pin": 48,
+        "terminate_account": 41,
+        "cancel_transfer": 62,
+        "card_delivery_estimate": 42,
+        "apple_pay_or_google_pay": 50,
+        "topping_up_by_card": 47,
+        "card_not_working": 39,
+        "disposable_card_limits": 41,
+        "why_verify_identity": 49,
+        "card_payment_not_recognised": 68,
+        "card_about_to_expire": 51,
+        "age_limit": 51,
+        "transfer_into_account": 47,
+        "getting_spare_card": 44,
+        "Refund_not_showing_up": 53,
+        "lost_or_stolen_phone": 57,
+        "extra_charge_on_statement": 72,
+        "edit_personal_details": 53,
+        "balance_not_updated_after_cheque_or_cash_deposit": 72,
+        "balance_not_updated_after_bank_transfer": 59,
+        "automatic_top_up": 51,
+        "top_up_by_cash_or_cheque": 39,
+        "top_up_reverted": 56,
+        "card_acceptance": 26,
+        "virtual_card_not_working": 15,
+        "contactless_not_working": 16
+      }
+    },
+    "boolq": {
+      "answer": {
+        "false": 1500,
+        "true": 2500
+      }
+    },
+    "codereviewer": {
+      "comment": {
+        "no comment": 1988,
+        "comment": 2012
+      }
+    },
+    "commonsenseqa": {
+      "answer": {
+        "C": 831,
+        "B": 769,
+        "D": 829,
+        "E": 772,
+        "A": 799
+      }
+    },
+    "consumer_finance": {
+      "product": {
+        "Credit reporting or other personal consumer reports": 1451,
+        "Credit reporting, credit repair services, or other personal consumer reports": 965,
+        "Mortgage": 235,
+        "Credit card or prepaid card": 134,
+        "Debt collection": 506,
+        "Bank account or service": 61,
+        "Credit card": 176,
+        "Vehicle loan or lease": 68,
+        "Credit reporting": 58,
+        "Student loan": 74,
+        "Checking or savings account": 140,
+        "Payday loan, title loan, personal loan, or advance loan": 9,
+        "Consumer Loan": 34,
+        "Money transfers": 1,
+        "Payday loan": 8,
+        "Prepaid card": 22,
+        "Payday loan, title loan, or personal loan": 16,
+        "Money transfer, virtual currency, or money service": 38,
+        "Debt or credit management": 4
+      }
+    },
+    "dbpedia14": {
+      "topic": {
+        "Company": 4000
+      }
+    },
+    "flakeflagger": {
+      "flaky": {
+        "non-flaky": 3821,
+        "flaky": 179
+      }
+    },
+    "imdb": {
+      "label": {
+        "neg": 4000
+      }
+    },
+    "mnli": {
+      "relation": {
+        "contradiction": 1509,
+        "neutral": 1156,
+        "entailment": 1335
+      }
+    },
+    "openbookqa": {
+      "answer": {
+        "A": 1126,
+        "D": 985,
+        "C": 919,
+        "B": 970
+      }
+    },
+    "sst5": {
+      "label": {
+        "3": 1093,
+        "2": 754,
+        "0": 517,
+        "1": 1041,
+        "4": 595
+      }
+    },
+    "trec": {
+      "type": {
+        "HUM": 880,
+        "ENTY": 935,
+        "DESC": 849,
+        "LOC": 615,
+        "NUM": 659,
+        "ABBR": 62
+      }
+    },
+    "yelp_review_full": {
+      "label": {
+        "4": 711,
+        "2": 919,
+        "3": 795,
+        "1": 872,
+        "0": 703
+      }
+    }
+  },
+  "control_validation_scores_excluded": true,
+  "final_evaluation_used": false,
+  "restart": "Fresh head and optimizer; class-stratified, label-filtered Parquet streams for the three ordered sources.",
+  "total_training_budget_seconds": 28800,
+  "budget_spent_seconds": 4034.4269196250025
+}

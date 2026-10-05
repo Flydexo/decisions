@@ -52,6 +52,7 @@ def large_run():
     pools = read_json(manifest)['counts'] if manifest.exists() else {}
     summary_path = run / 'final_evaluation.json'
     benchmark_path = run / 'benchmark/summary.json'
+    correction_path = REPORTS / 'sampling_correction.json'
     # Bound SVG complexity; exact per-update measurements remain in the original log.
     stride = max(1, (len(metrics) + 299) // 300)
     plot = metrics[::stride]
@@ -63,6 +64,7 @@ def large_run():
             'peak_process_rss_gib':max((m.get('memory/process_peak_rss_gib',0) for m in metrics),default=None),
             'validation_history':validations,
             'summary':read_json(summary_path) if summary_path.exists() else None,
+            'sampling_correction':read_json(correction_path) if correction_path.exists() else None,
             'benchmark':read_json(benchmark_path) if benchmark_path.exists() else None,
             'page_built_at':datetime.now(timezone.utc).isoformat()}
 

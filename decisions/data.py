@@ -25,7 +25,7 @@ def load_stream(config: dict, split: str):
         if not files or any("REPLACE_" in str(v) for v in files.values()):
             raise ValueError(f"{config['name']}: set source.data_files.{split} to the published file; see README")
     options = {"split": split, "streaming": True}
-    for key in ("name", "revision", "data_files", "features", "encoding", "encoding_errors", "delimiter", "storage_options"):
+    for key in ("name", "revision", "data_files", "features", "encoding", "encoding_errors", "delimiter", "storage_options", "filters"):
         value = files if key == "data_files" else source.get(key)
         if value is not None:
             options[key] = value
@@ -118,6 +118,41 @@ def mixed_examples(configs: list[dict], role: str, **kwargs):
         active = survivors
 
 
+def sampled_examples(dataset, role, max_rows, *, seed=42, epoch=0, shuffle_buffer=0):
+    """Bounded samples; class-ordered Parquet sources use label-filtered streams."""
+    sampling = dataset.get("stratified_sampling")
+    if not sampling:
+        stream = examples(dataset, role, seed=seed, epoch=epoch, shuffle_buffer=shuffle_buffer)
+        try:
+            yield from itertools.islice(stream, max_rows)
+        finally:
+            stream.close()
+        return
+    values = sampling["values"]
+    if not values or len(set(values)) != len(values) or max_rows < len(values):
+        raise ValueError("Stratified sample needs unique classes and at least one row per class")
+    if dataset["source"].get("filters"):
+        raise ValueError("Combine source filters with stratification explicitly before sampling")
+    base, remainder = divmod(max_rows, len(values))
+    for index, value in enumerate(values):
+        subset = copy.deepcopy(dataset)
+        subset["source"]["filters"] = [(sampling["field"], "==", value)]
+        # Each reader is released before another opens; no corpus is materialized.
+        subset["shuffle_buffers"] = {role: sampling.get("shuffle_buffer", 128)}
+        stream = examples(subset, role, seed=seed + index * 997, epoch=epoch,
+                          shuffle_buffer=shuffle_buffer)
+        quota = base + (index < remainder)
+        count = 0
+        try:
+            for row in itertools.islice(stream, quota):
+                count += 1
+                yield row
+        finally:
+            stream.close()
+        if count != quota:
+            raise ValueError(f"{dataset['name']}: class {value!r} has only {count} {role} rows; expected {quota}")
+
+
 def batches(stream, batch_size: int):
     if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
         raise ValueError("batch_size must be a positive integer")
@@ -150,6 +185,8 @@ def dataset_configs(config: dict) -> list[dict]:
                 dataset["validation_holdout"] = {"fraction": fraction, "seed": config["seed"]}
     overrides = settings.get("shuffle_buffers", {})
     for dataset in datasets:
+        if dataset["name"] in settings.get("stratified_sampling", {}):
+            dataset["stratified_sampling"] = copy.deepcopy(settings["stratified_sampling"][dataset["name"]])
         if dataset["name"] in overrides:
             dataset["shuffle_buffers"] = overrides[dataset["name"]]
         if dataset["source"].get("archive") and settings.get("archive_max_transfer_bytes"):
@@ -186,8 +223,8 @@ def prepare_training_cache(config: dict, datasets: list[dict], root: Path):
         path = root / f"{dataset['name']}.jsonl"
         if not path.exists():
             temporary = path.with_suffix(".tmp")
-            stream = examples(dataset, "train", seed=config["seed"],
-                              shuffle_buffer=config["training"]["shuffle_buffer"])
+            stream = sampled_examples(dataset, "train", quota, seed=config["seed"],
+                                      shuffle_buffer=config["training"]["shuffle_buffer"])
             count = 0
             try:
                 with temporary.open("w") as output:

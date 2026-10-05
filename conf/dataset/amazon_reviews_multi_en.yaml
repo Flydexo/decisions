@@ -2,7 +2,14 @@ name: amazon_reviews_multi_en
 source:
   path: SetFit/amazon_reviews_multi_en
   name: default
-  revision: ec73b665e4be0f567b69d39425355401cfe0d29b
+  # Official Parquet conversion of the unchanged upstream JSONL revision.
+  original_revision: ec73b665e4be0f567b69d39425355401cfe0d29b
+  revision: 726be3ebaa173dab086c38ebd3e87ad9ae0b77fb
+  format: parquet
+  data_files:
+    train: https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en/resolve/726be3ebaa173dab086c38ebd3e87ad9ae0b77fb/default/train/0000.parquet
+    validation: https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en/resolve/726be3ebaa173dab086c38ebd3e87ad9ae0b77fb/default/validation/0000.parquet
+    test: https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en/resolve/726be3ebaa173dab086c38ebd3e87ad9ae0b77fb/default/test/0000.parquet
 splits:
   train: train
   eval: test

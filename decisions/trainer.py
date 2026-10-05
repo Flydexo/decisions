@@ -83,6 +83,8 @@ def train(cfg, run_dir):
     parameters = [p for p in model.parameters() if p.requires_grad]
     optimizer = torch.optim.AdamW(parameters, lr=settings["learning_rate"], weight_decay=settings["weight_decay"])
     progress = {"step": 0, "epoch": 0, "rows_in_epoch": 0, "rows": 0, "best_accuracy": -1.0}
+    if settings.get("budget_spent_seconds"):
+        progress["training_elapsed_seconds"] = settings["budget_spent_seconds"]
     if config.get("resume"):
         progress = resume_checkpoint(config["resume"], model, optimizer, config, datasets, device)
     logger = Logger(config["logging"], run_dir, config)

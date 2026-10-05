@@ -29,6 +29,8 @@ def main():
     parser.add_argument('--run-dir', type=Path, default=ROOT / 'outputs/all_large')
     parser.add_argument('--resume', type=Path)
     parser.add_argument('--eval-only', action='store_true')
+    parser.add_argument('--budget-spent-seconds', type=float, default=0,
+                        help='Training/validation time consumed by an archived control, deducted from --hours')
     args = parser.parse_args()
     if args.hours <= 0:
         raise ValueError('hours must be positive')
@@ -41,6 +43,9 @@ def main():
     with initialize_config_dir(version_base='1.3', config_dir=str(ROOT / 'conf')):
         cfg = compose(config_name='config', overrides=['experiment=all_large', 'device=mps'])
     cfg.training.max_seconds = int(args.hours * 3600)
+    if args.budget_spent_seconds < 0 or args.budget_spent_seconds >= cfg.training.max_seconds:
+        raise ValueError('Spent budget must be nonnegative and less than the total training budget')
+    OmegaConf.update(cfg, 'training.budget_spent_seconds', args.budget_spent_seconds, force_add=True)
     cfg.data.train_cache_dir = str(run_dir / 'training_samples')
     if args.resume:
         cfg.resume = str(args.resume.resolve())
@@ -72,6 +77,7 @@ def main():
     summary = {'protocol':'validation-selected ModernBERT-large; untouched final evaluation',
                'model':saved['config']['model'], 'ablation':saved['config']['ablation'],
                'best_progress':saved['progress'], 'training_pool_rows_per_dataset':saved['config']['data']['train_pool_rows'],
+               'stratified_sources':[d['name'] for d in saved['config']['dataset_configs'] if d.get('stratified_sampling')],
                'final_evaluation':report, 'final_evaluation_max_rows_per_dataset':256,
                'checkpoint':str(checkpoint),
                'checkpoint_sha256':hashlib.sha256(checkpoint.read_bytes()).hexdigest()}

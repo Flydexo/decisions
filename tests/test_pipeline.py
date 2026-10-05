@@ -15,7 +15,7 @@ from torch import nn
 from decisions.adapters import Adapter
 from decisions.archive import RangeReader
 from decisions.checkpoints import read_checkpoint
-from decisions.data import accepted, batches, dataset_configs, examples, load_stream, prepare_training_cache
+from decisions.data import accepted, batches, dataset_configs, examples, load_stream, prepare_training_cache, sampled_examples
 from decisions.evaluation import Metrics, Predictor
 from decisions.losses import confidence, reward, training_loss
 from decisions.model import DecisionModel
@@ -228,6 +228,38 @@ class LossTests(unittest.TestCase):
 
 
 class StreamingTests(unittest.TestCase):
+    def test_stratified_samples_cover_classes_and_keep_partitions_disjoint(self):
+        cfg = OmegaConf.to_container(config(), resolve=True)
+        cfg['data'] = {'separate_validation':True,'validation_fraction':.2,
+            'stratified_sampling':{'ag_news':{'field':'label','values':[0,1],'shuffle_buffer':0}}}
+        dataset = dataset_configs(cfg)[0]
+        seen = []
+        class Stream:
+            features = Features({'label':ClassLabel(names=['one','two'])})
+            def __init__(self,value):self.value=value
+            def __iter__(self):
+                return iter({'text':f'example {i}','label':self.value} for i in range(200))
+        def load(d,split):
+            seen.append((split,d['source']['filters']))
+            return Stream(d['source']['filters'][0][2])
+        with patch('decisions.data.load_stream',side_effect=load):
+            training=list(sampled_examples(dataset,'train',12))
+            validation=list(sampled_examples(dataset,'validation',12))
+            evaluation=list(sampled_examples(dataset,'eval',12))
+        for rows in (training,validation,evaluation):
+            labels=[max(r['targets']['label'],key=r['targets']['label'].get) for r in rows]
+            self.assertEqual(labels.count('one'),6)
+            self.assertEqual(labels.count('two'),6)
+        self.assertFalse({r['state'] for r in training}&{r['state'] for r in validation})
+        self.assertEqual([split for split,_ in seen],['train','train','train','train','test','test'])
+        self.assertNotIn('filters',dataset['source'])
+
+    def test_stratified_sampler_rejects_missing_classes(self):
+        dataset={'name':'test','source':{},'stratified_sampling':{'field':'label','values':[0,1]}}
+        with patch('decisions.data.examples',side_effect=lambda *a,**k:(r for r in [])):
+            with self.assertRaisesRegex(ValueError,'class 0'):
+                list(sampled_examples(dataset,'train',4))
+
     def test_loader_does_not_mutate_storage_option_provenance(self):
         cfg = {"name": "example", "source": {"format": "csv", "storage_options": {
             "client_kwargs": {"trust_env": True}}, "data_files": {"train": "train.csv"}}}

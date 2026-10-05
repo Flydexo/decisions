@@ -7,7 +7,7 @@ from pathlib import Path
 
 import torch
 
-from .data import batches, examples
+from .data import batches, sampled_examples
 from .losses import confidence
 from .schema import Unsupported, collate, prepare_request, to_device
 
@@ -56,8 +56,8 @@ def preprocessing(config, strict=False):
 
 def evaluation_samples(dataset, config, seed):
     role = config.get("role", "eval")
-    stream = lambda: itertools.islice(examples(dataset, role, seed=seed,
-                          shuffle_buffer=config.get("shuffle_buffer", 0)), config["max_rows"])
+    stream = lambda: sampled_examples(dataset, role, config["max_rows"], seed=seed,
+                          shuffle_buffer=config.get("shuffle_buffer", 0))
     if not config.get("cache_dir"):
         return stream()
     # Only a bounded validation sample is cached, never the training dataset.
