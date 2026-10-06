@@ -25,15 +25,15 @@
     "flakeflagger": 4000
   },
   "latest": {
-    "step": 4806,
-    "rows": 19224,
-    "train/loss": 1.8063656091690063,
-    "train/gradient_norm": 1.447933316230774,
-    "train/seconds": 4.62178929199581,
-    "train/learning_rate": 0.00016771549136280952,
+    "step": 5060,
+    "rows": 20240,
+    "train/loss": 1.5437794923782349,
+    "train/gradient_norm": 1.6923620700836182,
+    "train/seconds": 1.3344948750018375,
+    "train/learning_rate": 0.0001643917073192366,
     "memory/process_peak_rss_gib": 2.18011474609375,
     "memory/live_gib": 1.7671983242034912,
-    "memory/driver_gib": 6.096099853515625
+    "memory/driver_gib": 3.0797119140625
   },
   "metrics": [
     {
@@ -3150,18 +3150,183 @@
       "memory/driver_gib": 6.096099853515625
     },
     {
-      "step": 4806,
-      "rows": 19224,
-      "train/loss": 1.8063656091690063,
-      "train/gradient_norm": 1.447933316230774,
-      "train/seconds": 4.62178929199581,
-      "train/learning_rate": 0.00016771549136280952,
+      "step": 4812,
+      "rows": 19248,
+      "train/loss": 1.5558040142059326,
+      "train/gradient_norm": 1.9486242532730103,
+      "train/seconds": 1.355081000001519,
+      "train/learning_rate": 0.0001676384317518081,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 3.087860107421875
+    },
+    {
+      "step": 4829,
+      "rows": 19316,
+      "train/loss": 1.5216814279556274,
+      "train/gradient_norm": 1.3297542333602905,
+      "train/seconds": 8.264015292006661,
+      "train/learning_rate": 0.00016741970711543124,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 7.086517333984375
+    },
+    {
+      "step": 4846,
+      "rows": 19384,
+      "train/loss": 1.7447128295898438,
+      "train/gradient_norm": 1.4077575206756592,
+      "train/seconds": 3.649363082993659,
+      "train/learning_rate": 0.0001672004090432707,
       "memory/process_peak_rss_gib": 2.18011474609375,
       "memory/live_gib": 1.7671983242034912,
       "memory/driver_gib": 6.096099853515625
+    },
+    {
+      "step": 4863,
+      "rows": 19452,
+      "train/loss": 1.4904890060424805,
+      "train/gradient_norm": 1.7387689352035522,
+      "train/seconds": 0.9271973750001052,
+      "train/learning_rate": 0.00016698053972539963,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 6.0958404541015625
+    },
+    {
+      "step": 4880,
+      "rows": 19520,
+      "train/loss": 1.6334749460220337,
+      "train/gradient_norm": 1.582504391670227,
+      "train/seconds": 3.38502183300443,
+      "train/learning_rate": 0.00016676010135759618,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 3.0797119140625
+    },
+    {
+      "step": 4897,
+      "rows": 19588,
+      "train/loss": 1.5379525423049927,
+      "train/gradient_norm": 1.3862850666046143,
+      "train/seconds": 10.727295082993805,
+      "train/learning_rate": 0.00016653909614132138,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 6.08642578125
+    },
+    {
+      "step": 4914,
+      "rows": 19656,
+      "train/loss": 1.8290939331054688,
+      "train/gradient_norm": 1.8148784637451172,
+      "train/seconds": 5.06046329200035,
+      "train/learning_rate": 0.0001663175262836972,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 6.09600830078125
+    },
+    {
+      "step": 4931,
+      "rows": 19724,
+      "train/loss": 1.5335047245025635,
+      "train/gradient_norm": 1.530373215675354,
+      "train/seconds": 1.111937665991718,
+      "train/learning_rate": 0.00016609539399748465,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 3.0876922607421875
+    },
+    {
+      "step": 4948,
+      "rows": 19792,
+      "train/loss": 1.6355023384094238,
+      "train/gradient_norm": 1.713088035583496,
+      "train/seconds": 1.6222152919945074,
+      "train/learning_rate": 0.0001658727015010614,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 7.109954833984375
+    },
+    {
+      "step": 4965,
+      "rows": 19860,
+      "train/loss": 1.4965357780456543,
+      "train/gradient_norm": 1.2146778106689453,
+      "train/seconds": 8.040696833006223,
+      "train/learning_rate": 0.00016564945101839998,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 7.08624267578125
+    },
+    {
+      "step": 4982,
+      "rows": 19928,
+      "train/loss": 1.7684497833251953,
+      "train/gradient_norm": 1.5197583436965942,
+      "train/seconds": 3.4858878750092117,
+      "train/learning_rate": 0.00016542564477904523,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 6.095672607421875
+    },
+    {
+      "step": 4999,
+      "rows": 19996,
+      "train/loss": 1.549921989440918,
+      "train/gradient_norm": 1.495442271232605,
+      "train/seconds": 1.1527661250001984,
+      "train/learning_rate": 0.0001652012850180923,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 6.096466064453125
+    },
+    {
+      "step": 5016,
+      "rows": 20064,
+      "train/loss": 1.532853603363037,
+      "train/gradient_norm": 1.7003175020217896,
+      "train/seconds": 2.2836115829995833,
+      "train/learning_rate": 0.00016497637397616414,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 6.09619140625
+    },
+    {
+      "step": 5033,
+      "rows": 20132,
+      "train/loss": 1.5158944129943848,
+      "train/gradient_norm": 1.515336275100708,
+      "train/seconds": 8.282546500005992,
+      "train/learning_rate": 0.00016475091389938926,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 6.0860748291015625
+    },
+    {
+      "step": 5050,
+      "rows": 20200,
+      "train/loss": 1.74677574634552,
+      "train/gradient_norm": 1.6422208547592163,
+      "train/seconds": 5.25560512499942,
+      "train/learning_rate": 0.0001645249070393792,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 3.0797119140625
+    },
+    {
+      "step": 5060,
+      "rows": 20240,
+      "train/loss": 1.5437794923782349,
+      "train/gradient_norm": 1.6923620700836182,
+      "train/seconds": 1.3344948750018375,
+      "train/learning_rate": 0.0001643917073192366,
+      "memory/process_peak_rss_gib": 2.18011474609375,
+      "memory/live_gib": 1.7671983242034912,
+      "memory/driver_gib": 3.0797119140625
     }
   ],
-  "peak_driver_gib": 7.121673583984375,
+  "peak_driver_gib": 8.086517333984375,
   "peak_process_rss_gib": 2.18011474609375,
   "validation_history": [
     {
@@ -3943,6 +4108,201 @@
           "entropy_accuracy_gap": 0.015625
         }
       }
+    },
+    {
+      "step": 5000,
+      "rows": 20000,
+      "macro_accuracy": 0.31023987463837993,
+      "improved": false,
+      "datasets": {
+        "banking77": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.0234375,
+          "nll": 4.343805320560932,
+          "brier": 0.9870130764320493,
+          "entropy_confidence": 9.313225746154785e-10,
+          "probability_ece": 0.01045043408521451,
+          "entropy_accuracy_gap": 0.023437499068677425
+        },
+        "boolq": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.5625,
+          "nll": 0.6931449882686138,
+          "brier": 0.49999780720099807,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.06249168701469898,
+          "entropy_accuracy_gap": 0.5625
+        },
+        "ag_news": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.265625,
+          "nll": 1.386294038966298,
+          "brier": 0.7499998649582267,
+          "entropy_confidence": 1.0710209608078003e-08,
+          "probability_ece": 0.01562409708276391,
+          "entropy_accuracy_gap": 0.2656249892897904
+        },
+        "mnli": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.3046875,
+          "nll": 1.0986125357449055,
+          "brier": 0.6666668243706226,
+          "entropy_confidence": 2.7939677238464355e-09,
+          "probability_ece": 0.028646510560065508,
+          "entropy_accuracy_gap": 0.3046874972060323
+        },
+        "sst5": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.140625,
+          "nll": 1.6094373501837254,
+          "brier": 0.7999997772276402,
+          "entropy_confidence": 2.1886080503463745e-08,
+          "probability_ece": 0.05937719123903662,
+          "entropy_accuracy_gap": 0.1406249781139195
+        },
+        "yelp_review_full": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.1171875,
+          "nll": 1.6094372738152742,
+          "brier": 0.7999997492879629,
+          "entropy_confidence": 1.816079020500183e-08,
+          "probability_ece": 0.08281394559890032,
+          "entropy_accuracy_gap": 0.1171874818392098
+        },
+        "trec": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.4296875,
+          "nll": 1.7917576376348734,
+          "brier": 0.8333327313885093,
+          "entropy_confidence": 1.0710209608078003e-08,
+          "probability_ece": 0.2630202076397836,
+          "entropy_accuracy_gap": 0.4296874892897904
+        },
+        "dbpedia14": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.046875,
+          "nll": 2.639057260006666,
+          "brier": 0.9285713899880648,
+          "entropy_confidence": 2.421438694000244e-08,
+          "probability_ece": 0.024553957511670887,
+          "entropy_accuracy_gap": 0.04687497578561306
+        },
+        "amazon_reviews_multi_en": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.203125,
+          "nll": 1.6094379611313343,
+          "brier": 0.8000000342726707,
+          "entropy_confidence": 1.862645149230957e-08,
+          "probability_ece": 0.0031237106304615736,
+          "entropy_accuracy_gap": 0.2031249813735485
+        },
+        "imdb": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.53125,
+          "nll": 0.6931467987596989,
+          "brier": 0.49999961256980896,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.03124893084168434,
+          "entropy_accuracy_gap": 0.53125
+        },
+        "arc_challenge": {
+          "rows": 122,
+          "unsupported_rows": 0,
+          "questions": 122,
+          "accuracy": 0.18032786885245902,
+          "nll": 1.3862942730794188,
+          "brier": 0.7499999745947415,
+          "entropy_confidence": 4.8856266209336574e-09,
+          "probability_ece": 0.06967284933465426,
+          "entropy_accuracy_gap": 0.1803278639668324
+        },
+        "openbookqa": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.2421875,
+          "nll": 1.3862945102155209,
+          "brier": 0.7500000931322575,
+          "entropy_confidence": 5.122274160385132e-09,
+          "probability_ece": 0.007813136791810393,
+          "entropy_accuracy_gap": 0.24218749487772584
+        },
+        "commonsenseqa": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.21875,
+          "nll": 1.6094379276037216,
+          "brier": 0.7999999998137355,
+          "entropy_confidence": 1.5366822481155396e-08,
+          "probability_ece": 0.018749400856904685,
+          "entropy_accuracy_gap": 0.21874998463317752
+        },
+        "codereviewer": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.5546875,
+          "nll": 0.6931470278650522,
+          "brier": 0.4999998523853719,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.05468584876507521,
+          "entropy_accuracy_gap": 0.5546875
+        },
+        "aegis": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.4609375,
+          "nll": 0.6931471768766642,
+          "brier": 0.49999999115243554,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.039064084412530065,
+          "entropy_accuracy_gap": 0.4609375
+        },
+        "consumer_finance": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.0078125,
+          "nll": 3.0445221215486526,
+          "brier": 0.952380939386785,
+          "entropy_confidence": 1.257285475730896e-08,
+          "probability_ece": 0.03980673270416446,
+          "entropy_accuracy_gap": 0.007812487427145243
+        },
+        "flakeflagger": {
+          "rows": 128,
+          "unsupported_rows": 0,
+          "questions": 128,
+          "accuracy": 0.984375,
+          "nll": 0.6931405840441585,
+          "brier": 0.499993403442204,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.48437158670276403,
+          "entropy_accuracy_gap": 0.984375
+        }
+      }
     }
   ],
   "summary": null,
@@ -4210,5 +4570,5 @@
     "budget_spent_seconds": 4034.4269196250025
   },
   "benchmark": null,
-  "page_built_at": "2026-10-06T02:13:04.324329+00:00"
+  "page_built_at": "2026-10-06T02:42:57.363443+00:00"
 }
