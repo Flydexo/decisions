@@ -1,0 +1,137 @@
+{
+  "sample": "same two training-pool AG News rows; diagnostic inference only, no optimizer updates",
+  "selected_head_eval_stages": {
+    "encoder": {
+      "marker_mean_norm": 37.44419860839844,
+      "marker_mean_cosine": 0.9300146102905273,
+      "marker_rms_difference_from_option_mean": 0.26821354031562805
+    },
+    "after_question_type": {
+      "marker_mean_norm": 49.621055603027344,
+      "marker_mean_cosine": 0.9601790308952332,
+      "marker_rms_difference_from_option_mean": 0.26821354031562805
+    },
+    "after_layer_1": {
+      "marker_mean_norm": 31.99393653869629,
+      "marker_mean_cosine": 0.9997712969779968,
+      "marker_rms_difference_from_option_mean": 0.013095883652567863
+    },
+    "after_layer_2": {
+      "marker_mean_norm": 32.660362243652344,
+      "marker_mean_cosine": 1.0,
+      "marker_rms_difference_from_option_mean": 9.328864689450711e-05
+    }
+  },
+  "selected_head_without_question_type_stages": {
+    "encoder": {
+      "marker_mean_norm": 37.44419860839844,
+      "marker_mean_cosine": 0.9300146102905273,
+      "marker_rms_difference_from_option_mean": 0.26821354031562805
+    },
+    "after_layer_1": {
+      "marker_mean_norm": 31.989511489868164,
+      "marker_mean_cosine": 0.9973885416984558,
+      "marker_rms_difference_from_option_mean": 0.04424302279949188
+    },
+    "after_layer_2": {
+      "marker_mean_norm": 32.66038513183594,
+      "marker_mean_cosine": 0.9999999403953552,
+      "marker_rms_difference_from_option_mean": 0.0003214998869225383
+    }
+  },
+  "fresh_head_eval_stages": {
+    "encoder": {
+      "marker_mean_norm": 37.44419860839844,
+      "marker_mean_cosine": 0.9300146102905273,
+      "marker_rms_difference_from_option_mean": 0.26821354031562805
+    },
+    "after_question_type": {
+      "marker_mean_norm": 49.806434631347656,
+      "marker_mean_cosine": 0.9604751467704773,
+      "marker_rms_difference_from_option_mean": 0.26821354031562805
+    },
+    "after_layer_1": {
+      "marker_mean_norm": 31.99984359741211,
+      "marker_mean_cosine": 0.9617881774902344,
+      "marker_rms_difference_from_option_mean": 0.169288769364357
+    },
+    "after_layer_2": {
+      "marker_mean_norm": 31.999858856201172,
+      "marker_mean_cosine": 0.9696118831634521,
+      "marker_rms_difference_from_option_mean": 0.1509665697813034
+    }
+  },
+  "selected_eval_probabilities": [
+    [
+      0.249988853931427,
+      0.2499990463256836,
+      0.2500004768371582,
+      0.2500116229057312
+    ],
+    [
+      0.24998608231544495,
+      0.25000473856925964,
+      0.24999785423278809,
+      0.2500113248825073
+    ]
+  ],
+  "selected_train_mode_mean_probabilities": [
+    [
+      0.25279873609542847,
+      0.2509532868862152,
+      0.2557602822780609,
+      0.24048766493797302
+    ],
+    [
+      0.25615620613098145,
+      0.25150275230407715,
+      0.2516489028930664,
+      0.2406921684741974
+    ]
+  ],
+  "selected_train_mode_probability_std": [
+    [
+      0.01562902145087719,
+      0.027204951271414757,
+      0.01836271956562996,
+      0.00955462921410799
+    ],
+    [
+      0.020624183118343353,
+      0.014217520132660866,
+      0.015705173835158348,
+      0.00918387807905674
+    ]
+  ],
+  "selected_no_question_type_probabilities": [
+    [
+      0.24995538592338562,
+      0.24999400973320007,
+      0.25001248717308044,
+      0.25003817677497864
+    ],
+    [
+      0.24995407462120056,
+      0.2500104010105133,
+      0.24999943375587463,
+      0.2500360608100891
+    ]
+  ],
+  "fresh_head_probabilities": [
+    [
+      0.24260953068733215,
+      0.266400009393692,
+      0.248276025056839,
+      0.24271447956562042
+    ],
+    [
+      0.24992167949676514,
+      0.2630397379398346,
+      0.2462218701839447,
+      0.24081675708293915
+    ]
+  ],
+  "question_type_embedding_norm": 31.890790939331055,
+  "maximum_eval_fastpath_difference": 2.9802322387695312e-08,
+  "fresh_head_note": "New randomly initialized reference head with the same config; not the saved original step-zero head."
+}
