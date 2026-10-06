@@ -10,7 +10,9 @@ filters:
 - field: complaint_what_happened
   nonempty: true
 holdout:
-  field: complaint_id
+  # Duplicate narratives may have different complaint IDs. Keep identical model
+  # inputs in one partition; published overnight results retain their old config.
+  field: complaint_what_happened
   fraction: 0.1
   seed: 42
 schema:

@@ -65,6 +65,7 @@ def large_run():
             'validation_history':validations,
             'summary':read_json(summary_path) if summary_path.exists() else None,
             'sampling_correction':read_json(correction_path) if correction_path.exists() else None,
+            'audit':read_json(REPORTS / 'all_large_audit.json') if (REPORTS / 'all_large_audit.json').exists() else None,
             'benchmark':read_json(benchmark_path) if benchmark_path.exists() else None,
             'page_built_at':datetime.now(timezone.utc).isoformat()}
 

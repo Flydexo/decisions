@@ -298,6 +298,17 @@ class StreamingTests(unittest.TestCase):
             self.assertNotEqual(accepted(row, cfg, "train"), accepted(row, cfg, "eval"))
             self.assertEqual(accepted(row, cfg, "eval"), accepted(dict(row, test=2), cfg, "eval"))
 
+    def test_finance_duplicate_narratives_stay_in_one_partition(self):
+        cfg = OmegaConf.to_container(OmegaConf.load(ROOT / "conf/dataset/consumer_finance.yaml"))
+        cfg["holdout"]["validation_fraction"] = .1
+        for i in range(100):
+            row = {"complaint_id": str(i), "complaint_what_happened": f"Narrative {i}", "product": "Mortgage"}
+            duplicate = dict(row, complaint_id=f"duplicate-{i}", product="Debt collection")
+            roles = ["train", "validation", "eval"]
+            original = [accepted(row, cfg, role) for role in roles]
+            self.assertEqual(sum(original), 1)
+            self.assertEqual(original, [accepted(duplicate, cfg, role) for role in roles])
+
     def test_archive_range_enforces_status_and_transfer_budget(self):
         reader = RangeReader("https://example.invalid/archive", 1000, max_transfer_bytes=100, block_size=50)
         response = SimpleNamespace(status_code=200, headers={}, raw=io.BytesIO(b"x" * 50))

@@ -1,0 +1,14 @@
+{
+  "sample": "two training-pool AG News rows, best checkpoint; inference only",
+  "encoder_marker_mean_cosine": 0.9300146102905273,
+  "head_marker_mean_cosine": 1.0,
+  "cpu_probability_range_per_question": [
+    2.276897430419922e-05,
+    2.524256706237793e-05
+  ],
+  "mps_probability_range_per_question": [
+    2.2843480110168457e-05,
+    2.524256706237793e-05
+  ],
+  "maximum_cpu_mps_probability_difference": 7.450580596923828e-08
+}

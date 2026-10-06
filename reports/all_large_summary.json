@@ -1,0 +1,255 @@
+{
+  "protocol": "validation-selected ModernBERT-large; untouched final evaluation",
+  "model": {
+    "encoder": "answerdotai/ModernBERT-large",
+    "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+    "nhead": 16,
+    "num_layers": 2,
+    "dim_feedforward": 4096,
+    "dropout": 0.1,
+    "max_len": 1024,
+    "head_max_len": 384,
+    "option_max_len": 64,
+    "preserve_options": true,
+    "balanced_state": true
+  },
+  "ablation": {
+    "objective": "cross_entropy",
+    "no_question_type": false,
+    "no_transformer": false,
+    "linear_scorer": false,
+    "reward_weights": {
+      "log": 1.0,
+      "spherical": 0.5,
+      "rps": 1.0
+    },
+    "name": "cross_entropy"
+  },
+  "best_progress": {
+    "step": 3000,
+    "epoch": 0,
+    "rows_in_epoch": 12000,
+    "rows": 12000,
+    "best_accuracy": 0.3285280556894889,
+    "training_elapsed_seconds": 17887.59664775001,
+    "dataset_rows": {
+      "banking77": 706,
+      "boolq": 706,
+      "ag_news": 706,
+      "mnli": 706,
+      "sst5": 706,
+      "yelp_review_full": 706,
+      "trec": 706,
+      "dbpedia14": 706,
+      "amazon_reviews_multi_en": 706,
+      "imdb": 706,
+      "arc_challenge": 706,
+      "openbookqa": 706,
+      "commonsenseqa": 706,
+      "codereviewer": 706,
+      "aegis": 706,
+      "consumer_finance": 705,
+      "flakeflagger": 705
+    },
+    "validation_without_improvement": 0,
+    "best_step": 3000
+  },
+  "training_pool_rows_per_dataset": 4000,
+  "stratified_sources": [
+    "dbpedia14",
+    "amazon_reviews_multi_en",
+    "imdb"
+  ],
+  "final_evaluation": {
+    "banking77": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.03515625,
+      "nll": 4.343799095600843,
+      "brier": 0.9870128626935184,
+      "entropy_confidence": 0.0,
+      "probability_ece": 0.022168244984641206,
+      "entropy_accuracy_gap": 0.03515625
+    },
+    "boolq": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.66015625,
+      "nll": 0.6930307000875473,
+      "brier": 0.4998835145961493,
+      "entropy_confidence": 9.010545909404755e-08,
+      "probability_ece": 0.15997968707233667,
+      "entropy_accuracy_gap": 0.6601561598945409
+    },
+    "ag_news": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.2265625,
+      "nll": 1.3862930946052074,
+      "brier": 0.7499993983656168,
+      "entropy_confidence": 8.847564458847046e-09,
+      "probability_ece": 0.023450509528629482,
+      "entropy_accuracy_gap": 0.22656249115243554
+    },
+    "mnli": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.359375,
+      "nll": 1.0986132062971592,
+      "brier": 0.6666672769933939,
+      "entropy_confidence": 2.3283064365386963e-09,
+      "probability_ece": 0.026023762533441186,
+      "entropy_accuracy_gap": 0.35937499767169356
+    },
+    "sst5": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.1953125,
+      "nll": 1.6094119092449546,
+      "brier": 0.7999896132387221,
+      "entropy_confidence": 1.5133991837501526e-08,
+      "probability_ece": 0.004717513045761734,
+      "entropy_accuracy_gap": 0.19531248486600816
+    },
+    "yelp_review_full": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.203125,
+      "nll": 1.6094396244734526,
+      "brier": 0.8000006955116987,
+      "entropy_confidence": 1.1874362826347351e-08,
+      "probability_ece": 0.0031152773881331086,
+      "entropy_accuracy_gap": 0.20312498812563717
+    },
+    "trec": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.171875,
+      "nll": 1.7917124852538109,
+      "brier": 0.8333176854066551,
+      "entropy_confidence": 1.0244548320770264e-08,
+      "probability_ece": 0.005178519932087511,
+      "entropy_accuracy_gap": 0.17187498975545168
+    },
+    "dbpedia14": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.09765625,
+      "nll": 2.6390472557395697,
+      "brier": 0.9285699888132513,
+      "entropy_confidence": 2.7008354663848877e-08,
+      "probability_ece": 0.026222423184663057,
+      "entropy_accuracy_gap": 0.09765622299164534
+    },
+    "amazon_reviews_multi_en": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.1953125,
+      "nll": 1.6094363573938608,
+      "brier": 0.7999993902631104,
+      "entropy_confidence": 1.0011717677116394e-08,
+      "probability_ece": 0.0046951756230555475,
+      "entropy_accuracy_gap": 0.19531248998828232
+    },
+    "imdb": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.48828125,
+      "nll": 0.693148207385093,
+      "brier": 0.5000010302755982,
+      "entropy_confidence": 0.0,
+      "probability_ece": 0.011732764076441526,
+      "entropy_accuracy_gap": 0.48828125
+    },
+    "arc_challenge": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.203125,
+      "nll": 1.3863056125119328,
+      "brier": 0.7500056298449636,
+      "entropy_confidence": 4.889443516731262e-09,
+      "probability_ece": 0.046891128295101225,
+      "entropy_accuracy_gap": 0.20312499511055648
+    },
+    "openbookqa": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.21484375,
+      "nll": 1.3863082388415933,
+      "brier": 0.7500069527886808,
+      "entropy_confidence": 5.122274160385132e-09,
+      "probability_ece": 0.03517203498631716,
+      "entropy_accuracy_gap": 0.21484374487772584
+    },
+    "commonsenseqa": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.23046875,
+      "nll": 1.6094279484823346,
+      "brier": 0.799996028188616,
+      "entropy_confidence": 9.313225746154785e-09,
+      "probability_ece": 0.03045469004428014,
+      "entropy_accuracy_gap": 0.23046874068677425
+    },
+    "codereviewer": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.515625,
+      "nll": 0.6931468159891665,
+      "brier": 0.4999996414408088,
+      "entropy_confidence": 0.0,
+      "probability_ece": 0.015616533113643527,
+      "entropy_accuracy_gap": 0.515625
+    },
+    "aegis": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 512,
+      "accuracy": 0.58203125,
+      "nll": 0.6931421863846481,
+      "brier": 0.49999501556158066,
+      "entropy_confidence": 0.0,
+      "probability_ece": 0.08201871684286743,
+      "entropy_accuracy_gap": 0.58203125
+    },
+    "consumer_finance": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 0.13671875,
+      "nll": 3.044505024328828,
+      "brier": 0.9523792969994247,
+      "entropy_confidence": 1.4901161193847656e-08,
+      "probability_ece": 0.08909637616307009,
+      "entropy_accuracy_gap": 0.1367187350988388
+    },
+    "flakeflagger": {
+      "rows": 256,
+      "unsupported_rows": 0,
+      "questions": 256,
+      "accuracy": 1.0,
+      "nll": 0.6930507011711597,
+      "brier": 0.4999035319779068,
+      "entropy_confidence": 0.0,
+      "probability_ece": 0.49995175935328007,
+      "entropy_accuracy_gap": 1.0
+    }
+  },
+  "final_evaluation_max_rows_per_dataset": 256,
+  "checkpoint": "/Users/matheoledevehat/Code/decisions/outputs/all_large_8h/best.pt",
+  "checkpoint_sha256": "d131b05923ad50fdbe128ad6077f7a26690526f964b0f747da2b8b1e288b4d54"
+}

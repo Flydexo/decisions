@@ -217,6 +217,26 @@ is retained separately.
 
 ## Verification
 
+The completed ModernBERT-large run is documented in [the offline recap](reports/results.html)
+and [its audit](reports/all_large_audit.json). It processed 20,520 rows across all
+17 datasets; validation selected update 3,000. All 224 bounded benchmark source
+requests were answered, but the official Decision Index was not computed.
+Probabilities stayed nearly uniform, and the FlakeFlagger final sample contained
+256 non-flaky tests and no flaky tests. These results do not establish useful learning.
+An [inference-only head diagnostic](reports/head_inference_diagnostic.json) on two
+training examples found option-marker cosine similarity rising from 0.9300 in
+the encoder to 1.0000 after the head transformer. CPU and MPS probabilities
+agreed within 7.45e-8; this small check points to head representation collapse.
+
+The audit found duplicate Consumer Finance narratives under different complaint
+IDs: 8 validation rows and 10 final rows matched inputs seen at the selected
+checkpoint. This affects the complaint scores and checkpoint selection. Future
+configs partition by narrative text; existing checkpoints, scores and source
+provenance retain the old ID-based split. Rebuild caches for a new run.
+The update timer stopped at eight hours, followed by 13.8 minutes of terminal
+validation; final evaluation and benchmark sampling ran afterward. Recorded
+GPU driver allocation peaked at 8.09 GiB, with live tensors flat at 1.77 GiB.
+
 ```sh
 uv run python -m unittest discover -s tests
 ```

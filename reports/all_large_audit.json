@@ -1,0 +1,198 @@
+{
+  "protocol": "Post-run audit; no further training or selection on final evaluation",
+  "last_progress": {
+    "step": 5130,
+    "epoch": 0,
+    "rows_in_epoch": 20520,
+    "rows": 20520,
+    "best_accuracy": 0.3285280556894889,
+    "training_elapsed_seconds": 29625.806769875002,
+    "dataset_rows": {
+      "banking77": 1221,
+      "boolq": 1221,
+      "ag_news": 1221,
+      "mnli": 1220,
+      "sst5": 1220,
+      "yelp_review_full": 1220,
+      "trec": 1220,
+      "dbpedia14": 1220,
+      "amazon_reviews_multi_en": 1220,
+      "imdb": 1220,
+      "arc_challenge": 997,
+      "openbookqa": 1220,
+      "commonsenseqa": 1220,
+      "codereviewer": 1220,
+      "aegis": 1220,
+      "consumer_finance": 1220,
+      "flakeflagger": 1220
+    },
+    "validation_without_improvement": 3,
+    "best_step": 3000
+  },
+  "selected_progress": {
+    "step": 3000,
+    "epoch": 0,
+    "rows_in_epoch": 12000,
+    "rows": 12000,
+    "best_accuracy": 0.3285280556894889,
+    "training_elapsed_seconds": 17887.59664775001,
+    "dataset_rows": {
+      "banking77": 706,
+      "boolq": 706,
+      "ag_news": 706,
+      "mnli": 706,
+      "sst5": 706,
+      "yelp_review_full": 706,
+      "trec": 706,
+      "dbpedia14": 706,
+      "amazon_reviews_multi_en": 706,
+      "imdb": 706,
+      "arc_challenge": 706,
+      "openbookqa": 706,
+      "commonsenseqa": 706,
+      "codereviewer": 706,
+      "aegis": 706,
+      "consumer_finance": 705,
+      "flakeflagger": 705
+    },
+    "validation_without_improvement": 0,
+    "best_step": 3000
+  },
+  "checkpoint_sha256": "d131b05923ad50fdbe128ad6077f7a26690526f964b0f747da2b8b1e288b4d54",
+  "train_validation_input_overlap": {
+    "consumer_finance": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 15
+    },
+    "aegis": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "boolq": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "openbookqa": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "ag_news": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "yelp_review_full": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "banking77": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "commonsenseqa": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "trec": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "arc_challenge": {
+      "pool_rows": 997,
+      "validation_rows": 122,
+      "shared_input_identities": 0
+    },
+    "imdb": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "amazon_reviews_multi_en": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "sst5": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "dbpedia14": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "mnli": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "codereviewer": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    },
+    "flakeflagger": {
+      "pool_rows": 4000,
+      "validation_rows": 128,
+      "shared_input_identities": 0
+    }
+  },
+  "all_17_datasets_exposed": true,
+  "final_rows": 4352,
+  "final_questions": 4608,
+  "macro_dataset_accuracy": 0.3244485294117647,
+  "maximum_mean_entropy_confidence": 9.010545909404755e-08,
+  "benchmark_answered": 224,
+  "benchmark_requested": 224,
+  "official_decision_index": null,
+  "timing": {
+    "configured_seconds": 28800,
+    "recorded_training_and_terminal_validation_seconds": 29625.806769875002,
+    "overrun_seconds": 825.8067698750019,
+    "note": "Updates stopped at the timer, then terminal validation ran. The recorded elapsed time includes this additional selection pass; final evaluation and benchmark sampling ran afterward."
+  },
+  "flakeflagger_final_gold_counts": {
+    "non-flaky": 256,
+    "flaky": 0
+  },
+  "consumer_finance": {
+    "validation_duplicate_rows_seen_at_best": 8,
+    "validation_duplicate_rows_seen_at_last": 9,
+    "finding": "ID-based holdout allowed identical narratives with different complaint IDs across partitions: 8 validation rows and 10 of 256 final rows matched inputs seen at the selected checkpoint. Complaint results and checkpoint selection are affected. Future configs now partition by narrative text; saved scores and selection remain unchanged.",
+    "final_rows": 256,
+    "final_input_duplicate_rows_at_best": 10,
+    "final_input_duplicate_rows_at_last": 21,
+    "final_unique_inputs": 254
+  },
+  "finding": "Probabilities remain nearly uniform across all final datasets. Accuracy alone does not demonstrate useful learning. FlakeFlagger final sample contains no positive cases, so its 100% accuracy is not evidence of flaky-test detection. Exact probability-collapse mechanism is unverified. On two training-pool AG News examples, encoder option-marker cosine similarity was 0.9300 and became 1.0000 after the trainable transformer; CPU/MPS probabilities agreed within 7.45e-8. This locates representation collapse in the head on this small diagnostic, without establishing its full cause.",
+  "next_experiments": [
+    "Verify a small training-only batch can be overfit; compare CPU/MPS probabilities and train/eval logits.",
+    "Measure no_transformer and linear_scorer on identical training and validation rows to isolate the head.",
+    "Use per-class recall, macro-F1 and class histograms, particularly for project-held-out FlakeFlagger.",
+    "Use content-grouped complaint holdouts and new caches; keep final scores out of selection.",
+    "Scale training only after training-only overfit and validation checks pass."
+  ],
+  "head_diagnostic": {
+    "sample": "two training-pool AG News rows, best checkpoint; inference only",
+    "encoder_marker_mean_cosine": 0.9300146102905273,
+    "head_marker_mean_cosine": 1.0,
+    "cpu_probability_range_per_question": [
+      2.276897430419922e-05,
+      2.524256706237793e-05
+    ],
+    "mps_probability_range_per_question": [
+      2.2843480110168457e-05,
+      2.524256706237793e-05
+    ],
+    "maximum_cpu_mps_probability_difference": 7.450580596923828e-08
+  }
+}

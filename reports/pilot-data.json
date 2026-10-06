@@ -1939,8 +1939,8 @@
   },
   "large": {
     "status": {
-      "phase": "evaluating",
-      "updated_at": "2026-10-06T03:00:59.061535+00:00",
+      "phase": "completed",
+      "updated_at": "2026-10-06T03:33:04.156404+00:00",
       "hours": 8.0,
       "run_dir": "/Users/matheoledevehat/Code/decisions/outputs/all_large_8h",
       "selected_step": 3000
@@ -6297,7 +6297,261 @@
         }
       }
     ],
-    "summary": null,
+    "summary": {
+      "protocol": "validation-selected ModernBERT-large; untouched final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 1024,
+        "head_max_len": 384,
+        "option_max_len": 64,
+        "preserve_options": true,
+        "balanced_state": true
+      },
+      "ablation": {
+        "objective": "cross_entropy",
+        "no_question_type": false,
+        "no_transformer": false,
+        "linear_scorer": false,
+        "reward_weights": {
+          "log": 1.0,
+          "spherical": 0.5,
+          "rps": 1.0
+        },
+        "name": "cross_entropy"
+      },
+      "best_progress": {
+        "step": 3000,
+        "epoch": 0,
+        "rows_in_epoch": 12000,
+        "rows": 12000,
+        "best_accuracy": 0.3285280556894889,
+        "training_elapsed_seconds": 17887.59664775001,
+        "dataset_rows": {
+          "banking77": 706,
+          "boolq": 706,
+          "ag_news": 706,
+          "mnli": 706,
+          "sst5": 706,
+          "yelp_review_full": 706,
+          "trec": 706,
+          "dbpedia14": 706,
+          "amazon_reviews_multi_en": 706,
+          "imdb": 706,
+          "arc_challenge": 706,
+          "openbookqa": 706,
+          "commonsenseqa": 706,
+          "codereviewer": 706,
+          "aegis": 706,
+          "consumer_finance": 705,
+          "flakeflagger": 705
+        },
+        "validation_without_improvement": 0,
+        "best_step": 3000
+      },
+      "training_pool_rows_per_dataset": 4000,
+      "stratified_sources": [
+        "dbpedia14",
+        "amazon_reviews_multi_en",
+        "imdb"
+      ],
+      "final_evaluation": {
+        "banking77": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.03515625,
+          "nll": 4.343799095600843,
+          "brier": 0.9870128626935184,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.022168244984641206,
+          "entropy_accuracy_gap": 0.03515625
+        },
+        "boolq": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.66015625,
+          "nll": 0.6930307000875473,
+          "brier": 0.4998835145961493,
+          "entropy_confidence": 9.010545909404755e-08,
+          "probability_ece": 0.15997968707233667,
+          "entropy_accuracy_gap": 0.6601561598945409
+        },
+        "ag_news": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.2265625,
+          "nll": 1.3862930946052074,
+          "brier": 0.7499993983656168,
+          "entropy_confidence": 8.847564458847046e-09,
+          "probability_ece": 0.023450509528629482,
+          "entropy_accuracy_gap": 0.22656249115243554
+        },
+        "mnli": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.359375,
+          "nll": 1.0986132062971592,
+          "brier": 0.6666672769933939,
+          "entropy_confidence": 2.3283064365386963e-09,
+          "probability_ece": 0.026023762533441186,
+          "entropy_accuracy_gap": 0.35937499767169356
+        },
+        "sst5": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.1953125,
+          "nll": 1.6094119092449546,
+          "brier": 0.7999896132387221,
+          "entropy_confidence": 1.5133991837501526e-08,
+          "probability_ece": 0.004717513045761734,
+          "entropy_accuracy_gap": 0.19531248486600816
+        },
+        "yelp_review_full": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.203125,
+          "nll": 1.6094396244734526,
+          "brier": 0.8000006955116987,
+          "entropy_confidence": 1.1874362826347351e-08,
+          "probability_ece": 0.0031152773881331086,
+          "entropy_accuracy_gap": 0.20312498812563717
+        },
+        "trec": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.171875,
+          "nll": 1.7917124852538109,
+          "brier": 0.8333176854066551,
+          "entropy_confidence": 1.0244548320770264e-08,
+          "probability_ece": 0.005178519932087511,
+          "entropy_accuracy_gap": 0.17187498975545168
+        },
+        "dbpedia14": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.09765625,
+          "nll": 2.6390472557395697,
+          "brier": 0.9285699888132513,
+          "entropy_confidence": 2.7008354663848877e-08,
+          "probability_ece": 0.026222423184663057,
+          "entropy_accuracy_gap": 0.09765622299164534
+        },
+        "amazon_reviews_multi_en": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.1953125,
+          "nll": 1.6094363573938608,
+          "brier": 0.7999993902631104,
+          "entropy_confidence": 1.0011717677116394e-08,
+          "probability_ece": 0.0046951756230555475,
+          "entropy_accuracy_gap": 0.19531248998828232
+        },
+        "imdb": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.48828125,
+          "nll": 0.693148207385093,
+          "brier": 0.5000010302755982,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.011732764076441526,
+          "entropy_accuracy_gap": 0.48828125
+        },
+        "arc_challenge": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.203125,
+          "nll": 1.3863056125119328,
+          "brier": 0.7500056298449636,
+          "entropy_confidence": 4.889443516731262e-09,
+          "probability_ece": 0.046891128295101225,
+          "entropy_accuracy_gap": 0.20312499511055648
+        },
+        "openbookqa": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.21484375,
+          "nll": 1.3863082388415933,
+          "brier": 0.7500069527886808,
+          "entropy_confidence": 5.122274160385132e-09,
+          "probability_ece": 0.03517203498631716,
+          "entropy_accuracy_gap": 0.21484374487772584
+        },
+        "commonsenseqa": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.23046875,
+          "nll": 1.6094279484823346,
+          "brier": 0.799996028188616,
+          "entropy_confidence": 9.313225746154785e-09,
+          "probability_ece": 0.03045469004428014,
+          "entropy_accuracy_gap": 0.23046874068677425
+        },
+        "codereviewer": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.515625,
+          "nll": 0.6931468159891665,
+          "brier": 0.4999996414408088,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.015616533113643527,
+          "entropy_accuracy_gap": 0.515625
+        },
+        "aegis": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 512,
+          "accuracy": 0.58203125,
+          "nll": 0.6931421863846481,
+          "brier": 0.49999501556158066,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.08201871684286743,
+          "entropy_accuracy_gap": 0.58203125
+        },
+        "consumer_finance": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 0.13671875,
+          "nll": 3.044505024328828,
+          "brier": 0.9523792969994247,
+          "entropy_confidence": 1.4901161193847656e-08,
+          "probability_ece": 0.08909637616307009,
+          "entropy_accuracy_gap": 0.1367187350988388
+        },
+        "flakeflagger": {
+          "rows": 256,
+          "unsupported_rows": 0,
+          "questions": 256,
+          "accuracy": 1.0,
+          "nll": 0.6930507011711597,
+          "brier": 0.4999035319779068,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.49995175935328007,
+          "entropy_accuracy_gap": 1.0
+        }
+      },
+      "final_evaluation_max_rows_per_dataset": 256,
+      "checkpoint": "/Users/matheoledevehat/Code/decisions/outputs/all_large_8h/best.pt",
+      "checkpoint_sha256": "d131b05923ad50fdbe128ad6077f7a26690526f964b0f747da2b8b1e288b4d54"
+    },
     "sampling_correction": {
       "reason": "Class-ordered sources yielded single-class training and validation samples despite bounded shuffling.",
       "affected_datasets": [
@@ -6561,8 +6815,1204 @@
       "total_training_budget_seconds": 28800,
       "budget_spent_seconds": 4034.4269196250025
     },
-    "benchmark": null,
-    "page_built_at": "2026-10-06T03:12:53.647679+00:00"
+    "audit": {
+      "protocol": "Post-run audit; no further training or selection on final evaluation",
+      "last_progress": {
+        "step": 5130,
+        "epoch": 0,
+        "rows_in_epoch": 20520,
+        "rows": 20520,
+        "best_accuracy": 0.3285280556894889,
+        "training_elapsed_seconds": 29625.806769875002,
+        "dataset_rows": {
+          "banking77": 1221,
+          "boolq": 1221,
+          "ag_news": 1221,
+          "mnli": 1220,
+          "sst5": 1220,
+          "yelp_review_full": 1220,
+          "trec": 1220,
+          "dbpedia14": 1220,
+          "amazon_reviews_multi_en": 1220,
+          "imdb": 1220,
+          "arc_challenge": 997,
+          "openbookqa": 1220,
+          "commonsenseqa": 1220,
+          "codereviewer": 1220,
+          "aegis": 1220,
+          "consumer_finance": 1220,
+          "flakeflagger": 1220
+        },
+        "validation_without_improvement": 3,
+        "best_step": 3000
+      },
+      "selected_progress": {
+        "step": 3000,
+        "epoch": 0,
+        "rows_in_epoch": 12000,
+        "rows": 12000,
+        "best_accuracy": 0.3285280556894889,
+        "training_elapsed_seconds": 17887.59664775001,
+        "dataset_rows": {
+          "banking77": 706,
+          "boolq": 706,
+          "ag_news": 706,
+          "mnli": 706,
+          "sst5": 706,
+          "yelp_review_full": 706,
+          "trec": 706,
+          "dbpedia14": 706,
+          "amazon_reviews_multi_en": 706,
+          "imdb": 706,
+          "arc_challenge": 706,
+          "openbookqa": 706,
+          "commonsenseqa": 706,
+          "codereviewer": 706,
+          "aegis": 706,
+          "consumer_finance": 705,
+          "flakeflagger": 705
+        },
+        "validation_without_improvement": 0,
+        "best_step": 3000
+      },
+      "checkpoint_sha256": "d131b05923ad50fdbe128ad6077f7a26690526f964b0f747da2b8b1e288b4d54",
+      "train_validation_input_overlap": {
+        "consumer_finance": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 15
+        },
+        "aegis": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "boolq": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "openbookqa": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "ag_news": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "yelp_review_full": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "banking77": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "commonsenseqa": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "trec": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "arc_challenge": {
+          "pool_rows": 997,
+          "validation_rows": 122,
+          "shared_input_identities": 0
+        },
+        "imdb": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "amazon_reviews_multi_en": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "sst5": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "dbpedia14": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "mnli": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "codereviewer": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        },
+        "flakeflagger": {
+          "pool_rows": 4000,
+          "validation_rows": 128,
+          "shared_input_identities": 0
+        }
+      },
+      "all_17_datasets_exposed": true,
+      "final_rows": 4352,
+      "final_questions": 4608,
+      "macro_dataset_accuracy": 0.3244485294117647,
+      "maximum_mean_entropy_confidence": 9.010545909404755e-08,
+      "benchmark_answered": 224,
+      "benchmark_requested": 224,
+      "official_decision_index": null,
+      "timing": {
+        "configured_seconds": 28800,
+        "recorded_training_and_terminal_validation_seconds": 29625.806769875002,
+        "overrun_seconds": 825.8067698750019,
+        "note": "Updates stopped at the timer, then terminal validation ran. The recorded elapsed time includes this additional selection pass; final evaluation and benchmark sampling ran afterward."
+      },
+      "flakeflagger_final_gold_counts": {
+        "non-flaky": 256,
+        "flaky": 0
+      },
+      "consumer_finance": {
+        "validation_duplicate_rows_seen_at_best": 8,
+        "validation_duplicate_rows_seen_at_last": 9,
+        "finding": "ID-based holdout allowed identical narratives with different complaint IDs across partitions: 8 validation rows and 10 of 256 final rows matched inputs seen at the selected checkpoint. Complaint results and checkpoint selection are affected. Future configs now partition by narrative text; saved scores and selection remain unchanged.",
+        "final_rows": 256,
+        "final_input_duplicate_rows_at_best": 10,
+        "final_input_duplicate_rows_at_last": 21,
+        "final_unique_inputs": 254
+      },
+      "finding": "Probabilities remain nearly uniform across all final datasets. Accuracy alone does not demonstrate useful learning. FlakeFlagger final sample contains no positive cases, so its 100% accuracy is not evidence of flaky-test detection. Exact probability-collapse mechanism is unverified. On two training-pool AG News examples, encoder option-marker cosine similarity was 0.9300 and became 1.0000 after the trainable transformer; CPU/MPS probabilities agreed within 7.45e-8. This locates representation collapse in the head on this small diagnostic, without establishing its full cause.",
+      "next_experiments": [
+        "Verify a small training-only batch can be overfit; compare CPU/MPS probabilities and train/eval logits.",
+        "Measure no_transformer and linear_scorer on identical training and validation rows to isolate the head.",
+        "Use per-class recall, macro-F1 and class histograms, particularly for project-held-out FlakeFlagger.",
+        "Use content-grouped complaint holdouts and new caches; keep final scores out of selection.",
+        "Scale training only after training-only overfit and validation checks pass."
+      ],
+      "head_diagnostic": {
+        "sample": "two training-pool AG News rows, best checkpoint; inference only",
+        "encoder_marker_mean_cosine": 0.9300146102905273,
+        "head_marker_mean_cosine": 1.0,
+        "cpu_probability_range_per_question": [
+          2.276897430419922e-05,
+          2.524256706237793e-05
+        ],
+        "mps_probability_range_per_question": [
+          2.2843480110168457e-05,
+          2.524256706237793e-05
+        ],
+        "maximum_cpu_mps_probability_difference": 7.450580596923828e-08
+      }
+    },
+    "benchmark": {
+      "protocol": "bounded streaming source-split pilot",
+      "edition_reference": "0.2.1",
+      "official_decision_index": null,
+      "complete": false,
+      "note": "First N source-split rows, not the frozen edition's selected rows. Accuracy is over supported requests; unsupported requests are counted separately. Entropy confidence is distinct from the chosen-option probability used for calibration.",
+      "max_rows_per_source": 32,
+      "sources": {
+        "ARC-Easy": {
+          "requested": 32,
+          "answered": 32,
+          "unsupported": 0,
+          "errors": 0,
+          "source_error": null,
+          "median_ms": 97.40708400204312,
+          "source": {
+            "path": "allenai/ai2_arc",
+            "name": "ARC-Easy",
+            "revision": "210d026faf9955653af8916fad021475a3f00453"
+          },
+          "split": "test",
+          "questions": 32,
+          "accuracy": 0.34375,
+          "nll": 1.3862738572061062,
+          "brier": 0.7499897442758083,
+          "entropy_confidence": 1.862645149230957e-09,
+          "probability_ece": 0.0937334205955267,
+          "entropy_accuracy_gap": 0.34374999813735485
+        },
+        "ARC-Challenge": {
+          "requested": 32,
+          "answered": 32,
+          "unsupported": 0,
+          "errors": 0,
+          "source_error": null,
+          "median_ms": 128.09804099379107,
+          "source": {
+            "path": "allenai/ai2_arc",
+            "name": "ARC-Challenge",
+            "revision": "210d026faf9955653af8916fad021475a3f00453"
+          },
+          "split": "test",
+          "questions": 32,
+          "accuracy": 0.21875,
+          "nll": 1.3862708769738674,
+          "brier": 0.749988267198205,
+          "entropy_confidence": 3.725290298461914e-09,
+          "probability_ece": 0.0312671298161149,
+          "entropy_accuracy_gap": 0.2187499962747097
+        },
+        "MMLU": {
+          "requested": 32,
+          "answered": 32,
+          "unsupported": 0,
+          "errors": 0,
+          "source_error": null,
+          "median_ms": 115.79212499782443,
+          "source": {
+            "path": "cais/mmlu",
+            "name": "all",
+            "revision": "c30699e8356da336a370243923dbaf21066bb9fe"
+          },
+          "split": "test",
+          "questions": 32,
+          "accuracy": 0.125,
+          "nll": 1.386296320706606,
+          "brier": 0.7500010021030903,
+          "entropy_confidence": 5.587935447692871e-09,
+          "probability_ece": 0.12501436099410057,
+          "entropy_accuracy_gap": 0.12499999441206455
+        },
+        "WinoGrande": {
+          "requested": 32,
+          "answered": 32,
+          "unsupported": 0,
+          "errors": 0,
+          "source_error": null,
+          "median_ms": 93.64345800713636,
+          "source": {
+            "path": "allenai/winogrande",
+            "name": "winogrande_xl",
+            "revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5"
+          },
+          "split": "validation",
+          "questions": 32,
+          "accuracy": 0.40625,
+          "nll": 0.6931604109704494,
+          "brier": 0.5000132462009788,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.0937880091369152,
+          "entropy_accuracy_gap": 0.40625
+        },
+        "HellaSwag": {
+          "requested": 32,
+          "answered": 32,
+          "unsupported": 0,
+          "errors": 0,
+          "source_error": null,
+          "median_ms": 134.57170900073834,
+          "source": {
+            "path": "allenai/hellaswag",
+            "name": "default",
+            "revision": "55aa56627db098098f50549e650a00be2684f4bf"
+          },
+          "split": "validation",
+          "questions": 32,
+          "accuracy": 0.40625,
+          "nll": 1.386285699903965,
+          "brier": 0.7499956805258989,
+          "entropy_confidence": 1.862645149230957e-09,
+          "probability_ece": 0.1562348222360015,
+          "entropy_accuracy_gap": 0.40624999813735485
+        },
+        "ANLI": {
+          "requested": 32,
+          "answered": 32,
+          "unsupported": 0,
+          "errors": 0,
+          "source_error": null,
+          "median_ms": 168.24041699874215,
+          "source": {
+            "path": "facebook/anli",
+            "name": "plain_text",
+            "revision": "8e4813d81f46d313dac7892e1c28076917cfcdf9"
+          },
+          "split": "test_r1",
+          "questions": 32,
+          "accuracy": 0.34375,
+          "nll": 1.0986158438026905,
+          "brier": 0.6666690465062857,
+          "entropy_confidence": 3.725290298461914e-09,
+          "probability_ece": 0.010403496213257313,
+          "entropy_accuracy_gap": 0.3437499962747097
+        },
+        "BANKING77": {
+          "requested": 32,
+          "answered": 32,
+          "unsupported": 0,
+          "errors": 0,
+          "source_error": null,
+          "median_ms": 1116.7861659923801,
+          "source": {
+            "path": "legacy-datasets/banking77",
+            "name": "default",
+            "revision": "f54121560de48f2852f90be299010d1d6dc612ec"
+          },
+          "split": "test",
+          "questions": 32,
+          "accuracy": 0.0,
+          "nll": 4.343936577439308,
+          "brier": 0.9870164599269629,
+          "entropy_confidence": 0.0,
+          "probability_ece": 0.012987854570383206,
+          "entropy_accuracy_gap": 0.0
+        }
+      },
+      "provenance": {
+        "checkpoint_sha256": "d131b05923ad50fdbe128ad6077f7a26690526f964b0f747da2b8b1e288b4d54",
+        "encoder": {
+          "encoder": "answerdotai/ModernBERT-large",
+          "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+          "nhead": 16,
+          "num_layers": 2,
+          "dim_feedforward": 4096,
+          "dropout": 0.1,
+          "max_len": 1024,
+          "head_max_len": 384,
+          "option_max_len": 64,
+          "preserve_options": true,
+          "balanced_state": true
+        },
+        "ablation": {
+          "objective": "cross_entropy",
+          "no_question_type": false,
+          "no_transformer": false,
+          "linear_scorer": false,
+          "reward_weights": {
+            "log": 1.0,
+            "spherical": 0.5,
+            "rps": 1.0
+          },
+          "name": "cross_entropy"
+        },
+        "training_sources": [
+          {
+            "name": "banking77",
+            "source": {
+              "path": "legacy-datasets/banking77",
+              "name": "default",
+              "revision": "f54121560de48f2852f90be299010d1d6dc612ec"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "choice",
+                  "instructions": "Classify the banking intent of this user request.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "labels_from_feature": "label"
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            },
+            "shuffle_buffers": {
+              "train": 10000,
+              "validation": 10000,
+              "eval": 3000
+            }
+          },
+          {
+            "name": "boolq",
+            "source": {
+              "path": "google/boolq",
+              "name": "default",
+              "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "validation",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "passage"
+              },
+              "questions": {
+                "answer": {
+                  "type": "noul",
+                  "instructions": "{question}",
+                  "target": {
+                    "field": "answer",
+                    "mode": "boolean"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "ag_news",
+            "source": {
+              "path": "fancyzhx/ag_news",
+              "name": "default",
+              "revision": "eb185aade064a813bc0b7f42de02595523103ca4"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "choice",
+                  "instructions": "Classify the topic of this news article.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "labels_from_feature": "label"
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "mnli",
+            "source": {
+              "path": "nyu-mll/multi_nli",
+              "name": "default",
+              "revision": "da70db2af9d09693783c3320c4249840212ee221"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "validation_matched",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "fields": {
+                  "premise": "premise",
+                  "hypothesis": "hypothesis"
+                }
+              },
+              "questions": {
+                "relation": {
+                  "type": "choice",
+                  "instructions": "Classify the relationship between the premise and hypothesis.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "labels_from_feature": "label"
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "sst5",
+            "source": {
+              "path": "SetFit/sst5",
+              "name": "default",
+              "revision": "e51bdcd8cd3a30da231967c1a249ba59361279a3"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "score",
+                  "instructions": "Rate the sentiment of this text.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "criteria": [
+                    "very negative",
+                    "negative",
+                    "neutral",
+                    "positive",
+                    "very positive"
+                  ]
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "yelp_review_full",
+            "source": {
+              "path": "Yelp/yelp_review_full",
+              "name": "yelp_review_full",
+              "revision": "c1f9ee939b7d05667af864ee1cb066393154bf85"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "score",
+                  "instructions": "Rate this review from one to five stars.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "criteria": [
+                    "1 star",
+                    "2 stars",
+                    "3 stars",
+                    "4 stars",
+                    "5 stars"
+                  ]
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "trec",
+            "provenance": "CogComp/trec; pinned parquet-converter export (datasets 5 does not load the original script)",
+            "source": {
+              "format": "parquet",
+              "data_files": {
+                "train": "https://huggingface.co/datasets/CogComp/trec/resolve/6957b2fd5f183e0fcb58ff0eb46aa33f18f709bf/default/trec-train.parquet",
+                "test": "https://huggingface.co/datasets/CogComp/trec/resolve/6957b2fd5f183e0fcb58ff0eb46aa33f18f709bf/default/trec-test.parquet"
+              }
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "type": {
+                  "type": "choice",
+                  "instructions": "Classify the coarse question type.",
+                  "criteria": [
+                    "ABBR",
+                    "ENTY",
+                    "DESC",
+                    "HUM",
+                    "LOC",
+                    "NUM"
+                  ],
+                  "target": {
+                    "field": "coarse_label",
+                    "mode": "index"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "dbpedia14",
+            "source": {
+              "path": "fancyzhx/dbpedia_14",
+              "name": "dbpedia_14",
+              "revision": "9abd46cf7fc8b4c64290f26993c540b92aa145ac"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "fields": {
+                  "title": "title",
+                  "content": "content"
+                }
+              },
+              "questions": {
+                "topic": {
+                  "type": "choice",
+                  "instructions": "Classify the type of entity described.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "labels_from_feature": "label"
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            },
+            "stratified_sampling": {
+              "field": "label",
+              "values": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13
+              ],
+              "shuffle_buffer": 128
+            },
+            "shuffle_buffers": {
+              "train": 4000,
+              "validation": 128,
+              "eval": 128
+            }
+          },
+          {
+            "name": "amazon_reviews_multi_en",
+            "source": {
+              "path": "SetFit/amazon_reviews_multi_en",
+              "name": "default",
+              "original_revision": "ec73b665e4be0f567b69d39425355401cfe0d29b",
+              "revision": "726be3ebaa173dab086c38ebd3e87ad9ae0b77fb",
+              "format": "parquet",
+              "data_files": {
+                "train": "https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en/resolve/726be3ebaa173dab086c38ebd3e87ad9ae0b77fb/default/train/0000.parquet",
+                "validation": "https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en/resolve/726be3ebaa173dab086c38ebd3e87ad9ae0b77fb/default/validation/0000.parquet",
+                "test": "https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en/resolve/726be3ebaa173dab086c38ebd3e87ad9ae0b77fb/default/test/0000.parquet"
+              }
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "score",
+                  "instructions": "Rate this review from one to five stars.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "criteria": [
+                    "1 star",
+                    "2 stars",
+                    "3 stars",
+                    "4 stars",
+                    "5 stars"
+                  ]
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            },
+            "stratified_sampling": {
+              "field": "label",
+              "values": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "shuffle_buffer": 128
+            },
+            "shuffle_buffers": {
+              "train": 4000,
+              "validation": 128,
+              "eval": 128
+            }
+          },
+          {
+            "name": "imdb",
+            "source": {
+              "path": "stanfordnlp/imdb",
+              "name": "plain_text",
+              "revision": "e6281661ce1c48d982bc483cf8a173c1bbeb5d31"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "choice",
+                  "instructions": "Classify the sentiment of this movie review.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "labels_from_feature": "label"
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            },
+            "stratified_sampling": {
+              "field": "label",
+              "values": [
+                0,
+                1
+              ],
+              "shuffle_buffer": 128
+            },
+            "shuffle_buffers": {
+              "train": 4000,
+              "validation": 128,
+              "eval": 128
+            }
+          },
+          {
+            "name": "arc_challenge",
+            "source": {
+              "path": "allenai/ai2_arc",
+              "name": "ARC-Challenge",
+              "revision": "210d026faf9955653af8916fad021475a3f00453"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "literal": ""
+              },
+              "questions": {
+                "answer": {
+                  "type": "choice",
+                  "instructions": "{question}",
+                  "target": {
+                    "field": "answerKey",
+                    "mode": "label"
+                  },
+                  "options": {
+                    "texts": "choices.text",
+                    "keys": "choices.label"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "openbookqa",
+            "source": {
+              "path": "allenai/openbookqa",
+              "name": "main",
+              "revision": "388097ea7776314e93a529163e0fea805b8a6454"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "literal": ""
+              },
+              "questions": {
+                "answer": {
+                  "type": "choice",
+                  "instructions": "{question_stem}",
+                  "target": {
+                    "field": "answerKey",
+                    "mode": "label"
+                  },
+                  "options": {
+                    "texts": "choices.text",
+                    "keys": "choices.label"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "commonsenseqa",
+            "source": {
+              "path": "tau/commonsense_qa",
+              "name": "default",
+              "revision": "94630fe30dad47192a8546eb75f094926d47e155"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "validation",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "literal": ""
+              },
+              "questions": {
+                "answer": {
+                  "type": "choice",
+                  "instructions": "{question}",
+                  "target": {
+                    "field": "answerKey",
+                    "mode": "label"
+                  },
+                  "options": {
+                    "texts": "choices.text",
+                    "keys": "choices.label"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "codereviewer",
+            "provenance": "https://zenodo.org/records/6900648; microsoft/CodeBERT/CodeReviewer",
+            "source": {
+              "archive": {
+                "url": "https://zenodo.org/api/records/6900648/files/Diff_Quality_Estimation.zip/content",
+                "size": 2807894289,
+                "max_transfer_bytes": 536870912,
+                "members": {
+                  "train": [
+                    "Diff_Quality_Estimation/cls-train-chunk-0.jsonl",
+                    "Diff_Quality_Estimation/cls-train-chunk-1.jsonl",
+                    "Diff_Quality_Estimation/cls-train-chunk-2.jsonl",
+                    "Diff_Quality_Estimation/cls-train-chunk-3.jsonl"
+                  ],
+                  "test": [
+                    "Diff_Quality_Estimation/cls-test.jsonl"
+                  ],
+                  "validation": [
+                    "Diff_Quality_Estimation/cls-valid.jsonl"
+                  ]
+                },
+                "block_size_bytes": 4194304
+              }
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "validation"
+            },
+            "schema": {
+              "state": {
+                "fields": {
+                  "old_file": "oldf",
+                  "diff_hunk": "patch"
+                }
+              },
+              "questions": {
+                "comment": {
+                  "type": "choice",
+                  "instructions": "Predict whether this code-review hunk receives a reviewer comment.",
+                  "target": {
+                    "field": "y",
+                    "mode": "comment_presence"
+                  },
+                  "criteria": [
+                    "no comment",
+                    "comment"
+                  ]
+                }
+              }
+            },
+            "shuffle_buffers": {
+              "train": 128,
+              "validation": 128,
+              "eval": 128
+            }
+          },
+          {
+            "name": "aegis",
+            "source": {
+              "path": "nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+              "name": "default",
+              "revision": "d86bb8bedff51d25ac834ab7838f1cc61acb7a2c"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "fields": {
+                  "prompt": "prompt",
+                  "response": "response"
+                }
+              },
+              "questions": {
+                "prompt_safety": {
+                  "type": "choice",
+                  "instructions": "Classify the safety of the prompt.",
+                  "target": {
+                    "field": "prompt_label",
+                    "mode": "label"
+                  },
+                  "criteria": [
+                    "safe",
+                    "unsafe"
+                  ]
+                },
+                "response_safety": {
+                  "type": "choice",
+                  "instructions": "Classify the safety of the response in the context of the prompt.",
+                  "target": {
+                    "field": "response_label",
+                    "mode": "label"
+                  },
+                  "criteria": [
+                    "safe",
+                    "unsafe"
+                  ]
+                }
+              }
+            },
+            "filters": [
+              {
+                "field": "prompt_label",
+                "in": [
+                  "safe",
+                  "unsafe"
+                ]
+              },
+              {
+                "field": "response_label",
+                "in": [
+                  "safe",
+                  "unsafe"
+                ]
+              }
+            ],
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "consumer_finance",
+            "source": {
+              "path": "davidheineman/consumer-finance-complaints-large",
+              "name": "default",
+              "revision": "44cfa170a402e254407470275ce05d7dcaccde30"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "train",
+              "validation": "train"
+            },
+            "filters": [
+              {
+                "field": "complaint_what_happened",
+                "nonempty": true
+              }
+            ],
+            "holdout": {
+              "field": "complaint_id",
+              "fraction": 0.1,
+              "seed": 42,
+              "validation_fraction": 0.1
+            },
+            "schema": {
+              "id_field": "complaint_id",
+              "state": {
+                "field": "complaint_what_happened"
+              },
+              "questions": {
+                "product": {
+                  "type": "choice",
+                  "instructions": "Route this consumer complaint to the appropriate product.",
+                  "target": {
+                    "field": "product",
+                    "mode": "label"
+                  },
+                  "criteria": [
+                    "Bank account or service",
+                    "Checking or savings account",
+                    "Consumer Loan",
+                    "Credit card",
+                    "Credit card or prepaid card",
+                    "Credit reporting",
+                    "Credit reporting, credit repair services, or other personal consumer reports",
+                    "Credit reporting or other personal consumer reports",
+                    "Debt collection",
+                    "Debt or credit management",
+                    "Money transfers",
+                    "Money transfer, virtual currency, or money service",
+                    "Mortgage",
+                    "Other financial service",
+                    "Payday loan",
+                    "Payday loan, title loan, or personal loan",
+                    "Payday loan, title loan, personal loan, or advance loan",
+                    "Prepaid card",
+                    "Student loan",
+                    "Vehicle loan or lease",
+                    "Virtual currency"
+                  ]
+                }
+              }
+            },
+            "shuffle_buffers": {
+              "train": 512,
+              "validation": 512,
+              "eval": 512
+            }
+          },
+          {
+            "name": "flakeflagger",
+            "provenance": "https://zenodo.org/records/5014076; https://github.com/AlshammariA/FlakeFlagger",
+            "source": {
+              "format": "csv",
+              "storage_options": {
+                "client_kwargs": {
+                  "trust_env": true
+                }
+              },
+              "data_files": {
+                "train": "https://zenodo.org/api/records/5014076/files/test_features.csv/content"
+              }
+            },
+            "splits": {
+              "train": "train",
+              "eval": "train",
+              "validation": "train"
+            },
+            "holdout": {
+              "field": "project",
+              "fraction": 0.2,
+              "seed": 42,
+              "validation_fraction": 0.1
+            },
+            "schema": {
+              "id_field": "test_name",
+              "state": {
+                "fields": {
+                  "assertion-roulette": "assertion-roulette",
+                  "conditional-test-logic": "conditional-test-logic",
+                  "eager-test": "eager-test",
+                  "fire-and-forget": "fire-and-forget",
+                  "indirect-testing": "indirect-testing",
+                  "mystery-guest": "mystery-guest",
+                  "resource-optimism": "resource-optimism",
+                  "test-run-war": "test-run-war",
+                  "testLength": "testLength",
+                  "numAsserts": "numAsserts",
+                  "numCoveredLines": "numCoveredLines",
+                  "ExecutionTime": "ExecutionTime",
+                  "projectSourceLinesCovered": "projectSourceLinesCovered",
+                  "projectSourceClassesCovered": "projectSourceClassesCovered",
+                  "hIndexModificationsPerCoveredLine_window5": "hIndexModificationsPerCoveredLine_window5",
+                  "hIndexModificationsPerCoveredLine_window10": "hIndexModificationsPerCoveredLine_window10",
+                  "hIndexModificationsPerCoveredLine_window25": "hIndexModificationsPerCoveredLine_window25",
+                  "hIndexModificationsPerCoveredLine_window50": "hIndexModificationsPerCoveredLine_window50",
+                  "hIndexModificationsPerCoveredLine_window75": "hIndexModificationsPerCoveredLine_window75",
+                  "hIndexModificationsPerCoveredLine_window100": "hIndexModificationsPerCoveredLine_window100",
+                  "hIndexModificationsPerCoveredLine_window500": "hIndexModificationsPerCoveredLine_window500",
+                  "hIndexModificationsPerCoveredLine_window10000": "hIndexModificationsPerCoveredLine_window10000",
+                  "num_third_party_libs": "num_third_party_libs"
+                }
+              },
+              "questions": {
+                "flaky": {
+                  "type": "choice",
+                  "instructions": "Predict whether this test is flaky from its measured test features.",
+                  "target": {
+                    "field": "flaky",
+                    "mode": "index"
+                  },
+                  "criteria": [
+                    "non-flaky",
+                    "flaky"
+                  ]
+                }
+              }
+            },
+            "shuffle_buffers": {
+              "train": 2048,
+              "validation": 2048,
+              "eval": 2048
+            }
+          }
+        ],
+        "strict_context": true,
+        "confidence": "1 - normalized Shannon entropy"
+      },
+      "runtime": {
+        "device": "mps",
+        "torch": "2.14.0"
+      }
+    },
+    "page_built_at": "2026-10-06T03:48:24.392408+00:00"
   },
   "datasets": [
     {
@@ -6954,7 +8404,7 @@
         "eval": "train"
       },
       "holdout": {
-        "field": "complaint_id",
+        "field": "complaint_what_happened",
         "fraction": 0.1,
         "seed": 42
       },
