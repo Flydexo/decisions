@@ -1,0 +1,529 @@
+{
+  "checked_at": "2026-10-07T12:49:52.117739+00:00",
+  "source": "https://console.vast.ai/api/v0/bundles/",
+  "protocol": "Read-only public on-demand offer search; no instance created. Prices are API dph_total at search/default disk allocation, not a quote for 100 GiB allocated storage or bandwidth.",
+  "groups": [
+    {
+      "group": "RTX4090",
+      "query": {
+        "num_gpus": {
+          "eq": 1
+        },
+        "verified": {
+          "eq": true
+        },
+        "rentable": {
+          "eq": true
+        },
+        "rented": {
+          "eq": false
+        },
+        "reliability": {
+          "gte": 0.99
+        },
+        "cpu_ram": {
+          "gte": 64000
+        },
+        "cpu_cores_effective": {
+          "gte": 8
+        },
+        "disk_space": {
+          "gte": 100
+        },
+        "inet_down": {
+          "gte": 500
+        },
+        "type": "on-demand",
+        "limit": 3,
+        "order": [
+          [
+            "dph_total",
+            "asc"
+          ]
+        ],
+        "gpu_name": {
+          "eq": "RTX 4090"
+        }
+      },
+      "offers": [
+        {
+          "id": 41247181,
+          "gpu_name": "RTX 4090",
+          "gpu_ram": 24564,
+          "num_gpus": 1,
+          "dph_total": 0.3626666666666667,
+          "storage_cost": 0.23999999999999996,
+          "storage_total_cost": 0.002666666666666666,
+          "cpu_ram": 85937,
+          "cpu_cores_effective": 16.0,
+          "disk_space": 796.1571642342033,
+          "inet_down": 6692.9,
+          "inet_up": 6663.0,
+          "inet_down_cost": 0.028645833333333332,
+          "inet_up_cost": 0.028645833333333332,
+          "reliability": 0.9927153,
+          "verification": "verified",
+          "cuda_max_good": 12.6,
+          "duration": 4702687.820859432
+        },
+        {
+          "id": 54031624,
+          "gpu_name": "RTX 4090",
+          "gpu_ram": 24564,
+          "num_gpus": 1,
+          "dph_total": 0.37718518518518523,
+          "storage_cost": 0.46666666666666673,
+          "storage_total_cost": 0.005185185185185186,
+          "cpu_ram": 64362,
+          "cpu_cores_effective": 8.0,
+          "disk_space": 310.5,
+          "inet_down": 695.3,
+          "inet_up": 657.0,
+          "inet_down_cost": 0.028632812499999997,
+          "inet_up_cost": 0.026028645833333332,
+          "reliability": 0.9947169,
+          "verification": "verified",
+          "cuda_max_good": 13.2,
+          "duration": 2343494.820859432
+        },
+        {
+          "id": 35877325,
+          "gpu_name": "RTX 4090",
+          "gpu_ram": 24564,
+          "num_gpus": 1,
+          "dph_total": 0.3940740740740741,
+          "storage_cost": 0.6666666666666666,
+          "storage_total_cost": 0.007407407407407407,
+          "cpu_ram": 64396,
+          "cpu_cores_effective": 12.0,
+          "disk_space": 694.15,
+          "inet_down": 692.9,
+          "inet_up": 35.3,
+          "inet_down_cost": 0.0013020833333333333,
+          "inet_up_cost": 0.0026041666666666665,
+          "reliability": 0.9978542,
+          "verification": "verified",
+          "cuda_max_good": 13.0,
+          "duration": 1955471.8208594322
+        }
+      ]
+    },
+    {
+      "group": "RTX5090",
+      "query": {
+        "num_gpus": {
+          "eq": 1
+        },
+        "verified": {
+          "eq": true
+        },
+        "rentable": {
+          "eq": true
+        },
+        "rented": {
+          "eq": false
+        },
+        "reliability": {
+          "gte": 0.99
+        },
+        "cpu_ram": {
+          "gte": 64000
+        },
+        "cpu_cores_effective": {
+          "gte": 8
+        },
+        "disk_space": {
+          "gte": 100
+        },
+        "inet_down": {
+          "gte": 500
+        },
+        "type": "on-demand",
+        "limit": 3,
+        "order": [
+          [
+            "dph_total",
+            "asc"
+          ]
+        ],
+        "gpu_name": {
+          "eq": "RTX 5090"
+        }
+      },
+      "offers": [
+        {
+          "id": 46579456,
+          "gpu_name": "RTX 5090",
+          "gpu_ram": 32607,
+          "num_gpus": 1,
+          "dph_total": 0.44962962962962966,
+          "storage_cost": 0.8666666666666666,
+          "storage_total_cost": 0.009629629629629629,
+          "cpu_ram": 64393,
+          "cpu_cores_effective": 24.0,
+          "disk_space": 264.75,
+          "inet_down": 609.9,
+          "inet_up": 99.7,
+          "inet_down_cost": 0.015625,
+          "inet_up_cost": 0.016927083333333332,
+          "reliability": 0.998471,
+          "verification": "verified",
+          "cuda_max_good": 13.0,
+          "duration": 37729460.828145504
+        },
+        {
+          "id": 32984221,
+          "gpu_name": "RTX 5090",
+          "gpu_ram": 32607,
+          "num_gpus": 1,
+          "dph_total": 0.4675555555555556,
+          "storage_cost": 0.19999999999999998,
+          "storage_total_cost": 0.0022222222222222222,
+          "cpu_ram": 96647,
+          "cpu_cores_effective": 24.0,
+          "disk_space": 284.625,
+          "inet_down": 902.1,
+          "inet_up": 828.2,
+          "inet_down_cost": 0.0026041666666666665,
+          "inet_up_cost": 0.00390625,
+          "reliability": 0.9967821,
+          "verification": "verified",
+          "cuda_max_good": 12.8,
+          "duration": 28462782.828145504
+        },
+        {
+          "id": 51620924,
+          "gpu_name": "RTX 5090",
+          "gpu_ram": 32607,
+          "num_gpus": 1,
+          "dph_total": 0.485925925925926,
+          "storage_cost": 0.5333333333333332,
+          "storage_total_cost": 0.005925925925925925,
+          "cpu_ram": 73686,
+          "cpu_cores_effective": 18.285714285714285,
+          "disk_space": 361.4285714285714,
+          "inet_down": 737.8,
+          "inet_up": 801.2,
+          "inet_down_cost": 0.0390625,
+          "inet_up_cost": 0.0390625,
+          "reliability": 0.9910521,
+          "verification": "verified",
+          "cuda_max_good": 13.0,
+          "duration": 30010623.828145504
+        }
+      ]
+    },
+    {
+      "group": "Ada48",
+      "query": {
+        "num_gpus": {
+          "eq": 1
+        },
+        "verified": {
+          "eq": true
+        },
+        "rentable": {
+          "eq": true
+        },
+        "rented": {
+          "eq": false
+        },
+        "reliability": {
+          "gte": 0.99
+        },
+        "cpu_ram": {
+          "gte": 64000
+        },
+        "cpu_cores_effective": {
+          "gte": 8
+        },
+        "disk_space": {
+          "gte": 100
+        },
+        "inet_down": {
+          "gte": 500
+        },
+        "type": "on-demand",
+        "limit": 3,
+        "order": [
+          [
+            "dph_total",
+            "asc"
+          ]
+        ],
+        "gpu_name": {
+          "in": [
+            "RTX 6000Ada",
+            "RTX 6000 Ada",
+            "L40S"
+          ]
+        }
+      },
+      "offers": [
+        {
+          "id": 54444926,
+          "gpu_name": "RTX 6000Ada",
+          "gpu_ram": 46068,
+          "num_gpus": 1,
+          "dph_total": 0.7240095851851852,
+          "storage_cost": 0.3257026666666666,
+          "storage_total_cost": 0.0036189185185185177,
+          "cpu_ram": 64393,
+          "cpu_cores_effective": 16.0,
+          "disk_space": 700.425,
+          "inet_down": 815.6,
+          "inet_up": 713.4,
+          "inet_down_cost": 0.04,
+          "inet_up_cost": 0.04,
+          "reliability": 0.9900369,
+          "verification": "verified",
+          "cuda_max_good": 13.2,
+          "duration": 805800.3073396683
+        },
+        {
+          "id": 49960119,
+          "gpu_name": "L40S",
+          "gpu_ram": 46068,
+          "num_gpus": 1,
+          "dph_total": 0.8422222222222222,
+          "storage_cost": 0.19999999999999998,
+          "storage_total_cost": 0.0022222222222222222,
+          "cpu_ram": 64123,
+          "cpu_cores_effective": 24.0,
+          "disk_space": 484.5,
+          "inet_down": 771.4,
+          "inet_up": 706.0,
+          "inet_down_cost": 0.0026041666666666665,
+          "inet_up_cost": 0.00390625,
+          "reliability": 0.9950098,
+          "verification": "verified",
+          "cuda_max_good": 13.0,
+          "duration": 10026907.833800793
+        }
+      ]
+    },
+    {
+      "group": "A10080",
+      "query": {
+        "num_gpus": {
+          "eq": 1
+        },
+        "verified": {
+          "eq": true
+        },
+        "rentable": {
+          "eq": true
+        },
+        "rented": {
+          "eq": false
+        },
+        "reliability": {
+          "gte": 0.99
+        },
+        "cpu_ram": {
+          "gte": 64000
+        },
+        "cpu_cores_effective": {
+          "gte": 8
+        },
+        "disk_space": {
+          "gte": 100
+        },
+        "inet_down": {
+          "gte": 500
+        },
+        "type": "on-demand",
+        "limit": 3,
+        "order": [
+          [
+            "dph_total",
+            "asc"
+          ]
+        ],
+        "gpu_name": {
+          "in": [
+            "A100 SXM4",
+            "A100 PCIE"
+          ]
+        },
+        "gpu_ram": {
+          "gte": 79000
+        }
+      },
+      "offers": [
+        {
+          "id": 36994167,
+          "gpu_name": "A100 SXM4",
+          "gpu_ram": 81920,
+          "num_gpus": 1,
+          "dph_total": 0.9748148148148147,
+          "storage_cost": 0.1333333333333333,
+          "storage_total_cost": 0.0014814814814814812,
+          "cpu_ram": 257983,
+          "cpu_cores_effective": 19.0,
+          "disk_space": 101.75,
+          "inet_down": 840.9,
+          "inet_up": 572.2,
+          "inet_down_cost": 0.009114583333333334,
+          "inet_up_cost": 0.013020833333333334,
+          "reliability": 0.9988218,
+          "verification": "verified",
+          "cuda_max_good": 12.8,
+          "duration": 894313.7227263451
+        },
+        {
+          "id": 36602054,
+          "gpu_name": "A100 SXM4",
+          "gpu_ram": 81920,
+          "num_gpus": 1,
+          "dph_total": 1.056,
+          "storage_cost": 0.23999999999999996,
+          "storage_total_cost": 0.002666666666666666,
+          "cpu_ram": 128886,
+          "cpu_cores_effective": 32.0,
+          "disk_space": 989.75,
+          "inet_down": 3338.8,
+          "inet_up": 1739.0,
+          "inet_down_cost": 0.026041666666666668,
+          "inet_up_cost": 0.0390625,
+          "reliability": 0.9947187,
+          "verification": "verified",
+          "cuda_max_good": 13.2,
+          "duration": 4649634.83407712
+        },
+        {
+          "id": 21050982,
+          "gpu_name": "A100 SXM4",
+          "gpu_ram": 81920,
+          "num_gpus": 1,
+          "dph_total": 1.0561481481481483,
+          "storage_cost": 0.25333333333333335,
+          "storage_total_cost": 0.002814814814814815,
+          "cpu_ram": 128990,
+          "cpu_cores_effective": 8.0,
+          "disk_space": 1038.0,
+          "inet_down": 7358.6,
+          "inet_up": 4469.7,
+          "inet_down_cost": 0.0026041666666666665,
+          "inet_up_cost": 0.00390625,
+          "reliability": 0.9975042,
+          "verification": "verified",
+          "cuda_max_good": 12.2,
+          "duration": 7355836.83407712
+        }
+      ]
+    },
+    {
+      "group": "A10040",
+      "query": {
+        "num_gpus": {
+          "eq": 1
+        },
+        "verified": {
+          "eq": true
+        },
+        "rentable": {
+          "eq": true
+        },
+        "rented": {
+          "eq": false
+        },
+        "reliability": {
+          "gte": 0.99
+        },
+        "cpu_ram": {
+          "gte": 64000
+        },
+        "cpu_cores_effective": {
+          "gte": 8
+        },
+        "disk_space": {
+          "gte": 100
+        },
+        "inet_down": {
+          "gte": 500
+        },
+        "type": "on-demand",
+        "limit": 3,
+        "order": [
+          [
+            "dph_total",
+            "asc"
+          ]
+        ],
+        "gpu_name": {
+          "in": [
+            "A100 SXM4",
+            "A100 PCIE"
+          ]
+        },
+        "gpu_ram": {
+          "gte": 39000,
+          "lt": 79000
+        }
+      },
+      "offers": [
+        {
+          "id": 40796927,
+          "gpu_name": "A100 PCIE",
+          "gpu_ram": 40960,
+          "num_gpus": 1,
+          "dph_total": 0.5078518518518518,
+          "storage_cost": 0.10666666666666667,
+          "storage_total_cost": 0.0011851851851851852,
+          "cpu_ram": 257728,
+          "cpu_cores_effective": 48.0,
+          "disk_space": 3430.0,
+          "inet_down": 533.0,
+          "inet_up": 575.3,
+          "inet_down_cost": 0.0013020833333333333,
+          "inet_up_cost": 0.0013020833333333333,
+          "reliability": 0.9986218,
+          "verification": "verified",
+          "cuda_max_good": 12.2,
+          "duration": 17364001.71480322
+        },
+        {
+          "id": 24622079,
+          "gpu_name": "A100 PCIE",
+          "gpu_ram": 40960,
+          "num_gpus": 1,
+          "dph_total": 0.5488888888888889,
+          "storage_cost": 0.19999999999999998,
+          "storage_total_cost": 0.0022222222222222222,
+          "cpu_ram": 257881,
+          "cpu_cores_effective": 48.0,
+          "disk_space": 1623.1000000000001,
+          "inet_down": 867.0,
+          "inet_up": 788.2,
+          "inet_down_cost": 0.0006510416666666666,
+          "inet_up_cost": 0.0006510416666666666,
+          "reliability": 0.9993283,
+          "verification": "verified",
+          "cuda_max_good": 12.2,
+          "duration": 17390469.71480322
+        },
+        {
+          "id": 50365133,
+          "gpu_name": "A100 SXM4",
+          "gpu_ram": 40960,
+          "num_gpus": 1,
+          "dph_total": 0.7348148148148149,
+          "storage_cost": 0.1333333333333333,
+          "storage_total_cost": 0.0014814814814814812,
+          "cpu_ram": 64477,
+          "cpu_cores_effective": 8.0,
+          "disk_space": 542.3350743159111,
+          "inet_down": 4402.1,
+          "inet_up": 2722.5,
+          "inet_down_cost": 0.01171875,
+          "inet_up_cost": 0.01171875,
+          "reliability": 0.9904134,
+          "verification": "verified",
+          "cuda_max_good": 13.3,
+          "duration": 7380607.826153994
+        }
+      ]
+    }
+  ]
+}
