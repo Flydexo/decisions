@@ -1,0 +1,30 @@
+# @package _global_
+defaults:
+  - rtx4090_pilot
+
+# Full training streams, one source at a time. Order is derived from the
+# published training split sizes in decisions.curriculum.
+data:
+  train_pool_rows: null
+  prepare_train_cache: false
+  train_cache_dir: null
+  archive_max_transfer_bytes: 6000000000
+  archive_block_size_bytes: 4194304
+training:
+  batch_size: 8
+  gradient_accumulation_steps: 1
+  question_microbatch_size: 8
+  epochs: 1
+  max_steps: 100000000
+  max_seconds: 28800
+  warmup_steps: 128
+  decay_steps: 0
+  checkpoint_every: 128
+  log_every: 8
+  early_stopping_patience: 0
+  best_checkpoint_optimizer: false
+evaluation:
+  max_rows: 32
+  every_steps: 0
+logging:
+  project: decisions-rtx4090-curriculum

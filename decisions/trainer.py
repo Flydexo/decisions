@@ -294,3 +294,4 @@ def validate(model, tokenizer, datasets, device, config, progress, run_dir, opti
                         include_optimizer=config["training"].get("best_checkpoint_optimizer", True))
     clear_cache(device)
     print("Evaluation: " + json.dumps(report), flush=True)
+    return {"macro_accuracy": score, "report": report}
