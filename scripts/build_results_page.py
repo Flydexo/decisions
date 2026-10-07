@@ -117,9 +117,11 @@ def main():
     large = large_run()
     collapse_path = REPORTS / 'collapse_rlcd_pilot_summary.json'
     finetune_path = REPORTS / 'finetune_memory_summary.json'
+    smoke_path = REPORTS / 'finetune_1024_smoke_summary.json'
     data = {"names": NAMES, "runs": runs, "training": training, "benchmark": benchmark, 'large':large,
             'collapse_pilot':read_json(collapse_path) if collapse_path.exists() else None,
             'finetune':read_json(finetune_path) if finetune_path.exists() else None,
+            'finetune_smoke':read_json(smoke_path) if smoke_path.exists() else None,
             "datasets": datasets, "ablations": [
                 {"id": key, "name": name, "description": description,
                  "measured": key in {run["id"] for run in runs},
@@ -133,6 +135,8 @@ def main():
         data["source_files"].append("reports/additional_dataset_validation.json")
     if finetune_path.exists():
         data["source_files"].append("reports/finetune_memory_summary.json")
+    if smoke_path.exists():
+        data["source_files"].append("reports/finetune_1024_smoke_summary.json")
     # Escape HTML-significant characters so arbitrary dataset/config text cannot close the script element.
     payload = json.dumps(data, ensure_ascii=False, allow_nan=False).replace("<", "\\u003c").replace(
         ">", "\\u003e").replace("&", "\\u0026")

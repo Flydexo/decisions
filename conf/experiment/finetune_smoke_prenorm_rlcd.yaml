@@ -1,0 +1,34 @@
+# @package _global_
+defaults:
+  - collapse_prenorm_rlcd
+
+# Match the frozen pilots' first 64 updates / 256 row presentations.
+model:
+  train_encoder: true
+  encoder_last_n_layers: null
+  gradient_checkpointing: true
+  max_len: 1024
+  mixed_precision: fp16
+  fp16_initial_scale: 1024
+  autocast_cache_enabled: false
+data:
+  prepare_train_cache: true
+training:
+  batch_size: 1
+  gradient_accumulation_steps: 4
+  question_microbatch_size: 1
+  clear_cache_between_microbatches: true
+  epochs: 1
+  max_steps: 64
+  max_seconds: 1200
+  encoder_learning_rate: 0.00001
+  optimizer_foreach: false
+  min_free_disk_gib: 2
+  checkpoint_every: 16
+evaluation:
+  batch_size: 1
+  question_microbatch_size: 1
+  every_steps: 64
+diagnostics:
+  every_steps: 16
+  batch_size: 1

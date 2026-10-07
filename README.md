@@ -363,6 +363,34 @@ estimator loss. The aggregate report is `reports/collapse_rlcd_pilot_summary.jso
 the offline recap includes both trajectories when the pilots finish. No final
 evaluation or Decision Index samples are used in these pilots.
 
+### Full-encoder 1,024-token smoke
+
+```sh
+.venv/bin/python scripts/run_finetune_smoke.py
+.venv/bin/python scripts/show_pilot_dashboard.py --check
+```
+
+This runs only the pre-norm transformer variant with the entire encoder unfrozen,
+FP16 autocast, FP32 weights/Adam, encoder/head checkpointing, full RLCD and 32
+candidates. One-row microbatches accumulate four rows per update. The smoke uses
+64 updates / 256 presentations, compared to the frozen pre-norm and no-transformer
+pilots **at step 64**, rather than their longer 256-update outcomes.
+
+The runner verifies the exact existing training-pool and validation-sample hashes
+and zero input overlap. It reuses the bounded HF-streamed samples without drawing
+new final-evaluation data. It logs both encoder and head separation on the same
+eight-row training probe, since the head/encoder ratio alone cannot detect encoder
+collapse. Sampled early/late encoder weight changes are checked against the pinned
+pretrained weights. No final test split or Decision Index source is evaluated.
+
+Trackio uses your existing `decisions-collapse-rlcd` database and the run
+`finetune_prenorm_rlcd_1024_smoke`. Refresh the live dashboard to select it.
+The aggregate measurements are in `reports/finetune_1024_smoke_summary.json`;
+[the smoke report](reports/finetune_1024_smoke.md) and [recap](reports/results.html)
+show matched comparisons. For an interrupted run, confirm no matching worker is
+alive before `scripts/run_finetune_smoke.py --resume`; the time budget accumulates
+across recovery. Existing frozen pilots are never overwritten.
+
 The completed ModernBERT-large run is documented in [the offline recap](reports/results.html)
 and [its audit](reports/all_large_audit.json). It processed 20,520 rows across all
 17 datasets; validation selected update 3,000. All 224 bounded benchmark source
