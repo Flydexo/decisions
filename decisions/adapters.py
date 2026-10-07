@@ -13,6 +13,27 @@ class Adapter:
         self.config = config
         self.features = features
 
+    def iter_examples(self, original: dict):
+        """Expand aligned source lists lazily into independent decision rows."""
+        explode = self.config.get("explode")
+        if not explode:
+            yield self(original)
+            return
+        columns = {name: field(original, path) for name, path in explode["fields"].items()}
+        if not columns or any(not isinstance(values, (list, tuple)) for values in columns.values()):
+            raise ValueError("Exploded fields must be nonempty mappings of source lists")
+        lengths = {len(values) for values in columns.values()}
+        if len(lengths) != 1:
+            raise ValueError("Exploded source lists must have matching lengths")
+        identity = original.get(self.config.get("id_field", "id"))
+        for index in range(next(iter(lengths))):
+            row = dict(original)
+            row.update({name: values[index] for name, values in columns.items()})
+            canonical = self(row)
+            if identity is not None:
+                canonical["id"] = f"{identity}:{index}"
+            yield canonical
+
     def __call__(self, original: dict) -> dict:
         cfg = self.config
         if cfg.get("native"):
@@ -70,6 +91,8 @@ class Adapter:
                 mode = "index"
             else:
                 value = field(row, target_spec["field"])
+            if mode != "probabilities" and "mapping" in target_spec:
+                value = target_spec["mapping"][str(value)]
             if mode == "probabilities":
                 distribution = {str(k): float(v) for k, v in value.items()}
             elif mode == "boolean":
@@ -77,8 +100,6 @@ class Adapter:
                     raise ValueError(f"Expected Boolean target, got {value!r}")
                 distribution = {"false": float(not value), "true": float(bool(value))}
             else:
-                if "mapping" in target_spec:
-                    value = target_spec["mapping"][str(value)]
                 if mode == "label":
                     key = str(value)
                     if key not in keys:

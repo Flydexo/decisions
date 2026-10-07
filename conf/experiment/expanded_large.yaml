@@ -1,0 +1,19 @@
+# @package _global_
+defaults:
+  - all_large
+  - override /ablation: baseline
+
+# Keep the original overnight mixture/config reproducible for old checkpoints.
+mixture: [banking77, boolq, ag_news, mnli, sst5, yelp_review_full, trec, dbpedia14, amazon_reviews_multi_en, imdb, arc_challenge, openbookqa, commonsenseqa, codereviewer, aegis, consumer_finance, flakeflagger, enron_spam, phishing_email, customer_support, ms_marco, typed_decisions_all]
+model:
+  norm_first: true
+  independent_init: true
+training:
+  # Native typed-decisions rows contain five questions; keep M1 batches bounded.
+  batch_size: 1
+  max_steps: 22000
+  decay_steps: 22000
+evaluation:
+  batch_size: 1
+logging:
+  project: decisions-expanded

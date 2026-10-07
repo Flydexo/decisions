@@ -1,0 +1,32 @@
+name: customer_support
+source:
+  path: Tobi-Bueck/customer-support-tickets
+  format: csv
+  revision: ddf1c81a5475992c4fa6752bf1e8b4e31f07bbeb
+  # Select one release explicitly; the repository contains incompatible CSV versions.
+  data_files:
+    train: https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets/resolve/ddf1c81a5475992c4fa6752bf1e8b4e31f07bbeb/aa_dataset-tickets-multi-lang-5-2-50-version.csv
+splits: {train: train, eval: train}
+holdout: {field: body, fraction: 0.1, seed: 42}
+filters:
+  - {field: language, in: [en]}
+  - {field: body, nonempty: true}
+schema:
+  state:
+    fields: {subject: subject, body: body}
+  questions:
+    queue:
+      type: choice
+      instructions: Route this customer support email to the appropriate queue.
+      target: {field: queue, mode: label}
+      criteria:
+        - Technical Support
+        - Customer Service
+        - Billing and Payments
+        - Product Support
+        - IT Support
+        - Returns and Exchanges
+        - Sales and Pre-Sales
+        - Human Resources
+        - Service Outages and Maintenance
+        - General Inquiry

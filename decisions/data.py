@@ -89,19 +89,20 @@ def examples(config: dict, role: str, *, seed=42, epoch=0, shuffle_buffer=0, cac
         stream = stream.shuffle(seed=seed + epoch, buffer_size=shuffle_buffer)
     for row in stream:
         if accepted(row, config, role):
-            canonical = adapter(row)
-            partition = config.get("validation_holdout")
-            if partition and role in {"train", "validation"}:
-                # Hash model inputs, not labels: duplicated content stays in one
-                # partition even when its original row identity or label changes.
-                identity = {"state": canonical["state"], "questions": canonical["questions"]}
-                digest = hashlib.sha256((str(partition["seed"]) + ":" +
-                    json.dumps(identity, sort_keys=True, ensure_ascii=False)).encode()).digest()
-                selected_validation = int.from_bytes(digest[:8], "big") / 2**64 < partition["fraction"]
-                if (role == "validation") != selected_validation:
-                    continue
-            canonical["_dataset"] = config["name"]
-            yield canonical
+            for canonical in adapter.iter_examples(row):
+                partition = config.get("validation_holdout")
+                if partition and role in {"train", "validation"}:
+                    # A source group keeps every expanded passage for the same
+                    # query together. Otherwise hash complete model inputs.
+                    identity = (field(row, partition["field"]) if partition.get("field") else
+                                {"state": canonical["state"], "questions": canonical["questions"]})
+                    digest = hashlib.sha256((str(partition["seed"]) + ":" +
+                        json.dumps(identity, sort_keys=True, ensure_ascii=False)).encode()).digest()
+                    selected_validation = int.from_bytes(digest[:8], "big") / 2**64 < partition["fraction"]
+                    if (role == "validation") != selected_validation:
+                        continue
+                canonical["_dataset"] = config["name"]
+                yield canonical
 
 
 def mixed_examples(configs: list[dict], role: str, **kwargs):
@@ -183,6 +184,8 @@ def dataset_configs(config: dict) -> list[dict]:
                     raise ValueError("A shared final evaluation split needs an explicit identity/group holdout")
                 dataset["splits"]["validation"] = dataset["splits"]["train"]
                 dataset["validation_holdout"] = {"fraction": fraction, "seed": config["seed"]}
+                if dataset.get("validation_group_field"):
+                    dataset["validation_holdout"]["field"] = dataset["validation_group_field"]
     overrides = settings.get("shuffle_buffers", {})
     for dataset in datasets:
         if dataset["name"] in settings.get("stratified_sampling", {}):

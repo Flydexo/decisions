@@ -1,0 +1,24 @@
+name: phishing_email
+source:
+  path: zefang-liu/phishing-email-dataset
+  format: csv
+  revision: 34085a032c123ca237f314a01a67909cdea35e34
+  data_files:
+    train: https://huggingface.co/datasets/zefang-liu/phishing-email-dataset/resolve/34085a032c123ca237f314a01a67909cdea35e34/Phishing_Email.csv
+splits: {train: train, eval: train}
+# Group duplicate content even when CSV row IDs differ.
+holdout: {field: Email Text, fraction: 0.1, seed: 42}
+filters:
+  - {field: Email Text, nonempty: true}
+  - {field: Email Type, in: [Safe Email, Phishing Email]}
+schema:
+  state: {field: Email Text}
+  questions:
+    phishing:
+      type: noul
+      instructions: Is this email a phishing attempt?
+      labels: {"false": safe email, "true": phishing email}
+      target:
+        field: Email Type
+        mode: boolean
+        mapping: {Safe Email: 0, Phishing Email: 1}

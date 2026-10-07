@@ -1,0 +1,20 @@
+name: enron_spam
+source:
+  path: SetFit/enron_spam
+  format: json
+  revision: 1916f66c89d52221ae33eb57d44498b4f3a5df22
+  data_files:
+    train: https://huggingface.co/datasets/SetFit/enron_spam/resolve/1916f66c89d52221ae33eb57d44498b4f3a5df22/train.jsonl
+    test: https://huggingface.co/datasets/SetFit/enron_spam/resolve/1916f66c89d52221ae33eb57d44498b4f3a5df22/test.jsonl
+splits: {train: train, eval: test}
+filters:
+  - {field: text, nonempty: true}
+schema:
+  id_field: message_id
+  state: {field: text}
+  questions:
+    spam:
+      type: noul
+      instructions: Is this email spam?
+      labels: {"false": legitimate email, "true": spam}
+      target: {field: label, mode: boolean}

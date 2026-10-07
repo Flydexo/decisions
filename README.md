@@ -52,12 +52,55 @@ driver memory separately. Allocator reservation growth alone is not a tensor lea
 | `codereviewer` | Microsoft CodeReviewer, [Zenodo 6900648](https://zenodo.org/records/6900648) | Comment on hunk / published test |
 | `flakeflagger` | [Zenodo 5014076](https://zenodo.org/records/5014076) | Flaky from measured features / project holdout |
 | `typed_decisions` | `LocalLLaMA/typed-decisions`, customer_service | Original native soft targets / test |
+| `enron_spam` | `SetFit/enron_spam` | Spam Boolean / test |
+| `phishing_email` | `zefang-liu/phishing-email-dataset` | Phishing Boolean / content hash holdout |
+| `customer_support` | `Tobi-Bueck/customer-support-tickets` | English support queue / body hash holdout |
+| `ms_marco` | `microsoft/ms_marco`, v2.1 | Query–passage selection Boolean / validation |
+| `typed_decisions_all` | `LocalLLaMA/typed-decisions`, all | Four workflows with native soft targets / test |
 
 Select with `dataset=<name>`. CommitPackFT is omitted as requested. TREC streams
 CogComp's own pinned converter export because datasets 5 cannot load its old
 script. CommonsenseQA uses validation because test labels are hidden. IMDb
 unsupervised rows and empty finance narratives are excluded. Finance has an
 explicit historical product vocabulary; unknown labels fail clearly.
+
+The new email and support sources use pinned, explicitly selected JSON/CSV files
+to avoid combining different releases. Support routing uses the newer bilingual
+release, filtered to English; only the subject and body reach the model. Agent
+answers, tags, priority, and the queue label stay out of its inputs. Phishing and
+support reserve 10% for final evaluation by content hash. With
+`data.separate_validation=true`, another 10% is reserved for checkpoint selection;
+duplicate email/ticket bodies remain in one partition.
+
+MS MARCO expands each query into one Boolean decision per passage, using
+`passages.is_selected` as supervision. Multiple selected passages and all-negative
+queries are preserved. Answer text and passage URLs are excluded from inputs.
+Selection annotations serve as a relevance proxy; this config does not implement
+the official passage-ranking benchmark. When validation is separated, every
+passage for the same query stays in the same train/validation partition. Published
+validation is reserved for final evaluation, since test annotations are hidden.
+`schema.explode.fields` declares aligned lists to expand; `validation_group_field`
+declares the source field used to group the validation holdout.
+
+`typed_decisions_all` retains all native questions and probability targets from
+the four-workflow `all` subset. Its test split remains untouched by training and
+checkpoint selection. The existing customer-service-only config is preserved.
+
+```sh
+uv run python train.py dataset=enron_spam +data.separate_validation=true +training.validation_role=validation device=mps
+uv run python train.py dataset=ms_marco +data.separate_validation=true +training.validation_role=validation device=mps
+uv run python train.py experiment=expanded_large device=mps
+.venv/bin/python scripts/validate_dataset_configs.py
+```
+
+`expanded_large` adds these five configs to the original 17-source mixture while
+preserving the old experiment for checkpoint reproducibility. It uses the frozen
+ModernBERT-large encoder, independently initialized pre-norm head, full RLCD
+reward, and local Trackio project `decisions-expanded`. Batch size is one row for
+both training and validation because native rows have five questions; the 9 GiB
+MPS cap remains in place. Adding the configs does not launch training. Bounded
+schema checks are saved in `reports/additional_dataset_validation.json` and are
+separate from model performance measurements.
 
 Aegis creates two safe/unsafe questions from the prompt/response pair, excluding
 label and category columns from inputs. FlakeFlagger uses measured test features,

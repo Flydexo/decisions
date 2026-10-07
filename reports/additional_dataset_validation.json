@@ -1,0 +1,173 @@
+{
+  "checked_at": "2026-10-07T09:19:00.789401+00:00",
+  "protocol": "Bounded training-split schema checks; no training or evaluation scores",
+  "streaming": true,
+  "requested_rows": 8,
+  "max_source_rows": 128,
+  "datasets": {
+    "enron_spam": {
+      "status": "ok",
+      "rows": 8,
+      "source_rows": 8,
+      "questions": 8,
+      "types": [
+        "noul"
+      ],
+      "target_counts": {
+        "spam:true": 6,
+        "spam:false": 2
+      },
+      "workflows": {},
+      "source": {
+        "path": "SetFit/enron_spam",
+        "format": "json",
+        "revision": "1916f66c89d52221ae33eb57d44498b4f3a5df22",
+        "data_files": {
+          "train": "https://huggingface.co/datasets/SetFit/enron_spam/resolve/1916f66c89d52221ae33eb57d44498b4f3a5df22/train.jsonl",
+          "test": "https://huggingface.co/datasets/SetFit/enron_spam/resolve/1916f66c89d52221ae33eb57d44498b4f3a5df22/test.jsonl"
+        }
+      },
+      "splits": {
+        "train": "train",
+        "eval": "test"
+      },
+      "holdout": null,
+      "validation_group_field": null
+    },
+    "phishing_email": {
+      "status": "ok",
+      "rows": 8,
+      "source_rows": 9,
+      "questions": 8,
+      "types": [
+        "noul"
+      ],
+      "target_counts": {
+        "phishing:false": 4,
+        "phishing:true": 4
+      },
+      "workflows": {},
+      "source": {
+        "path": "zefang-liu/phishing-email-dataset",
+        "format": "csv",
+        "revision": "34085a032c123ca237f314a01a67909cdea35e34",
+        "data_files": {
+          "train": "https://huggingface.co/datasets/zefang-liu/phishing-email-dataset/resolve/34085a032c123ca237f314a01a67909cdea35e34/Phishing_Email.csv"
+        }
+      },
+      "splits": {
+        "train": "train",
+        "eval": "train"
+      },
+      "holdout": {
+        "field": "Email Text",
+        "fraction": 0.1,
+        "seed": 42
+      },
+      "validation_group_field": null
+    },
+    "customer_support": {
+      "status": "ok",
+      "rows": 8,
+      "source_rows": 14,
+      "questions": 8,
+      "types": [
+        "choice"
+      ],
+      "target_counts": {
+        "queue:Returns and Exchanges": 1,
+        "queue:Sales and Pre-Sales": 1,
+        "queue:Technical Support": 2,
+        "queue:Service Outages and Maintenance": 1,
+        "queue:Product Support": 2,
+        "queue:IT Support": 1
+      },
+      "workflows": {},
+      "source": {
+        "path": "Tobi-Bueck/customer-support-tickets",
+        "format": "csv",
+        "revision": "ddf1c81a5475992c4fa6752bf1e8b4e31f07bbeb",
+        "data_files": {
+          "train": "https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets/resolve/ddf1c81a5475992c4fa6752bf1e8b4e31f07bbeb/aa_dataset-tickets-multi-lang-5-2-50-version.csv"
+        }
+      },
+      "splits": {
+        "train": "train",
+        "eval": "train"
+      },
+      "holdout": {
+        "field": "body",
+        "fraction": 0.1,
+        "seed": 42
+      },
+      "validation_group_field": null
+    },
+    "ms_marco": {
+      "status": "ok",
+      "rows": 8,
+      "source_rows": 1,
+      "questions": 8,
+      "types": [
+        "noul"
+      ],
+      "target_counts": {
+        "relevance:true": 1,
+        "relevance:false": 7
+      },
+      "workflows": {},
+      "source": {
+        "path": "microsoft/ms_marco",
+        "name": "v2.1",
+        "revision": "a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a"
+      },
+      "splits": {
+        "train": "train",
+        "eval": "validation"
+      },
+      "holdout": null,
+      "validation_group_field": "query"
+    },
+    "typed_decisions_all": {
+      "status": "ok",
+      "rows": 8,
+      "source_rows": 8,
+      "questions": 40,
+      "types": [
+        "choice",
+        "noul",
+        "score"
+      ],
+      "target_counts": {
+        "action:human_review": 3,
+        "needs_review:true": 3,
+        "outcome:partial": 4,
+        "risk:0": 5,
+        "urgency:1": 3,
+        "action:continue": 3,
+        "needs_review:false": 5,
+        "outcome:success": 3,
+        "urgency:0": 4,
+        "outcome:harmful": 1,
+        "risk:3": 1,
+        "urgency:3": 1,
+        "action:observe": 2,
+        "risk:2": 1,
+        "risk:1": 1
+      },
+      "workflows": {
+        "agent_trace_observability": 8
+      },
+      "source": {
+        "path": "LocalLLaMA/typed-decisions",
+        "name": "all",
+        "revision": "d0e2f0c42fef86cc15d1688d25a19f5ba7c85b18"
+      },
+      "splits": {
+        "train": "train",
+        "eval": "test"
+      },
+      "holdout": null,
+      "validation_group_field": null
+    }
+  }
+}

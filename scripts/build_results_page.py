@@ -18,6 +18,9 @@ NAMES = {
     "imdb": "IMDb", "openbookqa": "OpenBookQA", "commonsenseqa": "CommonsenseQA",
     "aegis": "Aegis Safety 2.0", "consumer_finance": "Consumer Finance",
     "codereviewer": "CodeReviewer", "flakeflagger": "FlakeFlagger",
+    "enron_spam": "Enron Spam", "phishing_email": "Phishing Email",
+    "customer_support": "Customer Support Tickets", "ms_marco": "MS MARCO · Relevance",
+    "typed_decisions_all": "Typed Decisions · All workflows",
 }
 ABLATIONS = {
     "baseline": ("Sampled reward", "Full decision head; log + spherical + ordinal RPS rewards."),
@@ -74,6 +77,9 @@ def main():
     training = read_json(REPORTS / "training_summary.json")
     benchmark = read_json(REPORTS / "benchmark_summary.json")
     schemas = read_json(REPORTS / "schema_validation.json")
+    additional_path = REPORTS / "additional_dataset_validation.json"
+    if additional_path.exists():
+        schemas.update(read_json(additional_path)["datasets"])
     runs = []
     for key, variant in [("pilot_streaming", "baseline"),
                          ("pilot_streaming_cross_entropy", "cross_entropy")]:
@@ -121,6 +127,8 @@ def main():
                              "reports/schema_validation.json", "outputs/pilot_streaming/metrics.jsonl",
                              "outputs/pilot_streaming_cross_entropy/metrics.jsonl",
                              "outputs/benchmark_streaming_pilot/results.jsonl"]}
+    if additional_path.exists():
+        data["source_files"].append("reports/additional_dataset_validation.json")
     # Escape HTML-significant characters so arbitrary dataset/config text cannot close the script element.
     payload = json.dumps(data, ensure_ascii=False, allow_nan=False).replace("<", "\\u003c").replace(
         ">", "\\u003e").replace("&", "\\u0026")
@@ -153,7 +161,7 @@ def main():
         writer.writerow(["source", *fields])
         for key, scores in benchmark["sources"].items():
             writer.writerow([key, *(scores.get(field) for field in fields)])
-    print(f"Built {destination} ({destination.stat().st_size:,} bytes); 2 measured runs, 17 schemas.")
+    print(f"Built {destination} ({destination.stat().st_size:,} bytes); 2 original measured runs, {len(schemas)} schemas.")
 
 
 if __name__ == "__main__":

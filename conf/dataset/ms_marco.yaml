@@ -1,0 +1,22 @@
+name: ms_marco
+source:
+  path: microsoft/ms_marco
+  name: v2.1
+  revision: a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a
+# Test annotations are hidden; use published validation for final evaluation.
+splits: {train: train, eval: validation}
+validation_group_field: query
+filters:
+  - {field: query, nonempty: true}
+schema:
+  id_field: query_id
+  explode:
+    fields: {passage: passages.passage_text, relevant: passages.is_selected}
+  state:
+    fields: {query: query, passage: passage}
+  questions:
+    relevance:
+      type: noul
+      instructions: Is this passage relevant to answering the query?
+      labels: {"false": not selected, "true": selected as answer evidence}
+      target: {field: relevant, mode: boolean}
