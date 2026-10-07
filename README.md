@@ -221,8 +221,14 @@ is retained separately.
 
 ```sh
 .venv/bin/python scripts/run_collapse_pilots.py --run-dir outputs/collapse_rlcd_pilot
-TRACKIO_DIR="$PWD/outputs/collapse_rlcd_pilot/trackio" .venv/bin/trackio show --project decisions-collapse-rlcd
+.venv/bin/python scripts/show_pilot_dashboard.py
 ```
+
+The dashboard launcher selects the pilot database explicitly and opens a local
+dashboard on port 7862. Select `prenorm_rlcd` and `no_transformer_rlcd` to compare
+the runs. An already-open dashboard for `decisions` may use a different database
+directory; open the URL printed by this launcher. Use `--check` to verify saved
+runs without starting a server, or `--port` to choose another port.
 
 The runner compares a pre-norm transformer with independently initialized layers
 against a head without a transformer. Both use full sampled RLCD rewards
