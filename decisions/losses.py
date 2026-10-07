@@ -31,6 +31,9 @@ def reward(p, target, qtype, mask, weights, ordinal_order=None):
 def training_loss(logits, target, inputs, spans, training, ablation):
     # Entropy, reward normalization and action log-densities need FP32 range.
     logits, target = logits.float(), target.float()
+    auxiliary_weight = training.get("auxiliary_cross_entropy_weight", 0.)
+    if auxiliary_weight < 0:
+        raise ValueError("auxiliary_cross_entropy_weight must be nonnegative")
     if ablation.get("objective", "sampled_reward") == "cross_entropy":
         per_question = -(target * logits.log_softmax(-1)).sum(-1)
         return torch.stack([per_question[start:end].mean() for start, end, _ in spans]).mean()
@@ -62,5 +65,10 @@ def training_loss(logits, target, inputs, spans, training, ablation):
     # zero-centered density through the sample reverses the reward gradient.
     normal = torch.distributions.Normal(logits.unsqueeze(0), candidates.new_tensor(sigma), validate_args=False)
     log_prob = normal.log_prob(candidates).masked_fill(~inputs["marker_mask"].unsqueeze(0), 0)
-    return torch.stack([-(advantage[:, row, None, None] * log_prob[:, start:end, :width]).mean()
-                        for row, (start, end, width) in enumerate(spans)]).mean()
+    sampled_loss = torch.stack([-(advantage[:, row, None, None] * log_prob[:, start:end, :width]).mean()
+                                for row, (start, end, width) in enumerate(spans)]).mean()
+    if not auxiliary_weight:
+        return sampled_loss
+    per_question = -(target * logits.log_softmax(-1)).sum(-1)
+    supervised_loss = torch.stack([per_question[start:end].mean() for start, end, _ in spans]).mean()
+    return sampled_loss + auxiliary_weight * supervised_loss

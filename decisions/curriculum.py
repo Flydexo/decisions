@@ -15,7 +15,7 @@ from omegaconf import OmegaConf
 
 from .checkpoints import read_checkpoint, resume_checkpoint, save_checkpoint
 from .cuda_pilot import configure_cuda_budget
-from .data import batches, dataset_configs, examples
+from .data import batches, dataset_configs, examples, sampled_examples
 from .logging import Logger
 from .model import load_model, select_device
 from .precision import build_scaler, optimizer_step
@@ -71,6 +71,36 @@ def _write_json(path, value):
     temporary.replace(path)
 
 
+def replay_buffer(dataset, run_dir, settings, seed):
+    """Keep a bounded training-only sample for later stage rehearsal."""
+    path = Path(run_dir) / "replay" / f"{dataset['name']}.json"
+    if path.exists():
+        saved = json.loads(path.read_text())
+        if saved["dataset"] != dataset or saved["seed"] != seed or saved["limit"] != settings["replay_rows_per_source"]:
+            raise ValueError(f"Replay provenance changed for {dataset['name']}")
+        return saved["rows"]
+    rows = list(sampled_examples(dataset, "train", settings["replay_rows_per_source"],
+                                 seed=seed, shuffle_buffer=settings["shuffle_buffer"]))
+    if not rows:
+        raise ValueError(f"No training rows available for replay: {dataset['name']}")
+    _write_json(path, {"dataset": dataset, "seed": seed,
+                       "limit": settings["replay_rows_per_source"], "rows": rows})
+    print(f"Prepared {len(rows)} training-only replay rows: {dataset['name']}", flush=True)
+    return rows
+
+
+def with_replay(current_rows, buffers, fraction):
+    """Append balanced earlier-source rows without changing source progress."""
+    if not buffers or not fraction:
+        return current_rows, 0
+    count = round(len(current_rows) * fraction / (1 - fraction))
+    names = list(buffers)
+    sampled_names = (random.sample(names, count) if count <= len(names) else
+                     random.sample(names, len(names)) + random.choices(names, k=count - len(names)))
+    replay = [random.choice(buffers[name]) for name in sampled_names]
+    return current_rows + replay, len(replay)
+
+
 def train_curriculum(cfg, run_dir):
     """Train complete streams and evaluate every source after each stage."""
     config = OmegaConf.to_container(cfg, resolve=True)
@@ -81,6 +111,9 @@ def train_curriculum(cfg, run_dir):
         raise ValueError("The curriculum needs one pass and positive batch settings")
     if config["evaluation"]["max_rows"] < 1 or settings["checkpoint_every"] < 1:
         raise ValueError("Evaluation and checkpoint settings must be positive")
+    replay_fraction = settings.get("replay_fraction", 0.)
+    if not 0 <= replay_fraction < 1 or (replay_fraction and settings.get("replay_rows_per_source", 0) < 1):
+        raise ValueError("Replay needs a fraction in [0, 1) and positive rows per source")
     run_dir = Path(run_dir).resolve()
     run_dir.mkdir(parents=True, exist_ok=True)
     datasets = dataset_configs(config)
@@ -114,13 +147,27 @@ def train_curriculum(cfg, run_dir):
                 old["evaluation"] != config["evaluation"] or
                 old["data"] != config["data"]):
             raise ValueError("Resume would change curriculum order, data or evaluation settings")
+        for key in ("replay_fraction", "replay_rows_per_source", "auxiliary_cross_entropy_weight"):
+            if key in old["training"] and old["training"][key] != settings[key]:
+                raise ValueError(f"Resume would change training.{key}")
         progress = resume_checkpoint(config["resume"], model, optimizer, config, datasets, device)
     if not 0 <= progress["stage_index"] <= len(order):
         raise ValueError("Checkpoint stage index is outside the curriculum")
-    logger = Logger(config["logging"], run_dir, config)
-    model.train()
     started = time.monotonic()
     previous_elapsed = progress.get("training_elapsed_seconds", 0.0)
+    replay_buffers = {}
+    if replay_fraction:
+        _write_json(run_dir / "status.json", {"phase": "preparing_replay", "stage_index": progress["stage_index"],
+            "completed_stages": progress["stage_index"], "total_stages": len(order),
+            "step": progress["step"], "rows": progress["rows"]})
+        rng_state = random.getstate()
+        try:
+            for name in order[:progress["stage_index"]]:
+                replay_buffers[name] = replay_buffer(by_name[name], run_dir, settings, config["seed"])
+        finally:
+            random.setstate(rng_state)
+    logger = Logger(config["logging"], run_dir, config)
+    model.train()
     update_in_progress = False
     paused = False
 
@@ -144,7 +191,9 @@ def train_curriculum(cfg, run_dir):
                 stream = examples(dataset, "train", seed=config["seed"], epoch=0,
                                   shuffle_buffer=settings["shuffle_buffer"])
                 stream = itertools.islice(stream, progress["rows_in_stage"], None)
-                iterator = batches(stream, settings["batch_size"])
+                current_batch_size = (max(1, round(settings["batch_size"] * (1 - replay_fraction)))
+                                      if replay_buffers else settings["batch_size"])
+                iterator = batches(stream, current_batch_size)
                 while True:
                     if settings.get("max_seconds") and elapsed() >= settings["max_seconds"]:
                         paused = True
@@ -160,9 +209,13 @@ def train_curriculum(cfg, run_dir):
                         paused = True
                         status("disk_reserve_reached", dataset=name)
                         break
-                    microbatches = list(itertools.islice(iterator, settings["gradient_accumulation_steps"]))
-                    if not microbatches:
+                    current_microbatches = list(itertools.islice(iterator, settings["gradient_accumulation_steps"]))
+                    if not current_microbatches:
                         break
+                    row_count = sum(len(rows) for rows in current_microbatches)
+                    combined = [with_replay(rows, replay_buffers, replay_fraction) for rows in current_microbatches]
+                    microbatches = [rows for rows, _ in combined]
+                    replay_count = sum(count for _, count in combined)
                     if settings.get("synchronize_timing"):
                         torch.cuda.synchronize(device)
                     torch.cuda.reset_peak_memory_stats(device)
@@ -174,10 +227,10 @@ def train_curriculum(cfg, run_dir):
                     loss = backward_microbatches(model, tokenizer, microbatches, device, config, scaler)
                     norm, updated = optimizer_step(optimizer, parameters, settings["clip_grad"], scaler)
                     optimizer.zero_grad(set_to_none=True)
-                    row_count = sum(len(rows) for rows in microbatches)
                     progress["step"] += 1
                     progress["rows"] += row_count
                     progress["rows_in_stage"] += row_count
+                    progress["replay_rows"] = progress.get("replay_rows", 0) + replay_count
                     progress.setdefault("dataset_rows", {})[name] = progress["rows_in_stage"]
                     progress["training_elapsed_seconds"] = elapsed()
                     update_in_progress = False
@@ -185,6 +238,7 @@ def train_curriculum(cfg, run_dir):
                         torch.cuda.synchronize(device)
                     metrics = {"step": progress["step"], "stage_index": index + 1,
                                "rows": progress["rows"], "stage_rows": progress["rows_in_stage"],
+                               "train/source_rows": row_count, "train/replay_rows": replay_count,
                                "train/loss": loss, "train/gradient_norm": norm,
                                "train/seconds": time.perf_counter() - update_started,
                                "train/optimizer_updated": int(updated),
@@ -201,6 +255,8 @@ def train_curriculum(cfg, run_dir):
                     break
                 status("evaluating", dataset=name)
                 result = validate(model, tokenizer, datasets, device, config, progress, run_dir, optimizer, logger)
+                if replay_fraction:
+                    replay_buffers[name] = replay_buffer(dataset, run_dir, settings, config["seed"])
                 progress["stage_index"] = index + 1
                 progress["rows_in_stage"] = 0
                 progress["training_elapsed_seconds"] = elapsed()
@@ -210,6 +266,7 @@ def train_curriculum(cfg, run_dir):
                 _write_json(run_dir / "stages" / f"{index + 1:02d}-{name}.json", {
                     "stage": index + 1, "dataset": name, "published_train_rows": SOURCE_TRAIN_ROWS[name],
                     "trained_rows": progress["dataset_rows"][name], "step": progress["step"],
+                    "replay_rows_total": progress.get("replay_rows", 0),
                     "macro_validation_accuracy": result["macro_accuracy"],
                     "validation": result["report"], "checkpoint": str(stage_path)})
                 status("stage_completed", dataset=name, stage_checkpoint=str(stage_path))

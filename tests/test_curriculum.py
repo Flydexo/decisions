@@ -4,8 +4,12 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
-from decisions.curriculum import ordered_sources
+import torch
+
+from decisions.curriculum import ordered_sources, replay_buffer, with_replay
+from decisions.losses import training_loss
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,6 +43,34 @@ class CurriculumTests(unittest.TestCase):
             ordered_sources(["boolq", "boolq"])
         with self.assertRaisesRegex(ValueError, "Missing published"):
             ordered_sources(["unknown"])
+
+    def test_replay_uses_only_prior_training_rows_and_caches_them(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            dataset = {"name": "earlier", "source": {"path": "test"}}
+            settings = {"replay_rows_per_source": 2, "shuffle_buffer": 0}
+            saved = [{"_dataset": "earlier", "state": "a"},
+                     {"_dataset": "earlier", "state": "b"}]
+            with patch("decisions.curriculum.sampled_examples", return_value=iter(saved)) as sample:
+                self.assertEqual(replay_buffer(dataset, temporary, settings, 42), saved)
+                self.assertEqual(replay_buffer(dataset, temporary, settings, 42), saved)
+                sample.assert_called_once()
+            current = [{"_dataset": "current", "state": str(i)} for i in range(6)]
+            combined, count = with_replay(current, {"earlier": saved}, .25)
+            self.assertEqual(combined[:6], current)
+            self.assertEqual(count, 2)
+            self.assertTrue(all(row["_dataset"] == "earlier" for row in combined[6:]))
+
+    def test_supervised_anchor_has_gradient_when_sampled_rewards_saturate(self):
+        logits = torch.tensor([[100., -100.]], requires_grad=True)
+        target = torch.tensor([[0., 1.]])
+        inputs = {"marker_mask": torch.tensor([[True, True]]), "qtype": torch.tensor([0])}
+        settings = {"sigma": 1., "candidates": 32, "auxiliary_cross_entropy_weight": .1}
+        ablation = {"objective": "sampled_reward", "reward_weights": {"log": 1., "spherical": .5, "rps": 1.}}
+        torch.manual_seed(1)
+        loss = training_loss(logits, target, inputs, [(0, 1, 2)], settings, ablation)
+        loss.backward()
+        self.assertGreater(loss.item(), 10)
+        self.assertGreater(logits.grad.abs().sum().item(), .1)
 
 
 if __name__ == "__main__":

@@ -14,6 +14,17 @@ validation report), and `last.pt` (model, optimizer, and exact resume state).
 The latest cross-source results are also in `validation_history.jsonl` and
 Trackio project `decisions-rtx4090-curriculum` on the configured server.
 
+After the first 12 stages showed strong forgetting (macro accuracy fell from
+0.578 after Phishing Email to 0.323 after IMDb), the continuation enables
+bounded rehearsal: six rows from the current source and two sampled from
+earlier training sources per normal eight-row update. Each earlier source has
+a cached training-only sample of at most 128 rows under `replay/`. Only current
+source rows count toward completing its full split. A 0.1-weight supervised
+cross-entropy term keeps a learning signal when sampled-reward advantages
+collapse to zero. Checkpoint provenance records these settings. The original
+stages 1–12 were trained without rehearsal; the new method begins when their
+optimizer checkpoint is resumed during stage 13.
+
 On the 4090 instance, with `TRACKIO_WRITE_TOKEN` set in the environment:
 
 ```sh

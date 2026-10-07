@@ -23,6 +23,9 @@ training:
   log_every: 8
   early_stopping_patience: 0
   best_checkpoint_optimizer: false
+  replay_fraction: 0.25
+  replay_rows_per_source: 128
+  auxiliary_cross_entropy_weight: 0.1
 evaluation:
   max_rows: 32
   every_steps: 0
