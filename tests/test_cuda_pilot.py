@@ -86,6 +86,13 @@ class CudaPilotTests(unittest.TestCase):
                 with self.subTest(invalid=invalid), self.assertRaises(ValueError):
                     configure_cuda_budget(invalid, device)
 
+    def test_cuda_cap_resolves_unindexed_device(self):
+        with patch('torch.cuda.current_device', return_value=0), \
+             patch('torch.cuda.get_device_properties', return_value=SimpleNamespace(total_memory=24 * 2**30)), \
+             patch('torch.cuda.set_per_process_memory_fraction') as setter:
+            configure_cuda_budget(21, torch.device('cuda'))
+            setter.assert_called_once_with(21 / 24, torch.device('cuda:0'))
+
     def test_cuda_metrics_record_internal_peak_not_only_post_update_memory(self):
         with patch('torch.cuda.memory_allocated', return_value=2 * 2**30), \
              patch('torch.cuda.memory_reserved', return_value=3 * 2**30), \

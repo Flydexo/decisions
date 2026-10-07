@@ -9,6 +9,8 @@ import torch
 
 
 def configure_cuda_budget(budget_gib, device):
+    if isinstance(device, torch.device) and device.type == "cuda" and device.index is None:
+        device = torch.device("cuda", torch.cuda.current_device())
     total = torch.cuda.get_device_properties(device).total_memory
     if isinstance(budget_gib, bool) or not isinstance(budget_gib, Real) or not 0 < budget_gib * 2**30 <= total:
         raise ValueError("CUDA memory budget must be positive and fit the selected GPU")
