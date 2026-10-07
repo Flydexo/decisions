@@ -182,8 +182,8 @@ def summarize(directory, config, datasets, environment):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-dir", type=Path, default=ROOT / "outputs/rtx4090_pilot/prenorm_bf16_b4")
-    parser.add_argument("--batch-size", type=int, choices=[1, 2, 4, 8, 16], default=4)
-    parser.add_argument("--question-microbatch-size", type=int, choices=[1, 2, 4, 8, 16, 20], default=4)
+    parser.add_argument("--batch-size", type=int, choices=[1, 2, 4, 8, 16, 32], default=4)
+    parser.add_argument("--question-microbatch-size", type=int, choices=[1, 2, 4, 8, 16, 20, 32], default=4)
     parser.add_argument("--plan", action="store_true", help="Resolve config without GPU, data or model access")
     parser.add_argument("--check-env", action="store_true", help="Check CUDA/hardware/disk without downloading model/data")
     parser.add_argument("--preflight-only", action="store_true", help="Synthetic GPU training and checkpoint recovery only")
