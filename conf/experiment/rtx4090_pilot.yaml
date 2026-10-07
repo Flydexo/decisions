@@ -48,3 +48,4 @@ diagnostics:
   batch_size: 1
 logging:
   project: decisions-rtx4090-pilot
+  server_url: https://trackio.flydexo.com/
