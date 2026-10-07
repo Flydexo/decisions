@@ -31,7 +31,9 @@ def memory(device):
                 "memory/driver_gib": torch.mps.driver_allocated_memory() / 2**30}
     if device.type == "cuda":
         return {"memory/live_gib": torch.cuda.memory_allocated() / 2**30,
-                "memory/driver_gib": torch.cuda.memory_reserved() / 2**30}
+                "memory/driver_gib": torch.cuda.memory_reserved() / 2**30,
+                "memory/peak_allocated_gib": torch.cuda.max_memory_allocated() / 2**30,
+                "memory/peak_reserved_gib": torch.cuda.max_memory_reserved() / 2**30}
     return {}
 
 
@@ -131,6 +133,9 @@ def train(cfg, run_dir):
     if device.type == "mps" and settings.get("mps_memory_budget_gib"):
         fraction = settings["mps_memory_budget_gib"] * 2**30 / torch.mps.recommended_max_memory()
         torch.mps.set_per_process_memory_fraction(fraction)
+    if device.type == "cuda" and settings.get("cuda_memory_budget_gib"):
+        from .cuda_pilot import configure_cuda_budget
+        configure_cuda_budget(settings["cuda_memory_budget_gib"], device)
     model, tokenizer = load_model(config["model"], config["ablation"], device)
     parameters = [p for p in model.parameters() if p.requires_grad]
     optimizer = build_optimizer(model, settings)
@@ -183,6 +188,11 @@ def train(cfg, run_dir):
                         stop_training = True
                         break
                     started = time.perf_counter()
+                    if device.type == "cuda":
+                        if settings.get("synchronize_timing"):
+                            torch.cuda.synchronize(device)
+                            started = time.perf_counter()
+                        torch.cuda.reset_peak_memory_stats(device)
                     microbatches = list(itertools.islice(iterator, accumulation))
                     if not microbatches:
                         progress["epoch"], progress["rows_in_epoch"] = epoch + 1, 0
@@ -211,6 +221,8 @@ def train(cfg, run_dir):
                     step = progress["step"]
                     if step % settings["cache_clear_every"] == 0:
                         clear_cache(device)
+                    if device.type == "cuda" and settings.get("synchronize_timing"):
+                        torch.cuda.synchronize(device)
                     metrics = {"step": step, "rows": progress["rows"], "train/loss": loss_value,
                                "train/gradient_norm": norm_value, "train/seconds": time.perf_counter() - started,
                                "train/learning_rate": optimizer.param_groups[0]["lr"],

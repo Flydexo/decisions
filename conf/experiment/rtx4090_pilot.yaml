@@ -1,0 +1,50 @@
+# @package _global_
+defaults:
+  - finetune_large
+
+# One bounded pilot over every requested source except MS MARCO and CommitPackFT.
+mixture: [banking77, boolq, ag_news, mnli, sst5, yelp_review_full, trec, dbpedia14, amazon_reviews_multi_en, imdb, arc_challenge, openbookqa, commonsenseqa, codereviewer, aegis, consumer_finance, flakeflagger, enron_spam, phishing_email, customer_support, typed_decisions_all]
+device: cuda
+cpu_threads: 8
+model:
+  max_len: 1024
+  head_max_len: 384
+  option_max_len: 64
+  mixed_precision: bf16
+  norm_first: true
+  independent_init: true
+data:
+  train_pool_rows: 128
+  prepare_train_cache: true
+  train_cache_dir: null
+training:
+  batch_size: 4
+  gradient_accumulation_steps: 1
+  question_microbatch_size: 4
+  clear_cache_between_microbatches: false
+  cache_clear_every: 1000000
+  cuda_memory_budget_gib: 21
+  synchronize_timing: true
+  epochs: 1
+  max_steps: 672
+  max_seconds: 1200
+  candidates: 32
+  learning_rate: 0.0001
+  encoder_learning_rate: 0.00001
+  warmup_steps: 16
+  decay_steps: 672
+  early_stopping_patience: 0
+  checkpoint_every: 64
+  log_every: 8
+  min_free_disk_gib: 10
+evaluation:
+  batch_size: 1
+  question_microbatch_size: 4
+  max_rows: 32
+  every_steps: 168
+diagnostics:
+  every_steps: 168
+  rows_per_dataset: 1
+  batch_size: 1
+logging:
+  project: decisions-rtx4090-pilot

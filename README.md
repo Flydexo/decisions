@@ -363,6 +363,26 @@ estimator loss. The aggregate report is `reports/collapse_rlcd_pilot_summary.jso
 the offline recap includes both trajectories when the pilots finish. No final
 evaluation or Decision Index samples are used in these pilots.
 
+### RTX 4090 24 GB pilot
+
+[Instance setup, recovery and live Trackio instructions](docs/rtx4090_pilot.md)
+cover the CUDA pilot. It trains the complete ModernBERT-large encoder with the
+pre-norm transformer, BF16, 1,024 tokens and full RLCD. MS MARCO and CommitPackFT
+are excluded; streaming pools are capped at 128 training rows per source.
+
+```bash
+# On a Linux RTX 4090 instance with NVIDIA driver >=580 and uv installed:
+bash scripts/setup_rtx4090.sh
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python scripts/run_rtx4090_pilot.py
+# Config inspection also works on the Mac; no training or downloads:
+.venv/bin/python scripts/run_rtx4090_pilot.py --plan
+```
+
+The runner checks synthetic 1,024-token multi-question training and checkpoint
+recovery before the pilot. It logs to `decisions-rtx4090-pilot`, records peak CUDA
+memory and preserves an effective four-row batch when using smaller microbatches.
+Local tests pass without CUDA; actual 4090 fit and speed are checked on launch.
+
 ### Full-encoder 1,024-token smoke
 
 ```sh

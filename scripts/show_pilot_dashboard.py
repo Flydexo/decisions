@@ -1,4 +1,4 @@
-"""Open the saved RLCD pilot dashboard using its explicit local database."""
+"""Open a saved pilot's local Trackio database (loopback only)."""
 from __future__ import annotations
 
 import argparse
@@ -11,11 +11,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-dir", type=Path, default=root / "outputs/collapse_rlcd_pilot")
     parser.add_argument("--port", type=int, default=7862)
+    parser.add_argument("--project", default="decisions-collapse-rlcd")
     parser.add_argument("--no-browser", action="store_true")
     parser.add_argument("--check", action="store_true", help="Verify saved runs without starting a server")
     args = parser.parse_args()
     directory = args.run_dir.resolve() / "trackio"
-    project = "decisions-collapse-rlcd"
+    project = args.project
     if not (directory / f"{project}.db").is_file():
         parser.error(f"Pilot database not found in {directory}")
 
