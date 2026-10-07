@@ -1,0 +1,4 @@
+# @package _global_
+defaults:
+  - collapse_pilot
+  - override /ablation: no_transformer

@@ -1,0 +1,1931 @@
+{
+  "protocol": "Matched small pilots; fresh frozen ModernBERT-large, identical training pools and validation partitions. No final evaluation or benchmark tuning.",
+  "seed": 42,
+  "training_pool_counts": {
+    "ag_news": 64,
+    "boolq": 64,
+    "sst5": 64,
+    "arc_challenge": 64
+  },
+  "training_gold_counts": {
+    "ag_news": {
+      "Sci/Tech": 28,
+      "Business": 11,
+      "Sports": 8,
+      "World": 17
+    },
+    "boolq": {
+      "false": 22,
+      "true": 42
+    },
+    "sst5": {
+      "3": 18,
+      "2": 12,
+      "0": 13,
+      "1": 14,
+      "4": 7
+    },
+    "arc_challenge": {
+      "B": 20,
+      "A": 13,
+      "C": 12,
+      "D": 15,
+      "1": 2,
+      "2": 1,
+      "4": 1
+    }
+  },
+  "training_pool_sha256": {
+    "ag_news": "05b403169dbf7410052f4d60fe44aa8181c6f7050dbc555a9f44b41b415200ef",
+    "boolq": "1c937af050ba0a5fb4e808477ae9eb0eb7b556ad9781269a4327bc1b34d26ba0",
+    "sst5": "1217ed5b5abe65a5c8005be01405c0366e267262292e4142122ac214b8205663",
+    "arc_challenge": "b667dda7e5c6bfc1740b56b3c955714945350f132275ae6c54927e8b0996f379"
+  },
+  "collapse_rule": "Head/encoder marker RMS ratio below 0.01 AND mean head option-marker cosine above 0.999, on the fixed eight-row training probe. This is a diagnostic threshold, not a general guarantee.",
+  "limitations": [
+    "Two joint architecture variants, not isolated pre-norm versus initialization ablations.",
+    "One seed, only 64 unique training rows and 32 validation rows per dataset.",
+    "Training-mode RLCD gradient-estimator loss is not CE or a direct learning-quality measure; probe rewards and validation scores are logged separately.",
+    "Preventing feature collapse does not establish benchmark performance."
+  ],
+  "trackio": {
+    "project": "decisions-collapse-rlcd",
+    "directory": "/Users/matheoledevehat/Code/decisions/outputs/collapse_rlcd_pilot/trackio",
+    "runs": [
+      "prenorm_rlcd",
+      "no_transformer_rlcd"
+    ]
+  },
+  "runs": {
+    "prenorm_rlcd": {
+      "config": {
+        "model": {
+          "encoder": "answerdotai/ModernBERT-large",
+          "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+          "nhead": 16,
+          "num_layers": 2,
+          "dim_feedforward": 4096,
+          "dropout": 0.1,
+          "max_len": 1024,
+          "head_max_len": 384,
+          "option_max_len": 64,
+          "preserve_options": true,
+          "balanced_state": true,
+          "norm_first": true,
+          "independent_init": true
+        },
+        "dataset": {
+          "name": "ag_news",
+          "source": {
+            "path": "fancyzhx/ag_news",
+            "name": "default",
+            "revision": "eb185aade064a813bc0b7f42de02595523103ca4"
+          },
+          "splits": {
+            "train": "train",
+            "eval": "test"
+          },
+          "schema": {
+            "state": {
+              "field": "text"
+            },
+            "questions": {
+              "label": {
+                "type": "choice",
+                "instructions": "Classify the topic of this news article.",
+                "target": {
+                  "field": "label",
+                  "mode": "index"
+                },
+                "labels_from_feature": "label"
+              }
+            }
+          }
+        },
+        "ablation": {
+          "objective": "sampled_reward",
+          "no_question_type": false,
+          "no_transformer": false,
+          "linear_scorer": false,
+          "reward_weights": {
+            "log": 1.0,
+            "spherical": 0.5,
+            "rps": 1.0
+          },
+          "name": "baseline"
+        },
+        "seed": 42,
+        "device": "mps",
+        "cpu_threads": 4,
+        "resume": null,
+        "mixture": [
+          "ag_news",
+          "boolq",
+          "sst5",
+          "arc_challenge"
+        ],
+        "training": {
+          "batch_size": 4,
+          "epochs": 4,
+          "max_steps": 256,
+          "shuffle_buffer": 2048,
+          "learning_rate": 0.0001,
+          "weight_decay": 0.01,
+          "sigma": 1.0,
+          "candidates": 32,
+          "clip_grad": 1.0,
+          "log_every": 8,
+          "checkpoint_every": 64,
+          "cache_clear_every": 10,
+          "mps_memory_budget_gib": 9,
+          "max_seconds": 1200,
+          "validation_role": "validation",
+          "best_checkpoint_optimizer": false
+        },
+        "evaluation": {
+          "batch_size": 2,
+          "max_rows": 32,
+          "shuffle_buffer": 2048,
+          "every_steps": 64,
+          "strict": false
+        },
+        "logging": {
+          "enabled": true,
+          "project": "decisions-collapse-rlcd",
+          "space_id": null,
+          "server_url": null
+        },
+        "data": {
+          "separate_validation": true,
+          "validation_fraction": 0.1,
+          "train_pool_rows": 64,
+          "train_cache_dir": "/Users/matheoledevehat/Code/decisions/outputs/collapse_rlcd_pilot/training_samples"
+        },
+        "diagnostics": {
+          "every_steps": 32,
+          "rows_per_dataset": 2,
+          "batch_size": 2
+        },
+        "dataset_configs": [
+          {
+            "name": "ag_news",
+            "source": {
+              "path": "fancyzhx/ag_news",
+              "name": "default",
+              "revision": "eb185aade064a813bc0b7f42de02595523103ca4"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "choice",
+                  "instructions": "Classify the topic of this news article.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "labels_from_feature": "label"
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "boolq",
+            "source": {
+              "path": "google/boolq",
+              "name": "default",
+              "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "validation",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "passage"
+              },
+              "questions": {
+                "answer": {
+                  "type": "noul",
+                  "instructions": "{question}",
+                  "target": {
+                    "field": "answer",
+                    "mode": "boolean"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "sst5",
+            "source": {
+              "path": "SetFit/sst5",
+              "name": "default",
+              "revision": "e51bdcd8cd3a30da231967c1a249ba59361279a3"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "score",
+                  "instructions": "Rate the sentiment of this text.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "criteria": [
+                    "very negative",
+                    "negative",
+                    "neutral",
+                    "positive",
+                    "very positive"
+                  ]
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "arc_challenge",
+            "source": {
+              "path": "allenai/ai2_arc",
+              "name": "ARC-Challenge",
+              "revision": "210d026faf9955653af8916fad021475a3f00453"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "literal": ""
+              },
+              "questions": {
+                "answer": {
+                  "type": "choice",
+                  "instructions": "{question}",
+                  "target": {
+                    "field": "answerKey",
+                    "mode": "label"
+                  },
+                  "options": {
+                    "texts": "choices.text",
+                    "keys": "choices.label"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          }
+        ]
+      },
+      "progress": {
+        "step": 256,
+        "epoch": 3,
+        "rows_in_epoch": 256,
+        "rows": 1024,
+        "best_accuracy": 0.390625,
+        "training_elapsed_seconds": 290.56035445901216,
+        "dataset_rows": {
+          "ag_news": 256,
+          "boolq": 256,
+          "sst5": 256,
+          "arc_challenge": 256
+        },
+        "validation_without_improvement": 1,
+        "best_step": 256
+      },
+      "trainable_parameters": 26248193,
+      "diagnostics": [
+        {
+          "step": 0,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.305857153609395,
+          "features/question_type/marker_cosine": 0.9433802589774132,
+          "features/question_type/marker_norm": 49.58828687667847,
+          "features/layer_1/marker_rms": 0.3088910337537527,
+          "features/layer_1/marker_cosine": 0.9462396875023842,
+          "features/layer_1/marker_norm": 51.38667297363281,
+          "features/layer_2/marker_rms": 0.31065950356423855,
+          "features/layer_2/marker_cosine": 0.9493638277053833,
+          "features/layer_2/marker_norm": 53.196584701538086,
+          "features/head/marker_rms": 0.31065950356423855,
+          "features/head/marker_cosine": 0.9493638277053833,
+          "features/head/marker_norm": 53.196584701538086,
+          "probe/logit_range": 0.06345146521925926,
+          "probe/questions": 8,
+          "probe/accuracy": 0.125,
+          "probe/nll": 1.2835557907819748,
+          "probe/brier": 0.7080508172512054,
+          "probe/entropy_confidence": 0.00025437772274017334,
+          "probe/probability_ece": 0.184025339782238,
+          "probe/entropy_accuracy_gap": 0.12474562227725983,
+          "features/dispersion_retention": 1.0157012775613725,
+          "probe/reward_log": -1.2835557758808136,
+          "probe/reward_spherical": 0.5310341976583004,
+          "probe/reward_rps": 0.025890503078699112,
+          "probe/rlcd_reward": -1.0439291801303625
+        },
+        {
+          "step": 32,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433819502592087,
+          "features/question_type/marker_norm": 49.589133739471436,
+          "features/layer_1/marker_rms": 0.303911030292511,
+          "features/layer_1/marker_cosine": 0.9622422531247139,
+          "features/layer_1/marker_norm": 60.61298131942749,
+          "features/layer_2/marker_rms": 0.30277850665152073,
+          "features/layer_2/marker_cosine": 0.9766168147325516,
+          "features/layer_2/marker_norm": 77.13220882415771,
+          "features/head/marker_rms": 0.30277850665152073,
+          "features/head/marker_cosine": 0.9766168147325516,
+          "features/head/marker_norm": 77.13220882415771,
+          "probe/logit_range": 0.1968006044626236,
+          "probe/questions": 8,
+          "probe/accuracy": 0.25,
+          "probe/nll": 1.3047270327806473,
+          "probe/brier": 0.717505544424057,
+          "probe/entropy_confidence": 0.0027510225772857666,
+          "probe/probability_ece": 0.07238379307091236,
+          "probe/entropy_accuracy_gap": 0.24724897742271423,
+          "features/dispersion_retention": 0.9899343573774887,
+          "probe/reward_log": -1.3047270327806473,
+          "probe/reward_spherical": 0.5217327773571014,
+          "probe/reward_rps": 0.023729274980723858,
+          "probe/rlcd_reward": -1.0675899190828204
+        },
+        {
+          "step": 64,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433792382478714,
+          "features/question_type/marker_norm": 49.58795738220215,
+          "features/layer_1/marker_rms": 0.3061358146369457,
+          "features/layer_1/marker_cosine": 0.9616457745432854,
+          "features/layer_1/marker_norm": 60.608495235443115,
+          "features/layer_2/marker_rms": 0.30722948908805847,
+          "features/layer_2/marker_cosine": 0.9762149155139923,
+          "features/layer_2/marker_norm": 77.22333431243896,
+          "features/head/marker_rms": 0.30722948908805847,
+          "features/head/marker_cosine": 0.9762149155139923,
+          "features/head/marker_norm": 77.22333431243896,
+          "probe/logit_range": 0.5388776287436485,
+          "probe/questions": 8,
+          "probe/accuracy": 0.5,
+          "probe/nll": 1.2396389096975327,
+          "probe/brier": 0.6926212459802628,
+          "probe/entropy_confidence": 0.04293897747993469,
+          "probe/probability_ece": 0.2059397790580988,
+          "probe/entropy_accuracy_gap": 0.4570610225200653,
+          "features/dispersion_retention": 1.0044868448930035,
+          "probe/reward_log": -1.2396389208734035,
+          "probe/reward_spherical": 0.5541802830994129,
+          "probe/reward_rps": 0.024229698814451694,
+          "probe/rlcd_reward": -0.9867784781381488
+        },
+        {
+          "step": 96,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.943370595574379,
+          "features/question_type/marker_norm": 49.583908557891846,
+          "features/layer_1/marker_rms": 0.32326773554086685,
+          "features/layer_1/marker_cosine": 0.9496871456503868,
+          "features/layer_1/marker_norm": 57.72765064239502,
+          "features/layer_2/marker_rms": 0.3563618026673794,
+          "features/layer_2/marker_cosine": 0.9485023990273476,
+          "features/layer_2/marker_norm": 73.81188297271729,
+          "features/head/marker_rms": 0.3563618026673794,
+          "features/head/marker_cosine": 0.9485023990273476,
+          "features/head/marker_norm": 73.81188297271729,
+          "probe/logit_range": 2.028218448162079,
+          "probe/questions": 8,
+          "probe/accuracy": 0.5,
+          "probe/nll": 1.6782090812921524,
+          "probe/brier": 0.7538902312517166,
+          "probe/entropy_confidence": 0.2639061510562897,
+          "probe/probability_ece": 0.3766719587147236,
+          "probe/entropy_accuracy_gap": 0.4708258733153343,
+          "features/dispersion_retention": 1.16512494898932,
+          "probe/reward_log": -1.6782090527703986,
+          "probe/reward_spherical": 0.5552798454009462,
+          "probe/reward_rps": 0.019802195951342583,
+          "probe/rlcd_reward": -1.420371326021268
+        },
+        {
+          "step": 128,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433652758598328,
+          "features/question_type/marker_norm": 49.581385135650635,
+          "features/layer_1/marker_rms": 0.33592262119054794,
+          "features/layer_1/marker_cosine": 0.9555235579609871,
+          "features/layer_1/marker_norm": 61.68138074874878,
+          "features/layer_2/marker_rms": 0.3527589291334152,
+          "features/layer_2/marker_cosine": 0.9793960452079773,
+          "features/layer_2/marker_norm": 89.8034725189209,
+          "features/head/marker_rms": 0.3527589291334152,
+          "features/head/marker_cosine": 0.9793960452079773,
+          "features/head/marker_norm": 89.8034725189209,
+          "probe/logit_range": 0.45954543352127075,
+          "probe/questions": 8,
+          "probe/accuracy": 0.5,
+          "probe/nll": 1.1988851130008698,
+          "probe/brier": 0.6660000681877136,
+          "probe/entropy_confidence": 0.02424255758523941,
+          "probe/probability_ece": 0.3016360383480787,
+          "probe/entropy_accuracy_gap": 0.4757574424147606,
+          "features/dispersion_retention": 1.153345353614467,
+          "probe/reward_log": -1.1988851353526115,
+          "probe/reward_spherical": 0.5736597217619419,
+          "probe/reward_rps": 0.02302652131766081,
+          "probe/rlcd_reward": -0.9350817957893014
+        },
+        {
+          "step": 160,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.305857153609395,
+          "features/question_type/marker_cosine": 0.9433623403310776,
+          "features/question_type/marker_norm": 49.58016347885132,
+          "features/layer_1/marker_rms": 0.3395373784005642,
+          "features/layer_1/marker_cosine": 0.9601905643939972,
+          "features/layer_1/marker_norm": 64.74075317382812,
+          "features/layer_2/marker_rms": 0.3608095608651638,
+          "features/layer_2/marker_cosine": 0.9797767102718353,
+          "features/layer_2/marker_norm": 94.96442794799805,
+          "features/head/marker_rms": 0.3608095608651638,
+          "features/head/marker_cosine": 0.9797767102718353,
+          "features/head/marker_norm": 94.96442794799805,
+          "probe/logit_range": 0.9212015196681023,
+          "probe/questions": 8,
+          "probe/accuracy": 0.5,
+          "probe/nll": 1.2423311471939087,
+          "probe/brier": 0.7009990364313126,
+          "probe/entropy_confidence": 0.10036025196313858,
+          "probe/probability_ece": 0.2368175256997347,
+          "probe/entropy_accuracy_gap": 0.3996397480368614,
+          "features/dispersion_retention": 1.1796668948559128,
+          "probe/reward_log": -1.2423311471939087,
+          "probe/reward_spherical": 0.5575044453144073,
+          "probe/reward_rps": 0.019993433728814125,
+          "probe/rlcd_reward": -0.9835723582655191
+        },
+        {
+          "step": 192,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571573346853,
+          "features/question_type/marker_cosine": 0.9433586448431015,
+          "features/question_type/marker_norm": 49.57834815979004,
+          "features/layer_1/marker_rms": 0.3691846579313278,
+          "features/layer_1/marker_cosine": 0.920155942440033,
+          "features/layer_1/marker_norm": 62.739850997924805,
+          "features/layer_2/marker_rms": 0.463634230196476,
+          "features/layer_2/marker_cosine": 0.8967248499393463,
+          "features/layer_2/marker_norm": 88.83135509490967,
+          "features/head/marker_rms": 0.463634230196476,
+          "features/head/marker_cosine": 0.8967248499393463,
+          "features/head/marker_norm": 88.83135509490967,
+          "probe/logit_range": 2.9397473633289337,
+          "probe/questions": 8,
+          "probe/accuracy": 0.625,
+          "probe/nll": 1.9530022740364075,
+          "probe/brier": 0.7285664454102516,
+          "probe/entropy_confidence": 0.3029840290546417,
+          "probe/probability_ece": 0.34460740722715855,
+          "probe/entropy_accuracy_gap": 0.570837527513504,
+          "features/dispersion_retention": 1.5158521613821094,
+          "probe/reward_log": -1.9530023263832845,
+          "probe/reward_spherical": 0.5743716835822852,
+          "probe/reward_rps": 0.02438756264746189,
+          "probe/rlcd_reward": -1.6902040472396038
+        },
+        {
+          "step": 224,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433552697300911,
+          "features/question_type/marker_norm": 49.5765643119812,
+          "features/layer_1/marker_rms": 0.38896748051047325,
+          "features/layer_1/marker_cosine": 0.9289944842457771,
+          "features/layer_1/marker_norm": 67.15249538421631,
+          "features/layer_2/marker_rms": 0.48752611130476,
+          "features/layer_2/marker_cosine": 0.920764334499836,
+          "features/layer_2/marker_norm": 98.15038394927979,
+          "features/head/marker_rms": 0.48752611130476,
+          "features/head/marker_cosine": 0.920764334499836,
+          "features/head/marker_norm": 98.15038394927979,
+          "probe/logit_range": 3.179388463497162,
+          "probe/questions": 8,
+          "probe/accuracy": 0.625,
+          "probe/nll": 2.1406859755516052,
+          "probe/brier": 0.7631216496229172,
+          "probe/entropy_confidence": 0.2584736719727516,
+          "probe/probability_ece": 0.41030486300587654,
+          "probe/entropy_accuracy_gap": 0.6161708757281303,
+          "features/dispersion_retention": 1.593966669023465,
+          "probe/reward_log": -2.1406859606504867,
+          "probe/reward_spherical": 0.5468378011146342,
+          "probe/reward_rps": 0.022846943698823452,
+          "probe/rlcd_reward": -1.890114003791993
+        },
+        {
+          "step": 256,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433519914746284,
+          "features/question_type/marker_norm": 49.575308322906494,
+          "features/layer_1/marker_rms": 0.3699640557169914,
+          "features/layer_1/marker_cosine": 0.9424319267272949,
+          "features/layer_1/marker_norm": 66.34495735168457,
+          "features/layer_2/marker_rms": 0.43836836516857147,
+          "features/layer_2/marker_cosine": 0.943921759724617,
+          "features/layer_2/marker_norm": 93.3948335647583,
+          "features/head/marker_rms": 0.43836836516857147,
+          "features/head/marker_cosine": 0.943921759724617,
+          "features/head/marker_norm": 93.3948335647583,
+          "probe/logit_range": 3.4112571477890015,
+          "probe/questions": 8,
+          "probe/accuracy": 0.5,
+          "probe/nll": 2.0825868993997574,
+          "probe/brier": 0.7716224938631058,
+          "probe/entropy_confidence": 0.345006100833416,
+          "probe/probability_ece": 0.4641447849571705,
+          "probe/entropy_accuracy_gap": 0.47565271705389023,
+          "features/dispersion_retention": 1.43324541317996,
+          "probe/reward_log": -2.082587055880822,
+          "probe/reward_spherical": 0.5449937838548067,
+          "probe/reward_rps": 0.023498536087572575,
+          "probe/rlcd_reward": -1.8335887000409912
+        }
+      ],
+      "validation_history": [
+        {
+          "step": 64,
+          "rows": 256,
+          "macro_accuracy": 0.3046875,
+          "improved": true,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.21875,
+              "nll": 1.4066482782363892,
+              "brier": 0.7616046518087387,
+              "entropy_confidence": 0.019435560330748558,
+              "probability_ece": 0.11917825322598219,
+              "entropy_accuracy_gap": 0.19931443966925144
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 0.7508279364556074,
+              "brier": 0.5429989821277559,
+              "entropy_confidence": 0.20986848883330822,
+              "probability_ece": 0.16774574853479862,
+              "entropy_accuracy_gap": 0.3838815111666918
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.15625,
+              "nll": 1.619207188487053,
+              "brier": 0.8038853071630001,
+              "entropy_confidence": 0.00036327727138996124,
+              "probability_ece": 0.05335487285628915,
+              "entropy_accuracy_gap": 0.15588672272861004
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.3732447028160095,
+              "brier": 0.7413398493081331,
+              "entropy_confidence": 0.020658396184444427,
+              "probability_ece": 0.11809879448264837,
+              "entropy_accuracy_gap": 0.22934160381555557
+            }
+          }
+        },
+        {
+          "step": 128,
+          "rows": 512,
+          "macro_accuracy": 0.296875,
+          "improved": false,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.21875,
+              "nll": 1.3817189782857895,
+              "brier": 0.7488440498709679,
+              "entropy_confidence": 0.019285865128040314,
+              "probability_ece": 0.11320208571851254,
+              "entropy_accuracy_gap": 0.1994641348719597
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 0.7276488337665796,
+              "brier": 0.5254306271672249,
+              "entropy_confidence": 0.14417926408350468,
+              "probability_ece": 0.1625143513083458,
+              "entropy_accuracy_gap": 0.4495707359164953
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.09375,
+              "nll": 1.6325011476874352,
+              "brier": 0.8090030886232853,
+              "entropy_confidence": 0.0012197606265544891,
+              "probability_ece": 0.12262691464275122,
+              "entropy_accuracy_gap": 0.09253023937344551
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.28125,
+              "nll": 1.3742361217737198,
+              "brier": 0.7422220446169376,
+              "entropy_confidence": 0.014454571530222893,
+              "probability_ece": 0.1211507748812437,
+              "entropy_accuracy_gap": 0.2667954284697771
+            }
+          }
+        },
+        {
+          "step": 192,
+          "rows": 768,
+          "macro_accuracy": 0.34375,
+          "improved": true,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.21875,
+              "nll": 1.4345995895564556,
+              "brier": 0.7816284410655499,
+              "entropy_confidence": 0.10876087471842766,
+              "probability_ece": 0.33621029928326607,
+              "entropy_accuracy_gap": 0.10998912528157234
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 3.718008225824633,
+              "brier": 0.8122514897735517,
+              "entropy_confidence": 0.9978063590824604,
+              "probability_ece": 0.406086215749383,
+              "entropy_accuracy_gap": 0.40405636467039585
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.6041971445083618,
+              "brier": 0.7979230806231499,
+              "entropy_confidence": 0.0002441536635160446,
+              "probability_ece": 0.04068287694826722,
+              "entropy_accuracy_gap": 0.24975584633648396
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.3125,
+              "nll": 1.4157553315162659,
+              "brier": 0.7644015811383724,
+              "entropy_confidence": 0.0880487821996212,
+              "probability_ece": 0.1238380465656519,
+              "entropy_accuracy_gap": 0.25426821410655975
+            }
+          }
+        },
+        {
+          "step": 256,
+          "rows": 1024,
+          "macro_accuracy": 0.390625,
+          "improved": true,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.46875,
+              "nll": 1.4484426230192184,
+              "brier": 0.7512687165290117,
+              "entropy_confidence": 0.18643902614712715,
+              "probability_ece": 0.14490666054189205,
+              "entropy_accuracy_gap": 0.28231097385287285
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 4.81946817426666,
+              "brier": 0.8124786471831249,
+              "entropy_confidence": 0.9997454881668091,
+              "probability_ece": 0.4062347039580345,
+              "entropy_accuracy_gap": 0.4059954807162285
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.1875,
+              "nll": 1.6202960312366486,
+              "brier": 0.8044009059667587,
+              "entropy_confidence": 0.0015714485198259354,
+              "probability_ece": 0.03548929514363408,
+              "entropy_accuracy_gap": 0.18592855148017406
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.3125,
+              "nll": 1.5033101383596659,
+              "brier": 0.8066343637183309,
+              "entropy_confidence": 0.16800100728869438,
+              "probability_ece": 0.18474115431308746,
+              "entropy_accuracy_gap": 0.19797098264098167
+            }
+          }
+        },
+        {
+          "step": 256,
+          "rows": 1024,
+          "macro_accuracy": 0.390625,
+          "improved": false,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.46875,
+              "nll": 1.4484426230192184,
+              "brier": 0.7512687165290117,
+              "entropy_confidence": 0.18643902614712715,
+              "probability_ece": 0.14490666054189205,
+              "entropy_accuracy_gap": 0.28231097385287285
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 4.81946817426666,
+              "brier": 0.8124786471831249,
+              "entropy_confidence": 0.9997454881668091,
+              "probability_ece": 0.4062347039580345,
+              "entropy_accuracy_gap": 0.4059954807162285
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.1875,
+              "nll": 1.6202960312366486,
+              "brier": 0.8044009059667587,
+              "entropy_confidence": 0.0015714485198259354,
+              "probability_ece": 0.03548929514363408,
+              "entropy_accuracy_gap": 0.18592855148017406
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.3125,
+              "nll": 1.5033101383596659,
+              "brier": 0.8066343637183309,
+              "entropy_confidence": 0.16800100728869438,
+              "probability_ece": 0.18474115431308746,
+              "entropy_accuracy_gap": 0.19797098264098167
+            }
+          }
+        }
+      ],
+      "selected_validation": {
+        "step": 256,
+        "rows": 1024,
+        "macro_accuracy": 0.390625,
+        "improved": true,
+        "datasets": {
+          "ag_news": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.46875,
+            "nll": 1.4484426230192184,
+            "brier": 0.7512687165290117,
+            "entropy_confidence": 0.18643902614712715,
+            "probability_ece": 0.14490666054189205,
+            "entropy_accuracy_gap": 0.28231097385287285
+          },
+          "boolq": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.59375,
+            "nll": 4.81946817426666,
+            "brier": 0.8124786471831249,
+            "entropy_confidence": 0.9997454881668091,
+            "probability_ece": 0.4062347039580345,
+            "entropy_accuracy_gap": 0.4059954807162285
+          },
+          "sst5": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.1875,
+            "nll": 1.6202960312366486,
+            "brier": 0.8044009059667587,
+            "entropy_confidence": 0.0015714485198259354,
+            "probability_ece": 0.03548929514363408,
+            "entropy_accuracy_gap": 0.18592855148017406
+          },
+          "arc_challenge": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.3125,
+            "nll": 1.5033101383596659,
+            "brier": 0.8066343637183309,
+            "entropy_confidence": 0.16800100728869438,
+            "probability_ece": 0.18474115431308746,
+            "entropy_accuracy_gap": 0.19797098264098167
+          }
+        }
+      },
+      "final_validation": {
+        "step": 256,
+        "rows": 1024,
+        "macro_accuracy": 0.390625,
+        "improved": false,
+        "datasets": {
+          "ag_news": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.46875,
+            "nll": 1.4484426230192184,
+            "brier": 0.7512687165290117,
+            "entropy_confidence": 0.18643902614712715,
+            "probability_ece": 0.14490666054189205,
+            "entropy_accuracy_gap": 0.28231097385287285
+          },
+          "boolq": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.59375,
+            "nll": 4.81946817426666,
+            "brier": 0.8124786471831249,
+            "entropy_confidence": 0.9997454881668091,
+            "probability_ece": 0.4062347039580345,
+            "entropy_accuracy_gap": 0.4059954807162285
+          },
+          "sst5": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.1875,
+            "nll": 1.6202960312366486,
+            "brier": 0.8044009059667587,
+            "entropy_confidence": 0.0015714485198259354,
+            "probability_ece": 0.03548929514363408,
+            "entropy_accuracy_gap": 0.18592855148017406
+          },
+          "arc_challenge": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.3125,
+            "nll": 1.5033101383596659,
+            "brier": 0.8066343637183309,
+            "entropy_confidence": 0.16800100728869438,
+            "probability_ece": 0.18474115431308746,
+            "entropy_accuracy_gap": 0.19797098264098167
+          }
+        }
+      },
+      "training_validation_input_overlap": {
+        "ag_news": 0,
+        "boolq": 0,
+        "sst5": 0,
+        "arc_challenge": 0
+      },
+      "validation_sample_sha256": {
+        "ag_news": "0cc1f87de49b09f69b951c1e19959c62ce189f133efd5143d1ee2154f0ba0fd5",
+        "boolq": "1653a212eb745581f449488e42ad54c14b94d2322916c565386e8710952fa9e6",
+        "sst5": "9cb0fc24122663f2be74dc62c92e15d480a2d4351bd398527d8d9ca666e49a95",
+        "arc_challenge": "c73121ae654887d108ff5f3de6f12cc7468313e3af4e41f2698bb05399e80dcd"
+      },
+      "validation_gold_counts": {
+        "ag_news": {
+          "Sci/Tech": 7,
+          "Sports": 8,
+          "World": 12,
+          "Business": 5
+        },
+        "boolq": {
+          "false": 13,
+          "true": 19
+        },
+        "sst5": {
+          "0": 8,
+          "1": 7,
+          "3": 12,
+          "2": 2,
+          "4": 3
+        },
+        "arc_challenge": {
+          "D": 6,
+          "A": 10,
+          "B": 11,
+          "C": 5
+        }
+      },
+      "collapse_on_fixed_probe": false,
+      "live_memory_range_gib": [
+        1.7676560878753662,
+        1.7676560878753662
+      ],
+      "peak_driver_gib": 3.1177215576171875,
+      "peak_process_rss_gib": 0.96905517578125,
+      "trackio_run": "prenorm_rlcd"
+    },
+    "no_transformer_rlcd": {
+      "config": {
+        "model": {
+          "encoder": "answerdotai/ModernBERT-large",
+          "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+          "nhead": 16,
+          "num_layers": 2,
+          "dim_feedforward": 4096,
+          "dropout": 0.1,
+          "max_len": 1024,
+          "head_max_len": 384,
+          "option_max_len": 64,
+          "preserve_options": true,
+          "balanced_state": true,
+          "norm_first": true,
+          "independent_init": true
+        },
+        "dataset": {
+          "name": "ag_news",
+          "source": {
+            "path": "fancyzhx/ag_news",
+            "name": "default",
+            "revision": "eb185aade064a813bc0b7f42de02595523103ca4"
+          },
+          "splits": {
+            "train": "train",
+            "eval": "test"
+          },
+          "schema": {
+            "state": {
+              "field": "text"
+            },
+            "questions": {
+              "label": {
+                "type": "choice",
+                "instructions": "Classify the topic of this news article.",
+                "target": {
+                  "field": "label",
+                  "mode": "index"
+                },
+                "labels_from_feature": "label"
+              }
+            }
+          }
+        },
+        "ablation": {
+          "objective": "sampled_reward",
+          "no_question_type": false,
+          "no_transformer": true,
+          "linear_scorer": false,
+          "reward_weights": {
+            "log": 1.0,
+            "spherical": 0.5,
+            "rps": 1.0
+          },
+          "name": "no_transformer"
+        },
+        "seed": 42,
+        "device": "mps",
+        "cpu_threads": 4,
+        "resume": null,
+        "mixture": [
+          "ag_news",
+          "boolq",
+          "sst5",
+          "arc_challenge"
+        ],
+        "training": {
+          "batch_size": 4,
+          "epochs": 4,
+          "max_steps": 256,
+          "shuffle_buffer": 2048,
+          "learning_rate": 0.0001,
+          "weight_decay": 0.01,
+          "sigma": 1.0,
+          "candidates": 32,
+          "clip_grad": 1.0,
+          "log_every": 8,
+          "checkpoint_every": 64,
+          "cache_clear_every": 10,
+          "mps_memory_budget_gib": 9,
+          "max_seconds": 1200,
+          "validation_role": "validation",
+          "best_checkpoint_optimizer": false
+        },
+        "evaluation": {
+          "batch_size": 2,
+          "max_rows": 32,
+          "shuffle_buffer": 2048,
+          "every_steps": 64,
+          "strict": false
+        },
+        "logging": {
+          "enabled": true,
+          "project": "decisions-collapse-rlcd",
+          "space_id": null,
+          "server_url": null
+        },
+        "data": {
+          "separate_validation": true,
+          "validation_fraction": 0.1,
+          "train_pool_rows": 64,
+          "train_cache_dir": "/Users/matheoledevehat/Code/decisions/outputs/collapse_rlcd_pilot/training_samples"
+        },
+        "diagnostics": {
+          "every_steps": 32,
+          "rows_per_dataset": 2,
+          "batch_size": 2
+        },
+        "dataset_configs": [
+          {
+            "name": "ag_news",
+            "source": {
+              "path": "fancyzhx/ag_news",
+              "name": "default",
+              "revision": "eb185aade064a813bc0b7f42de02595523103ca4"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "choice",
+                  "instructions": "Classify the topic of this news article.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "labels_from_feature": "label"
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "boolq",
+            "source": {
+              "path": "google/boolq",
+              "name": "default",
+              "revision": "35b264d03638db9f4ce671b711558bf7ff0f80d5"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "validation",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "passage"
+              },
+              "questions": {
+                "answer": {
+                  "type": "noul",
+                  "instructions": "{question}",
+                  "target": {
+                    "field": "answer",
+                    "mode": "boolean"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "sst5",
+            "source": {
+              "path": "SetFit/sst5",
+              "name": "default",
+              "revision": "e51bdcd8cd3a30da231967c1a249ba59361279a3"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "field": "text"
+              },
+              "questions": {
+                "label": {
+                  "type": "score",
+                  "instructions": "Rate the sentiment of this text.",
+                  "target": {
+                    "field": "label",
+                    "mode": "index"
+                  },
+                  "criteria": [
+                    "very negative",
+                    "negative",
+                    "neutral",
+                    "positive",
+                    "very positive"
+                  ]
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          },
+          {
+            "name": "arc_challenge",
+            "source": {
+              "path": "allenai/ai2_arc",
+              "name": "ARC-Challenge",
+              "revision": "210d026faf9955653af8916fad021475a3f00453"
+            },
+            "splits": {
+              "train": "train",
+              "eval": "test",
+              "validation": "train"
+            },
+            "schema": {
+              "state": {
+                "literal": ""
+              },
+              "questions": {
+                "answer": {
+                  "type": "choice",
+                  "instructions": "{question}",
+                  "target": {
+                    "field": "answerKey",
+                    "mode": "label"
+                  },
+                  "options": {
+                    "texts": "choices.text",
+                    "keys": "choices.label"
+                  }
+                }
+              }
+            },
+            "validation_holdout": {
+              "fraction": 0.1,
+              "seed": 42
+            }
+          }
+        ]
+      },
+      "progress": {
+        "step": 256,
+        "epoch": 3,
+        "rows_in_epoch": 256,
+        "rows": 1024,
+        "best_accuracy": 0.34375,
+        "training_elapsed_seconds": 224.0544618339918,
+        "dataset_rows": {
+          "ag_news": 256,
+          "boolq": 256,
+          "sst5": 256,
+          "arc_challenge": 256
+        },
+        "validation_without_improvement": 2,
+        "best_step": 192
+      },
+      "trainable_parameters": 1055745,
+      "diagnostics": [
+        {
+          "step": 0,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.305857153609395,
+          "features/question_type/marker_cosine": 0.9433802589774132,
+          "features/question_type/marker_norm": 49.58828687667847,
+          "features/head/marker_rms": 0.305857153609395,
+          "features/head/marker_cosine": 0.9433802589774132,
+          "features/head/marker_norm": 49.58828687667847,
+          "probe/logit_range": 0.12359302770346403,
+          "probe/questions": 8,
+          "probe/accuracy": 0.375,
+          "probe/nll": 1.2489630281925201,
+          "probe/brier": 0.6907662972807884,
+          "probe/entropy_confidence": 0.001006193459033966,
+          "probe/probability_ece": 0.06773782521486282,
+          "probe/entropy_accuracy_gap": 0.37399380654096603,
+          "features/dispersion_retention": 0.9999999939100815,
+          "probe/reward_log": -1.2489630058407784,
+          "probe/reward_spherical": 0.5478022210299969,
+          "probe/reward_rps": 0.023953747935593128,
+          "probe/rlcd_reward": -0.999015643261373
+        },
+        {
+          "step": 32,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433813318610191,
+          "features/question_type/marker_norm": 49.588764667510986,
+          "features/head/marker_rms": 0.3058571554720402,
+          "features/head/marker_cosine": 0.9433813318610191,
+          "features/head/marker_norm": 49.588764667510986,
+          "probe/logit_range": 0.397528812289238,
+          "probe/questions": 8,
+          "probe/accuracy": 0.375,
+          "probe/nll": 1.303562730550766,
+          "probe/brier": 0.7122862935066223,
+          "probe/entropy_confidence": 0.016363918781280518,
+          "probe/probability_ece": 0.08041093870997429,
+          "probe/entropy_accuracy_gap": 0.3586360812187195,
+          "features/dispersion_retention": 1.0,
+          "probe/reward_log": -1.3035627231001854,
+          "probe/reward_spherical": 0.5290833078324795,
+          "probe/reward_rps": 0.02411462739109993,
+          "probe/rlcd_reward": -1.0631356965750456
+        },
+        {
+          "step": 64,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433759972453117,
+          "features/question_type/marker_norm": 49.58625841140747,
+          "features/head/marker_rms": 0.3058571554720402,
+          "features/head/marker_cosine": 0.9433759972453117,
+          "features/head/marker_norm": 49.58625841140747,
+          "probe/logit_range": 0.86676886677742,
+          "probe/questions": 8,
+          "probe/accuracy": 0.375,
+          "probe/nll": 1.3126813173294067,
+          "probe/brier": 0.7282594740390778,
+          "probe/entropy_confidence": 0.10811546444892883,
+          "probe/probability_ece": 0.28945721685886383,
+          "probe/entropy_accuracy_gap": 0.26688453555107117,
+          "features/dispersion_retention": 1.0,
+          "probe/reward_log": -1.312681308016181,
+          "probe/reward_spherical": 0.5346471052616835,
+          "probe/reward_rps": 0.022803311236202717,
+          "probe/rlcd_reward": -1.068161066621542
+        },
+        {
+          "step": 96,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571591973305,
+          "features/question_type/marker_cosine": 0.943366564810276,
+          "features/question_type/marker_norm": 49.58191537857056,
+          "features/head/marker_rms": 0.3058571591973305,
+          "features/head/marker_cosine": 0.943366564810276,
+          "features/head/marker_norm": 49.58191537857056,
+          "probe/logit_range": 1.6108871698379517,
+          "probe/questions": 8,
+          "probe/accuracy": 0.375,
+          "probe/nll": 1.3155827075242996,
+          "probe/brier": 0.7057509198784828,
+          "probe/entropy_confidence": 0.2383130118250847,
+          "probe/probability_ece": 0.35991135984659195,
+          "probe/entropy_accuracy_gap": 0.33137810975313187,
+          "features/dispersion_retention": 1.000000012179837,
+          "probe/reward_log": -1.3155827024020255,
+          "probe/reward_spherical": 0.5627775359898806,
+          "probe/reward_rps": 0.019972607493400574,
+          "probe/rlcd_reward": -1.0541665419004858
+        },
+        {
+          "step": 128,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433597102761269,
+          "features/question_type/marker_norm": 49.5783371925354,
+          "features/head/marker_rms": 0.3058571554720402,
+          "features/head/marker_cosine": 0.9433597102761269,
+          "features/head/marker_norm": 49.5783371925354,
+          "probe/logit_range": 1.687898650765419,
+          "probe/questions": 8,
+          "probe/accuracy": 0.375,
+          "probe/nll": 1.4797309935092926,
+          "probe/brier": 0.7354443669319153,
+          "probe/entropy_confidence": 0.2685779556632042,
+          "probe/probability_ece": 0.3756529800593853,
+          "probe/entropy_accuracy_gap": 0.31205857545137405,
+          "features/dispersion_retention": 1.0,
+          "probe/reward_log": -1.479730966151692,
+          "probe/reward_spherical": 0.5516316841822118,
+          "probe/reward_rps": 0.022890294902026653,
+          "probe/rlcd_reward": -1.2268054189626127
+        },
+        {
+          "step": 160,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433514475822449,
+          "features/question_type/marker_norm": 49.57486963272095,
+          "features/head/marker_rms": 0.3058571554720402,
+          "features/head/marker_cosine": 0.9433514475822449,
+          "features/head/marker_norm": 49.57486963272095,
+          "probe/logit_range": 1.7471983432769775,
+          "probe/questions": 8,
+          "probe/accuracy": 0.5,
+          "probe/nll": 1.4821926355361938,
+          "probe/brier": 0.7447463870048523,
+          "probe/entropy_confidence": 0.2671790048480034,
+          "probe/probability_ece": 0.3955723475664854,
+          "probe/entropy_accuracy_gap": 0.4192918688058853,
+          "features/dispersion_retention": 1.0,
+          "probe/reward_log": -1.4821926323929802,
+          "probe/reward_spherical": 0.5449700236786157,
+          "probe/reward_rps": 0.022083984687924385,
+          "probe/rlcd_reward": -1.2317916052415967
+        },
+        {
+          "step": 192,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433429837226868,
+          "features/question_type/marker_norm": 49.57095527648926,
+          "features/head/marker_rms": 0.3058571554720402,
+          "features/head/marker_cosine": 0.9433429837226868,
+          "features/head/marker_norm": 49.57095527648926,
+          "probe/logit_range": 2.2097672298550606,
+          "probe/questions": 8,
+          "probe/accuracy": 0.5,
+          "probe/nll": 1.5658164769411087,
+          "probe/brier": 0.7657864615321159,
+          "probe/entropy_confidence": 0.3129015117883682,
+          "probe/probability_ece": 0.4820176288485527,
+          "probe/entropy_accuracy_gap": 0.4687032923102379,
+          "features/dispersion_retention": 1.0,
+          "probe/reward_log": -1.5658164850319736,
+          "probe/reward_spherical": 0.5412461834494025,
+          "probe/reward_rps": 0.033889250829815865,
+          "probe/rlcd_reward": -1.3290826441370882
+        },
+        {
+          "step": 224,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.305857153609395,
+          "features/question_type/marker_cosine": 0.9433320686221123,
+          "features/question_type/marker_norm": 49.56575918197632,
+          "features/head/marker_rms": 0.305857153609395,
+          "features/head/marker_cosine": 0.9433320686221123,
+          "features/head/marker_norm": 49.56575918197632,
+          "probe/logit_range": 2.2496467977762222,
+          "probe/questions": 8,
+          "probe/accuracy": 0.375,
+          "probe/nll": 1.6518169939517975,
+          "probe/brier": 0.726250059902668,
+          "probe/entropy_confidence": 0.29408876597881317,
+          "probe/probability_ece": 0.3739065323024988,
+          "probe/entropy_accuracy_gap": 0.3313218057155609,
+          "features/dispersion_retention": 0.9999999939100815,
+          "probe/reward_log": -1.6518170064664446,
+          "probe/reward_spherical": 0.5633542060095351,
+          "probe/reward_rps": 0.026980225928127766,
+          "probe/rlcd_reward": -1.3971201293898048
+        },
+        {
+          "step": 256,
+          "features/encoder/marker_rms": 0.3058571554720402,
+          "features/encoder/marker_cosine": 0.9027427062392235,
+          "features/encoder/marker_norm": 37.92784023284912,
+          "features/question_type/marker_rms": 0.3058571554720402,
+          "features/question_type/marker_cosine": 0.9433192536234856,
+          "features/question_type/marker_norm": 49.55990409851074,
+          "features/head/marker_rms": 0.3058571554720402,
+          "features/head/marker_cosine": 0.9433192536234856,
+          "features/head/marker_norm": 49.55990409851074,
+          "probe/logit_range": 2.980306327342987,
+          "probe/questions": 8,
+          "probe/accuracy": 0.625,
+          "probe/nll": 1.8884725868701935,
+          "probe/brier": 0.7246392667293549,
+          "probe/entropy_confidence": 0.3112219125032425,
+          "probe/probability_ece": 0.44682373479008675,
+          "probe/entropy_accuracy_gap": 0.5619305521249771,
+          "features/dispersion_retention": 1.0,
+          "probe/reward_log": -1.8884725653770147,
+          "probe/reward_spherical": 0.5749370901758084,
+          "probe/reward_rps": 0.020557090640068054,
+          "probe/rlcd_reward": -1.6215611109291785
+        }
+      ],
+      "validation_history": [
+        {
+          "step": 64,
+          "rows": 256,
+          "macro_accuracy": 0.28125,
+          "improved": true,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.21875,
+              "nll": 1.4491275250911713,
+              "brier": 0.7892290577292442,
+              "entropy_confidence": 0.041019316762685776,
+              "probability_ece": 0.18100470677018166,
+              "entropy_accuracy_gap": 0.17773068323731422
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 1.0051671802066267,
+              "brier": 0.6703985775820911,
+              "entropy_confidence": 0.5249729547649622,
+              "probability_ece": 0.30306920781731606,
+              "entropy_accuracy_gap": 0.12710098177194595
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.09375,
+              "nll": 1.632889598608017,
+              "brier": 0.8083477057516575,
+              "entropy_confidence": 0.005236255005002022,
+              "probability_ece": 0.12709090998396277,
+              "entropy_accuracy_gap": 0.08851374499499798
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.21875,
+              "nll": 1.4335815533995628,
+              "brier": 0.7691075466573238,
+              "entropy_confidence": 0.04170362651348114,
+              "probability_ece": 0.12204084545373917,
+              "entropy_accuracy_gap": 0.18815380707383156
+            }
+          }
+        },
+        {
+          "step": 128,
+          "rows": 512,
+          "macro_accuracy": 0.3046875,
+          "improved": true,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.21875,
+              "nll": 1.610854983329773,
+              "brier": 0.9037504568696022,
+              "entropy_confidence": 0.17159227095544338,
+              "probability_ece": 0.3513813652098179,
+              "entropy_accuracy_gap": 0.04715772904455662
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 2.161036246805452,
+              "brier": 0.8030626608071998,
+              "entropy_confidence": 0.9470418803393841,
+              "probability_ece": 0.400028670206666,
+              "entropy_accuracy_gap": 0.36638019420206547
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.15625,
+              "nll": 1.6229560673236847,
+              "brier": 0.8053271062672138,
+              "entropy_confidence": 0.0024817530065774918,
+              "probability_ece": 0.0663709114305675,
+              "entropy_accuracy_gap": 0.1537682469934225
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.4752015694975853,
+              "brier": 0.78263851813972,
+              "entropy_confidence": 0.08341236412525177,
+              "probability_ece": 0.17535783350467682,
+              "entropy_accuracy_gap": 0.22506394237279892
+            }
+          }
+        },
+        {
+          "step": 192,
+          "rows": 768,
+          "macro_accuracy": 0.34375,
+          "improved": true,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.4431598968803883,
+              "brier": 0.7819040026515722,
+              "entropy_confidence": 0.15916156396269798,
+              "probability_ece": 0.23999772407114506,
+              "entropy_accuracy_gap": 0.09083843603730202
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 2.6347403239415144,
+              "brier": 0.808687336526134,
+              "entropy_confidence": 0.9760713279247284,
+              "probability_ece": 0.4037452358752489,
+              "entropy_accuracy_gap": 0.3823213204741478
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.6105416417121887,
+              "brier": 0.8046860285103321,
+              "entropy_confidence": 0.03749269060790539,
+              "probability_ece": 0.09207957051694393,
+              "entropy_accuracy_gap": 0.2125073093920946
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.28125,
+              "nll": 1.4954889044165611,
+              "brier": 0.7929630754515529,
+              "entropy_confidence": 0.14594431035220623,
+              "probability_ece": 0.25689398776739836,
+              "entropy_accuracy_gap": 0.19605225138366222
+            }
+          }
+        },
+        {
+          "step": 256,
+          "rows": 1024,
+          "macro_accuracy": 0.34375,
+          "improved": false,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.45844966173172,
+              "brier": 0.798013336956501,
+              "entropy_confidence": 0.2032629083842039,
+              "probability_ece": 0.2854904839769006,
+              "entropy_accuracy_gap": 0.04673709161579609
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 4.449119548622605,
+              "brier": 0.8124308225959191,
+              "entropy_confidence": 0.9992854781448841,
+              "probability_ece": 0.4062019009143114,
+              "entropy_accuracy_gap": 0.4055354781448841
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.6085975840687752,
+              "brier": 0.7977355308830738,
+              "entropy_confidence": 0.010145636275410652,
+              "probability_ece": 0.009741997346282005,
+              "entropy_accuracy_gap": 0.23985436372458935
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.28125,
+              "nll": 1.4994705729186535,
+              "brier": 0.7828432247042656,
+              "entropy_confidence": 0.11379385553300381,
+              "probability_ece": 0.21982557885348797,
+              "entropy_accuracy_gap": 0.23147612251341343
+            }
+          }
+        },
+        {
+          "step": 256,
+          "rows": 1024,
+          "macro_accuracy": 0.34375,
+          "improved": false,
+          "datasets": {
+            "ag_news": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.45844966173172,
+              "brier": 0.798013336956501,
+              "entropy_confidence": 0.2032629083842039,
+              "probability_ece": 0.2854904839769006,
+              "entropy_accuracy_gap": 0.04673709161579609
+            },
+            "boolq": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.59375,
+              "nll": 4.449119548622605,
+              "brier": 0.8124308225959191,
+              "entropy_confidence": 0.9992854781448841,
+              "probability_ece": 0.4062019009143114,
+              "entropy_accuracy_gap": 0.4055354781448841
+            },
+            "sst5": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.25,
+              "nll": 1.6085975840687752,
+              "brier": 0.7977355308830738,
+              "entropy_confidence": 0.010145636275410652,
+              "probability_ece": 0.009741997346282005,
+              "entropy_accuracy_gap": 0.23985436372458935
+            },
+            "arc_challenge": {
+              "rows": 32,
+              "unsupported_rows": 0,
+              "questions": 32,
+              "accuracy": 0.28125,
+              "nll": 1.4994705729186535,
+              "brier": 0.7828432247042656,
+              "entropy_confidence": 0.11379385553300381,
+              "probability_ece": 0.21982557885348797,
+              "entropy_accuracy_gap": 0.23147612251341343
+            }
+          }
+        }
+      ],
+      "selected_validation": {
+        "step": 192,
+        "rows": 768,
+        "macro_accuracy": 0.34375,
+        "improved": true,
+        "datasets": {
+          "ag_news": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.25,
+            "nll": 1.4431598968803883,
+            "brier": 0.7819040026515722,
+            "entropy_confidence": 0.15916156396269798,
+            "probability_ece": 0.23999772407114506,
+            "entropy_accuracy_gap": 0.09083843603730202
+          },
+          "boolq": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.59375,
+            "nll": 2.6347403239415144,
+            "brier": 0.808687336526134,
+            "entropy_confidence": 0.9760713279247284,
+            "probability_ece": 0.4037452358752489,
+            "entropy_accuracy_gap": 0.3823213204741478
+          },
+          "sst5": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.25,
+            "nll": 1.6105416417121887,
+            "brier": 0.8046860285103321,
+            "entropy_confidence": 0.03749269060790539,
+            "probability_ece": 0.09207957051694393,
+            "entropy_accuracy_gap": 0.2125073093920946
+          },
+          "arc_challenge": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.28125,
+            "nll": 1.4954889044165611,
+            "brier": 0.7929630754515529,
+            "entropy_confidence": 0.14594431035220623,
+            "probability_ece": 0.25689398776739836,
+            "entropy_accuracy_gap": 0.19605225138366222
+          }
+        }
+      },
+      "final_validation": {
+        "step": 256,
+        "rows": 1024,
+        "macro_accuracy": 0.34375,
+        "improved": false,
+        "datasets": {
+          "ag_news": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.25,
+            "nll": 1.45844966173172,
+            "brier": 0.798013336956501,
+            "entropy_confidence": 0.2032629083842039,
+            "probability_ece": 0.2854904839769006,
+            "entropy_accuracy_gap": 0.04673709161579609
+          },
+          "boolq": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.59375,
+            "nll": 4.449119548622605,
+            "brier": 0.8124308225959191,
+            "entropy_confidence": 0.9992854781448841,
+            "probability_ece": 0.4062019009143114,
+            "entropy_accuracy_gap": 0.4055354781448841
+          },
+          "sst5": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.25,
+            "nll": 1.6085975840687752,
+            "brier": 0.7977355308830738,
+            "entropy_confidence": 0.010145636275410652,
+            "probability_ece": 0.009741997346282005,
+            "entropy_accuracy_gap": 0.23985436372458935
+          },
+          "arc_challenge": {
+            "rows": 32,
+            "unsupported_rows": 0,
+            "questions": 32,
+            "accuracy": 0.28125,
+            "nll": 1.4994705729186535,
+            "brier": 0.7828432247042656,
+            "entropy_confidence": 0.11379385553300381,
+            "probability_ece": 0.21982557885348797,
+            "entropy_accuracy_gap": 0.23147612251341343
+          }
+        }
+      },
+      "training_validation_input_overlap": {
+        "ag_news": 0,
+        "boolq": 0,
+        "sst5": 0,
+        "arc_challenge": 0
+      },
+      "validation_sample_sha256": {
+        "ag_news": "0cc1f87de49b09f69b951c1e19959c62ce189f133efd5143d1ee2154f0ba0fd5",
+        "boolq": "1653a212eb745581f449488e42ad54c14b94d2322916c565386e8710952fa9e6",
+        "sst5": "9cb0fc24122663f2be74dc62c92e15d480a2d4351bd398527d8d9ca666e49a95",
+        "arc_challenge": "c73121ae654887d108ff5f3de6f12cc7468313e3af4e41f2698bb05399e80dcd"
+      },
+      "validation_gold_counts": {
+        "ag_news": {
+          "Sci/Tech": 7,
+          "Sports": 8,
+          "World": 12,
+          "Business": 5
+        },
+        "boolq": {
+          "false": 13,
+          "true": 19
+        },
+        "sst5": {
+          "0": 8,
+          "1": 7,
+          "3": 12,
+          "2": 2,
+          "4": 3
+        },
+        "arc_challenge": {
+          "D": 6,
+          "A": 10,
+          "B": 11,
+          "C": 5
+        }
+      },
+      "collapse_on_fixed_probe": false,
+      "live_memory_range_gib": [
+        1.4856507778167725,
+        1.4856507778167725
+      ],
+      "peak_driver_gib": 2.0270538330078125,
+      "peak_process_rss_gib": 0.96905517578125,
+      "trackio_run": "no_transformer_rlcd"
+    }
+  }
+}

@@ -217,6 +217,29 @@ is retained separately.
 
 ## Verification
 
+### Small RLCD collapse pilots
+
+```sh
+.venv/bin/python scripts/run_collapse_pilots.py --run-dir outputs/collapse_rlcd_pilot
+TRACKIO_DIR="$PWD/outputs/collapse_rlcd_pilot/trackio" .venv/bin/trackio show --project decisions-collapse-rlcd
+```
+
+The runner compares a pre-norm transformer with independently initialized layers
+against a head without a transformer. Both use full sampled RLCD rewards
+(log + 0.5 × spherical − ordinal RPS), frozen ModernBERT-large, batch size four,
+32 candidates, and the same 256 streamed training examples across four datasets.
+Each run has at most 256 updates and a 20-minute update/periodic-validation limit.
+Terminal diagnostics and validation can add time afterward. Existing run
+checkpoints are never overwritten; use a new run directory for repeats.
+
+Trackio records loss, gradients, memory, separate validation metrics, and a fixed
+eight-row training-only feature probe. The probe measures option RMS difference,
+cosine similarity at each head layer, logit range, entropy confidence and each
+reward component. Its reward is distinct from the stochastic training gradient
+estimator loss. The aggregate report is `reports/collapse_rlcd_pilot_summary.json`;
+the offline recap includes both trajectories when the pilots finish. No final
+evaluation or Decision Index samples are used in these pilots.
+
 The completed ModernBERT-large run is documented in [the offline recap](reports/results.html)
 and [its audit](reports/all_large_audit.json). It processed 20,520 rows across all
 17 datasets; validation selected update 3,000. All 224 bounded benchmark source

@@ -109,7 +109,9 @@ def main():
         stats["uniform_chance"] = (sum(1 / len(row["payload"]["questions"]["q1"]["criteria"])
                                         for row in supported) / len(supported)) if supported else None
     large = large_run()
+    collapse_path = REPORTS / 'collapse_rlcd_pilot_summary.json'
     data = {"names": NAMES, "runs": runs, "training": training, "benchmark": benchmark, 'large':large,
+            'collapse_pilot':read_json(collapse_path) if collapse_path.exists() else None,
             "datasets": datasets, "ablations": [
                 {"id": key, "name": name, "description": description,
                  "measured": key in {run["id"] for run in runs},

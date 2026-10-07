@@ -1,0 +1,36 @@
+# @package _global_
+defaults:
+  - override /model: large
+  - override /ablation: baseline
+
+mixture: [ag_news, boolq, sst5, arc_challenge]
+model:
+  norm_first: true
+  independent_init: true
+data:
+  separate_validation: true
+  validation_fraction: 0.1
+  train_pool_rows: 64
+  train_cache_dir: null
+training:
+  batch_size: 4
+  mps_memory_budget_gib: 9
+  epochs: 4
+  max_steps: 256
+  max_seconds: 1200
+  learning_rate: 0.0001
+  candidates: 32
+  validation_role: validation
+  best_checkpoint_optimizer: false
+  checkpoint_every: 64
+  log_every: 8
+evaluation:
+  batch_size: 2
+  max_rows: 32
+  every_steps: 64
+diagnostics:
+  every_steps: 32
+  rows_per_dataset: 2
+  batch_size: 2
+logging:
+  project: decisions-collapse-rlcd

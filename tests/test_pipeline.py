@@ -324,6 +324,41 @@ class StreamingTests(unittest.TestCase):
 
 
 class ModelAndCheckpointTests(unittest.TestCase):
+    def test_prenorm_layers_have_independent_reproducible_initializations(self):
+        cfg = OmegaConf.to_container(config(), resolve=True)
+        cfg['model'].update(norm_first=True, independent_init=True, num_layers=2)
+        torch.manual_seed(42)
+        model = DecisionModel(cfg['model'], cfg['ablation'], TinyEncoder())
+        layers = model.transformer.layers
+        self.assertTrue(all(layer.norm_first for layer in layers))
+        self.assertFalse(torch.equal(layers[0].self_attn.in_proj_weight, layers[1].self_attn.in_proj_weight))
+        self.assertFalse(torch.equal(layers[0].linear1.weight, layers[1].linear1.weight))
+        torch.manual_seed(42)
+        repeat = DecisionModel(cfg['model'], cfg['ablation'], TinyEncoder())
+        self.assertTrue(all(torch.equal(value, repeat.head_state()[key]) for key, value in model.head_state().items()))
+        self.assertTrue(all(not parameter.requires_grad for parameter in model.bert.parameters()))
+
+    def test_feature_probe_preserves_training_mode_rng_and_scores_mixed_options(self):
+        from decisions.diagnostics import feature_probe
+        cfg = OmegaConf.to_container(config(), resolve=True)
+        cfg['ablation'] = OmegaConf.to_container(OmegaConf.load(ROOT / 'conf/ablation/baseline.yaml'))
+        cfg['model'].update(norm_first=True, independent_init=True)
+        model = DecisionModel(cfg['model'], cfg['ablation'], TinyEncoder()).train()
+        rng = torch.get_rng_state().clone()
+        values = feature_probe(model, Tokenizer(), [sample()], torch.device('cpu'), cfg)
+        self.assertTrue(model.training)
+        self.assertFalse(model.bert.training)
+        self.assertTrue(torch.equal(rng, torch.get_rng_state()))
+        self.assertEqual(values['probe/questions'], 2)
+        self.assertGreater(values['probe/reward_rps'], 0.)
+        self.assertTrue(all(torch.isfinite(torch.tensor(v)) for v in values.values()))
+        from decisions.evaluation import preprocessing
+        inputs, target, _ = collate([sample()], Tokenizer(), **preprocessing(cfg['model']))
+        model.eval()
+        with torch.no_grad():
+            direct_nll = -(target * model(inputs).log_softmax(-1)).sum().item() / len(target)
+        self.assertAlmostEqual(values['probe/nll'], direct_nll, places=6)
+
     def test_three_way_group_holdouts_are_disjoint(self):
         cfg = {"holdout": {"field": "project", "fraction": .2, "validation_fraction": .1, "seed": 42}}
         counts = {role: 0 for role in ("train", "validation", "eval")}

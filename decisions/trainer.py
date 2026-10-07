@@ -16,6 +16,7 @@ from omegaconf import OmegaConf
 
 from .checkpoints import resume_checkpoint, save_checkpoint
 from .data import batches, dataset_configs, mixed_examples
+from .diagnostics import training_probe_rows, log_feature_probe
 from .evaluation import evaluate, preprocessing
 from .logging import Logger
 from .losses import training_loss
@@ -88,6 +89,11 @@ def train(cfg, run_dir):
     if config.get("resume"):
         progress = resume_checkpoint(config["resume"], model, optimizer, config, datasets, device)
     logger = Logger(config["logging"], run_dir, config)
+    diagnostic_settings = config.get("diagnostics", {})
+    probe_rows = (training_probe_rows(datasets, config.get("data", {}).get("train_cache_dir"),
+                                     diagnostic_settings["rows_per_dataset"])
+                  if diagnostic_settings.get("every_steps") else None)
+    diagnostic_step = None
     print(f"Device: {device}; trainable parameters: {sum(p.numel() for p in parameters):,}; datasets: "
           + ", ".join(d["name"] for d in datasets), flush=True)
     model.train()
@@ -97,6 +103,9 @@ def train(cfg, run_dir):
     stop_training = False
     try:
         save_checkpoint(run_dir / "last.pt", model, optimizer, config, progress, device)
+        if probe_rows:
+            log_feature_probe(model, tokenizer, probe_rows, device, config, run_dir, logger, progress["step"])
+            diagnostic_step = progress["step"]
         with (run_dir / "metrics.jsonl").open("a") as metrics_file:
             for epoch in range(progress["epoch"], settings["epochs"]):
                 if progress["step"] >= settings["max_steps"] or stop_training:
@@ -167,6 +176,9 @@ def train(cfg, run_dir):
                         print(json.dumps(metrics), flush=True)
                     if step % settings["checkpoint_every"] == 0:
                         save_checkpoint(run_dir / "last.pt", model, optimizer, config, progress, device)
+                    if probe_rows and step % diagnostic_settings["every_steps"] == 0:
+                        log_feature_probe(model, tokenizer, probe_rows, device, config, run_dir, logger, step)
+                        diagnostic_step = step
                     every = config["evaluation"].get("every_steps", 0)
                     if every and step % every == 0:
                         validate(model, tokenizer, datasets, device, config, progress, run_dir, optimizer, logger)
@@ -175,6 +187,8 @@ def train(cfg, run_dir):
                             print("Validation stopped improving; stopping early.", flush=True)
                             stop_training = True
                             break
+            if probe_rows and diagnostic_step != progress["step"]:
+                log_feature_probe(model, tokenizer, probe_rows, device, config, run_dir, logger, progress["step"])
             validate(model, tokenizer, datasets, device, config, progress, run_dir, optimizer, logger)
     finally:
         # An interrupted optimizer can contain a partial update: retain the last
