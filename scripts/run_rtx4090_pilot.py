@@ -182,8 +182,8 @@ def summarize(directory, config, datasets, environment):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-dir", type=Path, default=ROOT / "outputs/rtx4090_pilot/prenorm_bf16_b4")
-    parser.add_argument("--batch-size", type=int, choices=[1, 2, 4], default=4)
-    parser.add_argument("--question-microbatch-size", type=int, choices=[1, 2, 4], default=4)
+    parser.add_argument("--batch-size", type=int, choices=[1, 2, 4, 8, 16], default=4)
+    parser.add_argument("--question-microbatch-size", type=int, choices=[1, 2, 4, 8, 16, 20], default=4)
     parser.add_argument("--plan", action="store_true", help="Resolve config without GPU, data or model access")
     parser.add_argument("--check-env", action="store_true", help="Check CUDA/hardware/disk without downloading model/data")
     parser.add_argument("--preflight-only", action="store_true", help="Synthetic GPU training and checkpoint recovery only")
@@ -195,7 +195,7 @@ def main():
     with initialize_config_dir(config_dir=str(ROOT / "conf"), version_base="1.3"):
         cfg = compose(config_name="config", overrides=["experiment=rtx4090_pilot"])
     cfg.training.batch_size = args.batch_size
-    cfg.training.gradient_accumulation_steps = 4 // args.batch_size
+    cfg.training.gradient_accumulation_steps = max(1, 4 // args.batch_size)
     cfg.training.question_microbatch_size = args.question_microbatch_size
     # Stable absolute cache path is part of exact checkpoint provenance.
     cfg.data.train_cache_dir = str(directory / "training_samples")

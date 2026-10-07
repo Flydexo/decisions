@@ -30,6 +30,8 @@ The synthetic model is released; the pilot starts from pretrained encoder weight
 
 Four-row batches use one accumulation step. Encoder/head checkpointing remains enabled. Per-microbatch cache clearing is disabled; validation still releases caches. Existing SDPA attention is retained. FlashAttention, larger batches and reduced checkpointing should be benchmarked separately after this baseline passes. A 16-update learning-rate warmup is enabled; encoder LR is 1e-5, head LR 1e-4.
 
+For a separate throughput run after the baseline, `--batch-size 8` or `16` uses one update per batch, and `--question-microbatch-size 8`, `16`, or `20` increases the number of question forwards per chunk. Use a fresh `--run-dir`; larger row batches change the optimization schedule. Compare synchronized `train/seconds` per row and CUDA peak memory, and keep the setting below the 21 GiB allocator cap.
+
 ## Checks and a smaller microbatch
 
 ```bash

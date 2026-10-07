@@ -48,6 +48,15 @@ class CudaPilotTests(unittest.TestCase):
         self.assertEqual(settings['batch_size'] * settings['gradient_accumulation_steps'], 4)
         self.assertEqual(settings['question_microbatch_size'], 1)
 
+    def test_larger_batch_uses_one_update_without_zero_accumulation(self):
+        result = subprocess.run([sys.executable, str(ROOT / 'scripts/run_rtx4090_pilot.py'),
+                                 '--plan', '--batch-size', '16', '--question-microbatch-size', '20'],
+                                capture_output=True, text=True, check=True)
+        settings = json.loads(result.stdout)['config']['training']
+        self.assertEqual(settings['batch_size'], 16)
+        self.assertEqual(settings['gradient_accumulation_steps'], 1)
+        self.assertEqual(settings['question_microbatch_size'], 20)
+
     def test_protocol_rejects_frozen_encoder_missing_transformer_ce_and_final_selection(self):
         base = pilot_config()
         self.assertEqual(len(validate_pilot_config(base)), 21)
