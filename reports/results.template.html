@@ -32,6 +32,13 @@
 <div class="card table-card"><h3>Measured pilot outcomes</h3><div class="scroll-table"><table class="data-table"><thead><tr><th>Head</th><th>Updates / rows</th><th>Difference ratio</th><th>Option cosine</th><th>Probe reward, start → end</th><th>Selected validation accuracy</th><th>Collapse on probe?</th></tr></thead><tbody id="collapse-table"></tbody></table></div><p class="fine">One seed and a small sample. This compares joint changes; it does not isolate pre-norm from initialization. Preserving features does not establish generalization. RLCD includes log + 0.5 × spherical − ordinal RPS, with 32 candidate samples per update.</p><p class="fine">Trackio project: <strong>decisions-collapse-rlcd</strong> · <a href="collapse_rlcd_pilot_summary.json" download>Download all measurements</a></p></div>
 </section>
 
+<section class="section" id="finetune-memory" hidden>
+ <div class="section-head"><div><div class="eyebrow">ModernBERT · MPS preflight</div><h2>How much context fits?</h2></div><p>FP32 weights and Adam state, with optional BF16/FP16 forward operations. Full and partial encoder unfreezing are compared. Checkpointed layers and one-question forwards. Synthetic inputs only; these are memory checks, with no dataset or evaluation scores.</p></div>
+ <p class="fine" id="finetune-note"></p>
+ <div class="card"><div id="finetune-legend" class="legend"></div><div id="finetune-chart"></div><p class="fine">Observed driver allocation for successful two-update checks. The 9 GiB line is the configured MPS cap. These counters do not measure total physical system RAM.</p></div>
+ <div class="card table-card"><div class="scroll-table"><table class="data-table"><thead><tr><th>Context tokens</th><th>Precision</th><th>Initial loss scale</th><th>Encoder blocks trained</th><th>Questions</th><th>Accumulation</th><th>Result</th><th>MPS driver allocation</th><th>Peak process RSS</th><th>Seconds/update</th></tr></thead><tbody id="finetune-table"></tbody></table></div></div>
+ <p class="fine">2,048-token FP16 preset · architecture supports 8,192 tokens. Context includes state, instructions and options. Five-question checks passed with a fully unfrozen encoder at 512 tokens and with the last two blocks unfrozen at 2,048 tokens. Both checkpoint save/resume checks passed. Shape changes and allocator reservation can change the limit.</p>
+</section>
 <section class="section" id="large-run" hidden>
 <div class="section-head"><div><div class="eyebrow">The overnight experiment <span class="badge" id="large-phase"></span></div><h2>More data.<br>ModernBERT-large.</h2></div><p>17 datasets · frozen encoder · four-row batches · 1,024-token context. Eight-hour training budget; terminal validation and final evaluation are recorded separately.</p></div>
 <div class="stats"><div class="stat"><div class="value" id="large-step">—</div><div class="label">Updates completed</div></div><div class="stat"><div class="value" id="large-rows">—</div><div class="label">Training rows processed</div></div><div class="stat"><div class="value" id="large-pool">—</div><div class="label">Training-only rows in bounded pools</div></div><div class="stat"><div class="value" id="large-score">—</div><div class="label">Mean final dataset accuracy</div></div></div>
@@ -76,16 +83,30 @@ function barChart(target,labels,series,{max=1,percent=true,places=1,title='',hei
  series.forEach((run,j)=>{let value=run.values[i];if(value==null)return;let by=y+j*16;let show=percent?pct(value,places):fmt(value,places);s+=`<rect x="${L}" y="${by}" width="${Math.max(.6,value/max*C)}" height="11" rx="2" fill="${run.color}"><title>${esc(label+' · '+run.name+': '+show)}</title></rect><text class="value" x="${Math.min(W-R+5,L+value/max*C+7)}" y="${by+10}">${show}</text>`;});});
  $(target).innerHTML=svg(s,W,H,title||labels.join(', '));
 }
-function lineChart(target,series,{min=0,max=null,unit='',title='',height=210}={}){
+function lineChart(target,series,{min=0,max=null,unit='',title='',height=210,xLabel='step'}={}){
  const W=540,H=height,L=43,R=15,T=16,B=40, points=series.flatMap(x=>x.points),xs=points.map(p=>p[0]);
  const x0=Math.min(...xs),x1=Math.max(...xs);if(max===null)max=Math.max(...points.map(p=>p[1]))*1.1;if(max<=min)max=min+1;
  const X=x=>L+(x-x0)/(x1-x0||1)*(W-L-R),Y=y=>H-B-(y-min)/(max-min)*(H-T-B);let s='';
  for(let i=0;i<=4;i++){let v=min+(max-min)*i/4,y=Y(v);s+=`<line class="grid" x1="${L}" y1="${y}" x2="${W-R}" y2="${y}"/><text x="${L-7}" y="${y+4}" text-anchor="end">${fmt(v,max>3?1:2)}</text>`;}
- [x0,...[16,32,48].filter(x=>x>x0&&x<x1),x1].forEach(x=>{s+=`<text x="${X(x)}" y="${H-23}" text-anchor="middle">${x}</text>`});
- s+=`<text x="${L}" y="10" style="font-size:9px">${esc(unit)}</text><text x="${W-R}" y="${H-6}" text-anchor="end" style="font-size:9px">step</text>`;
- series.forEach(run=>{s+=`<path d="${run.points.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(2)+' '+Y(p[1]).toFixed(2)).join(' ')}" fill="none" stroke="${run.color}" stroke-width="1.8"/>`;run.points.forEach(p=>{s+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="5" fill="${run.color}" fill-opacity="0"><title>${esc(run.name+' · step '+p[0]+': '+fmt(p[1],4)+' '+unit)}</title></circle>`;});});
+ (xLabel==='tokens'?[...new Set(xs)].sort((a,b)=>a-b):[x0,...[16,32,48].filter(x=>x>x0&&x<x1),x1]).forEach(x=>{s+=`<text x="${X(x)}" y="${H-23}" text-anchor="middle">${x}</text>`});
+ s+=`<text x="${L}" y="10" style="font-size:9px">${esc(unit)}</text><text x="${W-R}" y="${H-6}" text-anchor="end" style="font-size:9px">${esc(xLabel)}</text>`;
+ series.forEach(run=>{s+=`<path d="${run.points.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(2)+' '+Y(p[1]).toFixed(2)).join(' ')}" fill="none" stroke="${run.color}" stroke-width="1.8"/>`;run.points.forEach(p=>{s+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="5" fill="${run.color}" fill-opacity="${run.points.length===1?1:0}"><title>${esc(run.name+' · '+xLabel+' '+p[0]+': '+fmt(p[1],4)+' '+unit)}</title></circle>`;});});
  $(target).innerHTML=svg(s,W,H,title);
 }
+
+if(D.finetune){
+ const f=D.finetune,checks=f.checks,passed=checks.filter(c=>c.status==='ok'&&c.questions_per_row===1&&c.model.encoder_last_n_layers===null);
+ $('finetune-memory').hidden=false;
+ $('finetune-note').textContent='FP32 controls: '+f.largest_tested_passing_context.toLocaleString()+' tokens passed with one row per update; '+f.largest_tested_passing_accumulated_context.toLocaleString()+' passed with accumulation, while '+f.smallest_tested_failing_accumulated_context.toLocaleString()+' failed. The requested preset uses 2,048 tokens with FP16 autocast and one-row updates. AMP results are recorded separately below. Full unfreezing exceeded the cap for five-question rows; the M1 preset trains the last two encoder blocks with the same context and passed its five-question check at 5.03 GiB observed driver allocation.';
+ $('finetune-table').innerHTML=checks.map(c=>`<tr><td>${c.model.max_len.toLocaleString()}</td><td>${esc(c.model.mixed_precision||'fp32')}</td><td>${c.model.mixed_precision==='fp16'?(c.model.fp16_initial_scale||1024):'—'}</td><td>${c.model.encoder_last_n_layers||'All 28'}</td><td>${c.questions_per_row}</td><td>${c.gradient_accumulation_steps||1}</td><td>${c.status==='ok'?'Passed':'Failed: see report'}</td><td>${c.status==='ok'?fmt(c.measured_driver_peak_gib,2)+' GiB':'—'}</td><td>${fmt(c.process_peak_rss_gib,2)} GiB</td><td>${c.status==='ok'?fmt(c.steps.reduce((a,s)=>a+s.seconds,0)/c.steps.length,1):'—'}</td></tr>`).join('');
+ const palette=['#286850','#cf6547','#406ba0','#b88b34','#885d9a'];
+ const groupKeys=[...new Set(passed.map(c=>(c.model.mixed_precision||'fp32')+' · accumulation '+(c.gradient_accumulation_steps||1)))];
+ const series=groupKeys.map((name,i)=>({name,color:palette[i%palette.length],points:passed.filter(c=>(c.model.mixed_precision||'fp32')+' · accumulation '+(c.gradient_accumulation_steps||1)===name).map(c=>[c.model.max_len,c.measured_driver_peak_gib])}));
+ $('finetune-legend').innerHTML=series.map(s=>`<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join('');
+ series.push({name:'MPS allocation cap',color:'#9ba7ae',points:[[256,9],[4096,9]]});
+ lineChart('finetune-chart',series,{min:6,max:9.5,unit:'GiB',title:'Full encoder training memory by context length',xLabel:'tokens'});
+}
+
 if(D.collapse_pilot){
  const c=D.collapse_pilot,labels=['Pre-norm + independent init','No transformer'],variants=Object.values(c.runs);
  $('collapse-pilot').hidden=false;

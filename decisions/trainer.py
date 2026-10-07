@@ -15,13 +15,14 @@ import torch
 from omegaconf import OmegaConf
 
 from .checkpoints import resume_checkpoint, save_checkpoint
-from .data import batches, dataset_configs, mixed_examples
+from .data import batches, dataset_configs, mixed_examples, prepare_training_cache
 from .diagnostics import training_probe_rows, log_feature_probe
 from .evaluation import evaluate, preprocessing
 from .logging import Logger
 from .losses import training_loss
-from .model import load_model, select_device
+from .model import load_model, select_device, training_logits
 from .schema import collate, to_device
+from .precision import build_scaler, optimizer_step
 
 
 def memory(device):
@@ -57,6 +58,44 @@ def scheduled_learning_rate(settings, step):
     return settings["learning_rate"] * ratio
 
 
+def build_optimizer(model, settings):
+    encoder = [p for p in model.bert.parameters() if p.requires_grad]
+    encoder_ids = {id(p) for p in encoder}
+    head = [p for p in model.parameters() if p.requires_grad and id(p) not in encoder_ids]
+    kwargs = {"lr": settings["learning_rate"], "weight_decay": settings["weight_decay"],
+              "foreach": settings.get("optimizer_foreach")}
+    if not encoder:
+        return torch.optim.AdamW(head, **kwargs)
+    encoder_lr = settings.get("encoder_learning_rate", settings["learning_rate"])
+    if encoder_lr <= 0 or settings["learning_rate"] <= 0:
+        raise ValueError("Encoder and head learning rates must be positive")
+    return torch.optim.AdamW([
+        {"params": head, "name": "head", "lr_scale": 1.},
+        {"params": encoder, "name": "encoder", "lr": encoder_lr,
+         "lr_scale": encoder_lr / settings["learning_rate"]}], **kwargs)
+
+
+def backward_microbatches(model, tokenizer, microbatches, device, config, scaler=None):
+    """Accumulate row-weighted losses; retain the joint reward within each row."""
+    total_rows = sum(len(rows) for rows in microbatches)
+    loss_value = 0.
+    for rows in microbatches:
+        inputs, target, spans = collate(rows, tokenizer, **preprocessing(config["model"]))
+        inputs, target = to_device(inputs, device), target.to(device)
+        logits = training_logits(model, inputs, config["training"].get("question_microbatch_size", 0))
+        loss = training_loss(logits, target, inputs, spans, config["training"], config["ablation"])
+        if not torch.isfinite(loss):
+            raise RuntimeError("Nonfinite training loss")
+        weight = len(rows) / total_rows
+        weighted = loss * weight
+        (scaler.scale(weighted) if scaler is not None else weighted).backward()
+        loss_value += loss.item() * weight
+        del inputs, target, logits, loss, weighted
+        if config["training"].get("clear_cache_between_microbatches", False):
+            clear_cache(device)
+    return loss_value
+
+
 def train(cfg, run_dir):
     config = OmegaConf.to_container(cfg, resolve=True)
     settings = config["training"]
@@ -64,6 +103,12 @@ def train(cfg, run_dir):
         value = settings[key]
         if isinstance(value, bool) or not isinstance(value, int) or value < 1:
             raise ValueError(f"training.{key} must be a positive integer")
+    accumulation = settings.get("gradient_accumulation_steps", 1)
+    question_size = settings.get("question_microbatch_size", 0)
+    if isinstance(accumulation, bool) or not isinstance(accumulation, int) or accumulation < 1:
+        raise ValueError("gradient_accumulation_steps must be a positive integer")
+    if isinstance(question_size, bool) or not isinstance(question_size, int) or question_size < 0:
+        raise ValueError("question_microbatch_size must be a nonnegative integer")
     if settings["shuffle_buffer"] < 0:
         raise ValueError("shuffle_buffer must be nonnegative")
     if config["evaluation"]["max_rows"] < 1:
@@ -72,6 +117,12 @@ def train(cfg, run_dir):
     run_dir.mkdir(parents=True, exist_ok=True)
     datasets = dataset_configs(config)
     config["dataset_configs"] = datasets
+    data_settings = config.get("data", {})
+    if data_settings.get("prepare_train_cache"):
+        cache_dir = data_settings.get("train_cache_dir") or str(run_dir / "training_samples")
+        config["data"]["train_cache_dir"] = cache_dir
+        # Prepare one bounded reader at a time before encoder/Adam allocation.
+        prepare_training_cache(config, datasets, Path(cache_dir))
     (run_dir / "config.json").write_text(json.dumps(config, indent=2))
     random.seed(config["seed"])
     torch.manual_seed(config["seed"])
@@ -82,7 +133,9 @@ def train(cfg, run_dir):
         torch.mps.set_per_process_memory_fraction(fraction)
     model, tokenizer = load_model(config["model"], config["ablation"], device)
     parameters = [p for p in model.parameters() if p.requires_grad]
-    optimizer = torch.optim.AdamW(parameters, lr=settings["learning_rate"], weight_decay=settings["weight_decay"])
+    optimizer = build_optimizer(model, settings)
+    scaler = build_scaler(config["model"], device)
+    optimizer._decision_scaler = scaler
     progress = {"step": 0, "epoch": 0, "rows_in_epoch": 0, "rows": 0, "best_accuracy": -1.0}
     if settings.get("budget_spent_seconds"):
         progress["training_elapsed_seconds"] = settings["budget_spent_seconds"]
@@ -130,26 +183,20 @@ def train(cfg, run_dir):
                         stop_training = True
                         break
                     started = time.perf_counter()
-                    try:
-                        rows = next(iterator)
-                    except StopIteration:
+                    microbatches = list(itertools.islice(iterator, accumulation))
+                    if not microbatches:
                         progress["epoch"], progress["rows_in_epoch"] = epoch + 1, 0
                         break
-                    inputs, target, spans = collate(rows, tokenizer, **preprocessing(config["model"]))
-                    inputs, target = to_device(inputs, device), target.to(device)
+                    # Retain the last atomic checkpoint if any accumulated
+                    # forward/backward or optimizer update is interrupted.
+                    update_in_progress = True
                     optimizer.zero_grad(set_to_none=True)
                     for group in optimizer.param_groups:
-                        group["lr"] = scheduled_learning_rate(settings, progress["step"])
-                    logits = model(inputs)
-                    loss = training_loss(logits, target, inputs, spans, settings, config["ablation"])
-                    if not torch.isfinite(loss):
-                        raise RuntimeError("Nonfinite training loss")
-                    loss.backward()
-                    gradient_norm = torch.nn.utils.clip_grad_norm_(parameters, settings["clip_grad"], error_if_nonfinite=True)
-                    update_in_progress = True
-                    optimizer.step()
+                        group["lr"] = scheduled_learning_rate(settings, progress["step"]) * group.get("lr_scale", 1.)
+                    loss_value = backward_microbatches(model, tokenizer, microbatches, device, config, scaler)
+                    norm_value, updated = optimizer_step(optimizer, parameters, settings["clip_grad"], scaler)
                     optimizer.zero_grad(set_to_none=True)
-                    loss_value, norm_value = loss.item(), gradient_norm.item()
+                    rows = [row for micro in microbatches for row in micro]
                     progress["step"] += 1
                     progress["rows"] += len(rows)
                     progress["rows_in_epoch"] += len(rows)
@@ -160,15 +207,19 @@ def train(cfg, run_dir):
                         name = row.get("_dataset", datasets[0]["name"])
                         counts[name] = counts.get(name, 0) + 1
                     update_in_progress = False
-                    del inputs, target, logits, loss, gradient_norm, rows
+                    del rows, microbatches
                     step = progress["step"]
                     if step % settings["cache_clear_every"] == 0:
                         clear_cache(device)
                     metrics = {"step": step, "rows": progress["rows"], "train/loss": loss_value,
                                "train/gradient_norm": norm_value, "train/seconds": time.perf_counter() - started,
                                "train/learning_rate": optimizer.param_groups[0]["lr"],
+                               "train/optimizer_updated": int(updated), "train/loss_scale": scaler.get_scale(),
                                "memory/process_peak_rss_gib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (2**30 if sys.platform == "darwin" else 2**20),
                                **memory(device)}
+                    for group in optimizer.param_groups:
+                        if group.get("name") == "encoder":
+                            metrics["train/encoder_learning_rate"] = group["lr"]
                     metrics_file.write(json.dumps(metrics) + "\n")
                     metrics_file.flush()
                     if step % settings["log_every"] == 0:
@@ -196,11 +247,13 @@ def train(cfg, run_dir):
         optimizer.zero_grad(set_to_none=True)
         if settings.get("max_seconds"):
             progress["training_elapsed_seconds"] = elapsed_before_resume + time.monotonic() - training_started
-        if not update_in_progress:
-            save_checkpoint(run_dir / "last.pt", model, optimizer, config, progress, device)
-        else:
-            print(f"Update interrupted; retained the previous checkpoint at {run_dir / 'last.pt'}", flush=True)
-        logger.finish()
+        try:
+            if not update_in_progress:
+                save_checkpoint(run_dir / "last.pt", model, optimizer, config, progress, device)
+            else:
+                print(f"Update interrupted; retained the previous checkpoint at {run_dir / 'last.pt'}", flush=True)
+        finally:
+            logger.finish()
     print(f"Checkpoint: {run_dir / 'last.pt'}", flush=True)
     return run_dir
 

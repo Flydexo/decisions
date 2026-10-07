@@ -5,6 +5,7 @@ import torch
 
 def confidence(probabilities, mask=None):
     """Normalized Shannon entropy over valid options only; singleton confidence is 1."""
+    probabilities = probabilities.float()
     mask = torch.ones_like(probabilities, dtype=torch.bool) if mask is None else mask
     count = mask.sum(-1)
     if (count == 0).any():
@@ -28,6 +29,8 @@ def reward(p, target, qtype, mask, weights, ordinal_order=None):
 
 
 def training_loss(logits, target, inputs, spans, training, ablation):
+    # Entropy, reward normalization and action log-densities need FP32 range.
+    logits, target = logits.float(), target.float()
     if ablation.get("objective", "sampled_reward") == "cross_entropy":
         per_question = -(target * logits.log_softmax(-1)).sum(-1)
         return torch.stack([per_question[start:end].mean() for start, end, _ in spans]).mean()

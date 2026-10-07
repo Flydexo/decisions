@@ -1,0 +1,36 @@
+# @package _global_
+defaults:
+  - expanded_large
+
+model:
+  train_encoder: true
+  encoder_last_n_layers: null
+  gradient_checkpointing: true
+  max_len: 2048
+  mixed_precision: fp16
+  fp16_initial_scale: 1024
+  autocast_cache_enabled: false
+  head_max_len: 128
+  option_max_len: 32
+data:
+  prepare_train_cache: true
+training:
+  batch_size: 1
+  question_microbatch_size: 1
+  gradient_accumulation_steps: 1
+  clear_cache_between_microbatches: true
+  learning_rate: 0.0001
+  encoder_learning_rate: 0.00001
+  optimizer_foreach: false
+  mps_memory_budget_gib: 9
+  min_free_disk_gib: 2
+  checkpoint_every: 1000
+  best_checkpoint_optimizer: false
+evaluation:
+  batch_size: 1
+  question_microbatch_size: 1
+  every_steps: 100
+logging:
+  project: decisions-finetune-large
+diagnostics:
+  batch_size: 1

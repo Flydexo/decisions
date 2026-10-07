@@ -1,0 +1,60 @@
+{
+  "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+  "model": {
+    "encoder": "answerdotai/ModernBERT-large",
+    "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+    "nhead": 16,
+    "num_layers": 2,
+    "dim_feedforward": 4096,
+    "dropout": 0.1,
+    "max_len": 4096,
+    "head_max_len": 128,
+    "option_max_len": 32,
+    "preserve_options": true,
+    "balanced_state": true,
+    "norm_first": true,
+    "independent_init": true,
+    "train_encoder": true,
+    "encoder_last_n_layers": null,
+    "gradient_checkpointing": true
+  },
+  "question_microbatch_size": 1,
+  "batch_rows": 1,
+  "questions_per_row": 1,
+  "mps_cap_gib": 9,
+  "steps": [
+    {
+      "step": 1,
+      "loss": 0.2781345844268799,
+      "seconds": 34.48033358300745,
+      "encoder_grad_norm": 0.036223020404577255,
+      "memory_stages": [
+        {
+          "stage": "forward",
+          "memory/live_gib": 2.106951951980591,
+          "memory/driver_gib": 6.0084228515625
+        },
+        {
+          "stage": "backward",
+          "memory/live_gib": 3.1440649032592773,
+          "memory/driver_gib": 8.010467529296875
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.288794994354248,
+          "memory/driver_gib": 8.018280029296875
+        }
+      ]
+    }
+  ],
+  "total_parameters": 421029889,
+  "trainable_parameters": 421029889,
+  "encoder_trainable_parameters": 394781696,
+  "fp32_weights_gradients_adam_gib": 6.273834243416786,
+  "sequence_length": 4096,
+  "status": "failed",
+  "error": "RuntimeError: MPS backend out of memory (MPS allocated: 8.02 GiB, other allocations: 2.62 MiB, max allowed: 9.00 GiB). Tried to allocate 1024.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+  "process_peak_rss_gib": 0.7319488525390625,
+  "measured_driver_peak_gib": 8.018280029296875,
+  "measured_live_peak_gib": 6.288794994354248
+}

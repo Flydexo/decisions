@@ -1,0 +1,2525 @@
+{
+  "generated_at": "2026-10-07T12:13:25.302638+00:00",
+  "protocol": "Synthetic full RLCD optimizer updates; forward precision and accumulation explicitly recorded; no dataset training or evaluation",
+  "architectural_max_tokens": 8192,
+  "mps_cap_gib": 9,
+  "largest_tested_passing_context": 3072,
+  "smallest_tested_failing_context": 3584,
+  "largest_tested_passing_accumulated_context": 1536,
+  "smallest_tested_failing_accumulated_context": 2048,
+  "largest_tested_passing_amp_context": 2048,
+  "preset_tokens": 2048,
+  "preset_precision": "fp16",
+  "m1_encoder_last_n_layers": 2,
+  "m1_accumulation_steps": 2,
+  "checks": [
+    {
+      "file": "reports/finetune_preflight_256_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 256,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.3263518214225769,
+          "seconds": 3.5856619590049377,
+          "encoder_grad_norm": 0.021288223564624786,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 1.6042094230651855,
+              "memory/driver_gib": 2.0396728515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.143580436706543,
+              "memory/driver_gib": 4.049530029296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.286845684051514,
+              "memory/driver_gib": 7.088592529296875
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": -0.3173829913139343,
+          "seconds": 2.6362642500025686,
+          "encoder_grad_norm": 0.09527302533388138,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 4.747474670410156,
+              "memory/driver_gib": 7.0728759765625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 6.286540508270264,
+              "memory/driver_gib": 7.080780029296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.286540508270264,
+              "memory/driver_gib": 7.088592529296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 256,
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.7201995849609375,
+      "measured_driver_peak_gib": 7.088592529296875,
+      "measured_live_peak_gib": 6.286845684051514
+    },
+    {
+      "file": "reports/finetune_preflight_512_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 512,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.10865704715251923,
+          "seconds": 3.9347711669979617,
+          "encoder_grad_norm": 0.029995016753673553,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 1.636871099472046,
+              "memory/driver_gib": 2.0084228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.1432790756225586,
+              "memory/driver_gib": 4.010467529296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.287398815155029,
+              "memory/driver_gib": 7.018280029296875
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": -0.19675078988075256,
+          "seconds": 3.4030255419929745,
+          "encoder_grad_norm": 0.033182740211486816,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 4.781234979629517,
+              "memory/driver_gib": 6.0103759765625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 6.291182994842529,
+              "memory/driver_gib": 7.010467529296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.291182994842529,
+              "memory/driver_gib": 7.018280029296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 512,
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.787261962890625,
+      "measured_driver_peak_gib": 7.018280029296875,
+      "measured_live_peak_gib": 6.291182994842529
+    },
+    {
+      "file": "reports/finetune_preflight_512_q5.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 512,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 5,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.04466846585273743,
+          "seconds": 13.814880624995567,
+          "encoder_grad_norm": 0.03202587738633156,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 1.5753412246704102,
+              "memory/driver_gib": 2.0084228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.1439199447631836,
+              "memory/driver_gib": 4.010467529296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.288894176483154,
+              "memory/driver_gib": 7.018280029296875
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": 0.06640797108411789,
+          "seconds": 13.009022625003126,
+          "encoder_grad_norm": 0.006194733548909426,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 4.720315456390381,
+              "memory/driver_gib": 6.0103759765625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 6.291457653045654,
+              "memory/driver_gib": 7.049530029296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.291457653045654,
+              "memory/driver_gib": 7.057342529296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 512,
+      "encoder_weight_max_change": 2.0384788513183594e-05,
+      "resume_checkpoint_gib": 4.705599817447364,
+      "checkpoint_resume_memory": {
+        "memory/live_gib": 4.715918302536011,
+        "memory/driver_gib": 5.0084228515625
+      },
+      "inference_checkpoint_gib": 1.5685283923521638,
+      "checkpoint_check": "ok",
+      "status": "ok",
+      "process_peak_rss_gib": 0.817413330078125,
+      "measured_driver_peak_gib": 7.057342529296875,
+      "measured_live_peak_gib": 6.291457653045654
+    },
+    {
+      "file": "reports/finetune_preflight_1024_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 1024,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.03664335608482361,
+          "seconds": 6.529124749999028,
+          "encoder_grad_norm": 0.014861521311104298,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 1.7025606632232666,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.14401912689209,
+              "memory/driver_gib": 4.014373779296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.2882609367370605,
+              "memory/driver_gib": 7.022186279296875
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": -0.2755569517612457,
+          "seconds": 6.451577250001719,
+          "encoder_grad_norm": 0.03284905105829239,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 4.846802473068237,
+              "memory/driver_gib": 7.0142822265625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 6.2882609367370605,
+              "memory/driver_gib": 7.014373779296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.2882609367370605,
+              "memory/driver_gib": 8.022186279296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 1024,
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.785614013671875,
+      "measured_driver_peak_gib": 8.022186279296875,
+      "measured_live_peak_gib": 6.2882609367370605
+    },
+    {
+      "file": "reports/finetune_preflight_a2_1024_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 1024,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 2,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.11541713774204254,
+          "seconds": 10.680779957998311,
+          "encoder_grad_norm": 0.019291747361421585,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.7025606632232666,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.14401912689209,
+              "memory/driver_gib": 4.014373779296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.1440186500549316,
+              "memory/driver_gib": 4.0142822265625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.274925708770752,
+              "memory/driver_gib": 4.0142822265625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.14401912689209,
+              "memory/driver_gib": 4.014373779296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.1440186500549316,
+              "memory/driver_gib": 4.0142822265625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.289725303649902,
+              "memory/driver_gib": 7.0533447265625
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": -0.31744271516799927,
+          "seconds": 11.289128583011916,
+          "encoder_grad_norm": 0.010822955518960953,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 4.848267316818237,
+              "memory/driver_gib": 7.0455322265625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 6.2897257804870605,
+              "memory/driver_gib": 7.045623779296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 6.289725303649902,
+              "memory/driver_gib": 7.0455322265625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 6.421120643615723,
+              "memory/driver_gib": 7.0455322265625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 6.2897257804870605,
+              "memory/driver_gib": 8.045623779296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 6.289725303649902,
+              "memory/driver_gib": 7.0455322265625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.289725303649902,
+              "memory/driver_gib": 8.0533447265625
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 1024,
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.77020263671875,
+      "measured_driver_peak_gib": 8.0533447265625,
+      "measured_live_peak_gib": 6.421120643615723
+    },
+    {
+      "file": "reports/finetune_preflight_a2_1536_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 1536,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 2,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.04752663895487785,
+          "seconds": 16.234412082994822,
+          "encoder_grad_norm": 0.03375248610973358,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.7694709300994873,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 4.016326904296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.288023948669434,
+              "memory/driver_gib": 7.0240478515625
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": 0.06997692584991455,
+          "seconds": 17.211461583996424,
+          "encoder_grad_norm": 0.0453132726252079,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 4.914933443069458,
+              "memory/driver_gib": 7.0162353515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 6.294860363006592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 6.294859886169434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 6.492181301116943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 6.294860363006592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 6.294859886169434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.294859886169434,
+              "memory/driver_gib": 8.0240478515625
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 1536,
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.77044677734375,
+      "measured_driver_peak_gib": 8.0240478515625,
+      "measured_live_peak_gib": 6.492181301116943
+    },
+    {
+      "file": "reports/finetune_preflight_a8_1536_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 1536,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 8,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.013970340602099895,
+          "seconds": 58.68918191600824,
+          "encoder_grad_norm": 0.0171726755797863,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.7694709300994873,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 4.016326904296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_3",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_3",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_3",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_4",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_4",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_4",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_5",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_5",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_5",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_6",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_6",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_6",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_7",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_7",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_7",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "forward_8",
+              "memory/live_gib": 3.3415918350219727,
+              "memory/driver_gib": 5.0162353515625
+            },
+            {
+              "stage": "backward_8",
+              "memory/live_gib": 3.143782615661621,
+              "memory/driver_gib": 5.016326904296875
+            },
+            {
+              "stage": "cache_clear_8",
+              "memory/live_gib": 3.143782138824463,
+              "memory/driver_gib": 4.0162353515625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.288023948669434,
+              "memory/driver_gib": 7.0240478515625
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": 0.040106628090143204,
+          "seconds": 62.72912795798038,
+          "encoder_grad_norm": 0.01610519178211689,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 4.913712739944458,
+              "memory/driver_gib": 7.0162353515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 6.489984035491943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_3",
+              "memory/live_gib": 6.489739894866943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_3",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_3",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_4",
+              "memory/live_gib": 6.489739894866943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_4",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_4",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_5",
+              "memory/live_gib": 6.489739894866943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_5",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_5",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_6",
+              "memory/live_gib": 6.489739894866943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_6",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_6",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_7",
+              "memory/live_gib": 6.489739894866943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_7",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_7",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "forward_8",
+              "memory/live_gib": 6.489739894866943,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "backward_8",
+              "memory/live_gib": 6.291930675506592,
+              "memory/driver_gib": 8.016326904296875
+            },
+            {
+              "stage": "cache_clear_8",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0162353515625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.291930198669434,
+              "memory/driver_gib": 8.0240478515625
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 1536,
+      "encoder_weight_max_change": 2.0503997802734375e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.759735107421875,
+      "measured_driver_peak_gib": 8.0240478515625,
+      "measured_live_peak_gib": 6.489984035491943
+    },
+    {
+      "file": "reports/finetune_preflight_bf16_a8_2048_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true,
+        "mixed_precision": "bf16",
+        "autocast_cache_enabled": false
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 8,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.029882727190852165,
+          "seconds": 100.47191754102823,
+          "encoder_grad_norm": 0.021034585312008858,
+          "gradient_norm": 6.82611608505249,
+          "loss_scale": 1.0,
+          "logits_dtype": "torch.bfloat16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.837348222732544,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.4094691276550293,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_3",
+              "memory/live_gib": 3.4094691276550293,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_3",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_3",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_4",
+              "memory/live_gib": 3.4094691276550293,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_4",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_4",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_5",
+              "memory/live_gib": 3.4094691276550293,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_5",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_5",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_6",
+              "memory/live_gib": 3.4094691276550293,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_6",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_6",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_7",
+              "memory/live_gib": 3.4094691276550293,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_7",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_7",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_8",
+              "memory/live_gib": 3.4094691276550293,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_8",
+              "memory/live_gib": 3.1437902450561523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_8",
+              "memory/live_gib": 3.143789768218994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.289008140563965,
+              "memory/driver_gib": 7.0269775390625
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 9.01 GiB, other allocations: 11.69 MiB, max allowed: 9.00 GiB). Tried to allocate 256.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "failure_memory": {
+        "memory/live_gib": 6.821527481079102,
+        "memory/driver_gib": 9.01922607421875
+      },
+      "process_peak_rss_gib": 0.7713623046875,
+      "measured_driver_peak_gib": 7.0269775390625,
+      "measured_live_peak_gib": 6.289008140563965
+    },
+    {
+      "file": "reports/finetune_preflight_bf16_cached_a8_2048_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true,
+        "mixed_precision": "bf16",
+        "autocast_cache_enabled": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 8,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.029882727190852165,
+          "seconds": 99.445870208001,
+          "encoder_grad_norm": 0.021034585312008858,
+          "gradient_norm": 6.82611608505249,
+          "loss_scale": 1.0,
+          "logits_dtype": "torch.bfloat16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.837348222732544,
+              "memory/driver_gib": 4.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.4155726432800293,
+              "memory/driver_gib": 6.0191650390625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 6.019256591796875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_3",
+              "memory/live_gib": 3.4155726432800293,
+              "memory/driver_gib": 6.0191650390625
+            },
+            {
+              "stage": "backward_3",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 6.019256591796875
+            },
+            {
+              "stage": "cache_clear_3",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_4",
+              "memory/live_gib": 3.4155726432800293,
+              "memory/driver_gib": 6.0191650390625
+            },
+            {
+              "stage": "backward_4",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 6.019256591796875
+            },
+            {
+              "stage": "cache_clear_4",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_5",
+              "memory/live_gib": 3.4160609245300293,
+              "memory/driver_gib": 6.0191650390625
+            },
+            {
+              "stage": "backward_5",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 6.019256591796875
+            },
+            {
+              "stage": "cache_clear_5",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_6",
+              "memory/live_gib": 3.4164271354675293,
+              "memory/driver_gib": 6.0191650390625
+            },
+            {
+              "stage": "backward_6",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 6.019256591796875
+            },
+            {
+              "stage": "cache_clear_6",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_7",
+              "memory/live_gib": 3.4156947135925293,
+              "memory/driver_gib": 6.0191650390625
+            },
+            {
+              "stage": "backward_7",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 6.019256591796875
+            },
+            {
+              "stage": "cache_clear_7",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_8",
+              "memory/live_gib": 3.4155726432800293,
+              "memory/driver_gib": 6.0191650390625
+            },
+            {
+              "stage": "backward_8",
+              "memory/live_gib": 3.1498937606811523,
+              "memory/driver_gib": 6.019256591796875
+            },
+            {
+              "stage": "cache_clear_8",
+              "memory/live_gib": 3.149893283843994,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.305731773376465,
+              "memory/driver_gib": 7.0269775390625
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 9.01 GiB, other allocations: 11.62 MiB, max allowed: 9.00 GiB). Tried to allocate 5.12 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "failure_memory": {
+        "memory/live_gib": 6.57309627532959,
+        "memory/driver_gib": 9.0191650390625
+      },
+      "process_peak_rss_gib": 0.598663330078125,
+      "measured_driver_peak_gib": 7.0269775390625,
+      "measured_live_peak_gib": 6.305731773376465
+    },
+    {
+      "file": "reports/finetune_preflight_fp16_highscale_2048_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true,
+        "mixed_precision": "fp16",
+        "autocast_cache_enabled": false,
+        "fp16_initial_scale": 65536.0
+      },
+      "training": {
+        "batch_size": 1,
+        "epochs": 3,
+        "max_steps": 22000,
+        "shuffle_buffer": 2048,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.01,
+        "sigma": 1.0,
+        "candidates": 8,
+        "clip_grad": 1.0,
+        "log_every": 50,
+        "checkpoint_every": 1000,
+        "cache_clear_every": 10,
+        "mps_memory_budget_gib": 9,
+        "warmup_steps": 100,
+        "decay_steps": 22000,
+        "min_learning_rate_ratio": 0.1,
+        "max_seconds": 7200,
+        "validation_role": "validation",
+        "early_stopping_patience": 4,
+        "min_free_disk_gib": 2,
+        "best_checkpoint_optimizer": false,
+        "question_microbatch_size": 1,
+        "gradient_accumulation_steps": 1,
+        "clear_cache_between_microbatches": true,
+        "encoder_learning_rate": 1e-05,
+        "optimizer_foreach": false
+      },
+      "ablation": {
+        "objective": "sampled_reward",
+        "no_question_type": false,
+        "no_transformer": false,
+        "linear_scorer": false,
+        "reward_weights": {
+          "log": 1.0,
+          "spherical": 0.5,
+          "rps": 1.0
+        },
+        "name": "baseline"
+      },
+      "seed": 42,
+      "torch_version": "2.14.0",
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 1,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [],
+      "trackio_project": "decisions-finetune-large",
+      "trackio_run": "finetune_preflight_fp16_2048_q1",
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "status": "failed",
+      "error": "RuntimeError: AMP skipped an optimizer update due to nonfinite gradients",
+      "failure_memory": {
+        "memory/live_gib": 3.1433019638061523,
+        "memory/driver_gib": 5.0191650390625
+      },
+      "process_peak_rss_gib": 0.7719573974609375,
+      "measured_driver_peak_gib": null,
+      "measured_live_peak_gib": null
+    },
+    {
+      "file": "reports/finetune_preflight_fp16_2048_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true,
+        "mixed_precision": "fp16",
+        "autocast_cache_enabled": false
+      },
+      "training": {
+        "batch_size": 1,
+        "epochs": 3,
+        "max_steps": 22000,
+        "shuffle_buffer": 2048,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.01,
+        "sigma": 1.0,
+        "candidates": 8,
+        "clip_grad": 1.0,
+        "log_every": 50,
+        "checkpoint_every": 1000,
+        "cache_clear_every": 10,
+        "mps_memory_budget_gib": 9,
+        "warmup_steps": 100,
+        "decay_steps": 22000,
+        "min_learning_rate_ratio": 0.1,
+        "max_seconds": 7200,
+        "validation_role": "validation",
+        "early_stopping_patience": 4,
+        "min_free_disk_gib": 2,
+        "best_checkpoint_optimizer": false,
+        "question_microbatch_size": 1,
+        "gradient_accumulation_steps": 1,
+        "clear_cache_between_microbatches": true,
+        "encoder_learning_rate": 1e-05,
+        "optimizer_foreach": false
+      },
+      "ablation": {
+        "objective": "sampled_reward",
+        "no_question_type": false,
+        "no_transformer": false,
+        "linear_scorer": false,
+        "reward_weights": {
+          "log": 1.0,
+          "spherical": 0.5,
+          "rps": 1.0
+        },
+        "name": "baseline"
+      },
+      "seed": 42,
+      "torch_version": "2.14.0",
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 1,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.058326661586761475,
+          "seconds": 11.565051332989242,
+          "encoder_grad_norm": 0.030062418431043625,
+          "gradient_norm": 13.061677932739258,
+          "loss_scale": 1024.0,
+          "logits_dtype": "torch.float16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.837348222732544,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.288276195526123,
+              "memory/driver_gib": 7.0582275390625
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": -0.022920608520507812,
+          "seconds": 11.798402999993414,
+          "encoder_grad_norm": 0.0674724280834198,
+          "gradient_norm": 12.651581764221191,
+          "loss_scale": 1024.0,
+          "logits_dtype": "torch.float16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 4.982322931289673,
+              "memory/driver_gib": 8.0406494140625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 6.288276672363281,
+              "memory/driver_gib": 8.050506591796875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 6.288276195526123,
+              "memory/driver_gib": 8.0504150390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.288276195526123,
+              "memory/driver_gib": 8.0582275390625
+            }
+          ]
+        },
+        {
+          "step": 3,
+          "loss": 0.099925696849823,
+          "seconds": 11.313609458011342,
+          "encoder_grad_norm": 0.016809314489364624,
+          "gradient_norm": 4.404091835021973,
+          "loss_scale": 1024.0,
+          "logits_dtype": "torch.float16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 4.982322931289673,
+              "memory/driver_gib": 8.0406494140625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 6.288520812988281,
+              "memory/driver_gib": 8.050506591796875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 6.288520336151123,
+              "memory/driver_gib": 8.0504150390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.288520336151123,
+              "memory/driver_gib": 8.0582275390625
+            }
+          ]
+        }
+      ],
+      "trackio_project": "decisions-finetune-large",
+      "trackio_run": "finetune_preflight_fp16_2048_q1",
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "evaluation_forward": "ok",
+      "encoder_weight_max_change": 3.039836883544922e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.7775726318359375,
+      "measured_driver_peak_gib": 8.0582275390625,
+      "measured_live_peak_gib": 6.288520812988281
+    },
+    {
+      "file": "reports/finetune_preflight_fp16_2048_q5.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true,
+        "mixed_precision": "fp16",
+        "fp16_initial_scale": 1024,
+        "autocast_cache_enabled": false
+      },
+      "training": {
+        "batch_size": 1,
+        "epochs": 3,
+        "max_steps": 22000,
+        "shuffle_buffer": 2048,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.01,
+        "sigma": 1.0,
+        "candidates": 8,
+        "clip_grad": 1.0,
+        "log_every": 50,
+        "checkpoint_every": 1000,
+        "cache_clear_every": 10,
+        "mps_memory_budget_gib": 9,
+        "warmup_steps": 100,
+        "decay_steps": 22000,
+        "min_learning_rate_ratio": 0.1,
+        "max_seconds": 7200,
+        "validation_role": "validation",
+        "early_stopping_patience": 4,
+        "min_free_disk_gib": 2,
+        "best_checkpoint_optimizer": false,
+        "question_microbatch_size": 1,
+        "gradient_accumulation_steps": 1,
+        "clear_cache_between_microbatches": true,
+        "encoder_learning_rate": 1e-05,
+        "optimizer_foreach": false
+      },
+      "ablation": {
+        "objective": "sampled_reward",
+        "no_question_type": false,
+        "no_transformer": false,
+        "linear_scorer": false,
+        "reward_weights": {
+          "log": 1.0,
+          "spherical": 0.5,
+          "rps": 1.0
+        },
+        "name": "baseline"
+      },
+      "seed": 42,
+      "torch_version": "2.14.0",
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 1,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 5,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.02328944206237793,
+          "seconds": 63.95199750000029,
+          "encoder_grad_norm": 0.01719399355351925,
+          "gradient_norm": 6.143515586853027,
+          "loss_scale": 1024.0,
+          "logits_dtype": "torch.float16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.601097583770752,
+              "memory/driver_gib": 3.0162353515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.1434245109558105,
+              "memory/driver_gib": 5.027069091796875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.1434240341186523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.287665843963623,
+              "memory/driver_gib": 7.0269775390625
+            }
+          ]
+        }
+      ],
+      "trackio_project": "decisions-finetune-large",
+      "trackio_run": "finetune_preflight_fp16_2048_q5",
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 9.02 GiB, other allocations: 11.72 MiB, max allowed: 9.00 GiB). Tried to allocate 256.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "failure_memory": {
+        "memory/live_gib": 5.265403985977173,
+        "memory/driver_gib": 9.027069091796875
+      },
+      "process_peak_rss_gib": 0.783447265625,
+      "measured_driver_peak_gib": 7.0269775390625,
+      "measured_live_peak_gib": 6.287665843963623
+    },
+    {
+      "file": "reports/finetune_preflight_partial2_fp16_a2_2048_q5.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": 2,
+        "gradient_checkpointing": true,
+        "mixed_precision": "fp16",
+        "fp16_initial_scale": 1024,
+        "autocast_cache_enabled": false
+      },
+      "training": {
+        "batch_size": 1,
+        "epochs": 3,
+        "max_steps": 22000,
+        "shuffle_buffer": 2048,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.01,
+        "sigma": 1.0,
+        "candidates": 8,
+        "clip_grad": 1.0,
+        "log_every": 50,
+        "checkpoint_every": 1000,
+        "cache_clear_every": 10,
+        "mps_memory_budget_gib": 9,
+        "warmup_steps": 100,
+        "decay_steps": 22000,
+        "min_learning_rate_ratio": 0.1,
+        "max_seconds": 7200,
+        "validation_role": "validation",
+        "early_stopping_patience": 4,
+        "min_free_disk_gib": 2,
+        "best_checkpoint_optimizer": false,
+        "question_microbatch_size": 1,
+        "gradient_accumulation_steps": 2,
+        "clear_cache_between_microbatches": true,
+        "encoder_learning_rate": 1e-05,
+        "optimizer_foreach": false
+      },
+      "ablation": {
+        "objective": "sampled_reward",
+        "no_question_type": false,
+        "no_transformer": false,
+        "linear_scorer": false,
+        "reward_weights": {
+          "log": 1.0,
+          "spherical": 0.5,
+          "rps": 1.0
+        },
+        "name": "baseline"
+      },
+      "seed": 42,
+      "torch_version": "2.14.0",
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 2,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 5,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.02731705829501152,
+          "seconds": 119.19570341700455,
+          "encoder_grad_norm": 0.00638926075771451,
+          "gradient_norm": 0.7569085359573364,
+          "loss_scale": 1024.0,
+          "logits_dtype": "torch.float16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.640160083770752,
+              "memory/driver_gib": 3.0162353515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 1.839026927947998,
+              "memory/driver_gib": 4.0270843505859375
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 1.7609014511108398,
+              "memory/driver_gib": 4.0191650390625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 1.829270601272583,
+              "memory/driver_gib": 4.0172119140625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 1.839026927947998,
+              "memory/driver_gib": 4.0270843505859375
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 1.7609014511108398,
+              "memory/driver_gib": 4.0191650390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 2.1391215324401855,
+              "memory/driver_gib": 4.0269775390625
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": -0.047030418179929256,
+          "seconds": 117.2265441250056,
+          "encoder_grad_norm": 0.014113178476691246,
+          "gradient_norm": 1.2446783781051636,
+          "loss_scale": 1024.0,
+          "logits_dtype": "torch.float16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 2.018380641937256,
+              "memory/driver_gib": 4.0172119140625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 2.2172470092773438,
+              "memory/driver_gib": 5.0270843505859375
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 2.1391215324401855,
+              "memory/driver_gib": 4.0191650390625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 2.2074906826019287,
+              "memory/driver_gib": 4.0172119140625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 2.2172470092773438,
+              "memory/driver_gib": 5.0270843505859375
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 2.1391215324401855,
+              "memory/driver_gib": 4.0191650390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 2.1391215324401855,
+              "memory/driver_gib": 4.0269775390625
+            }
+          ]
+        }
+      ],
+      "trackio_project": "decisions-finetune-large",
+      "trackio_run": "finetune_preflight_partial2_fp16_a2_2048_q5",
+      "total_parameters": 421029889,
+      "trainable_parameters": 50763777,
+      "encoder_trainable_parameters": 24515584,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 2.1357879787683487,
+      "sequence_length": 2048,
+      "evaluation_forward": "ok",
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "resume_checkpoint_gib": 1.9467822620645165,
+      "checkpoint_resume_memory": {
+        "memory/live_gib": 1.9500114917755127,
+        "memory/driver_gib": 2.0093994140625
+      },
+      "inference_checkpoint_gib": 1.568528630770743,
+      "checkpoint_check": "ok",
+      "status": "ok",
+      "process_peak_rss_gib": 0.99261474609375,
+      "measured_driver_peak_gib": 5.0270843505859375,
+      "measured_live_peak_gib": 2.2172470092773438
+    },
+    {
+      "file": "reports/finetune_preflight_fp16_a8_2048_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true,
+        "mixed_precision": "fp16",
+        "autocast_cache_enabled": false,
+        "fp16_initial_scale": 65536.0
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 8,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.029988487251102924,
+          "seconds": 78.99354249998578,
+          "encoder_grad_norm": 0.02124483324587345,
+          "gradient_norm": 6.558149337768555,
+          "loss_scale": 65536.0,
+          "logits_dtype": "torch.float16",
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.837348222732544,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.4089813232421875,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_3",
+              "memory/live_gib": 3.4089813232421875,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_3",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_3",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_4",
+              "memory/live_gib": 3.4089813232421875,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_4",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_4",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_5",
+              "memory/live_gib": 3.4089813232421875,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_5",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_5",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_6",
+              "memory/live_gib": 3.4089813232421875,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_6",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_6",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_7",
+              "memory/live_gib": 3.4089813232421875,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_7",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_7",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "forward_8",
+              "memory/live_gib": 3.4089813232421875,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "backward_8",
+              "memory/live_gib": 3.1433024406433105,
+              "memory/driver_gib": 5.019256591796875
+            },
+            {
+              "stage": "cache_clear_8",
+              "memory/live_gib": 3.1433019638061523,
+              "memory/driver_gib": 5.0191650390625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.289985179901123,
+              "memory/driver_gib": 7.0269775390625
+            }
+          ]
+        }
+      ],
+      "trackio_project": "decisions-finetune-large",
+      "trackio_run": "finetune_preflight_fp16_a8_2048_q1",
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 9.01 GiB, other allocations: 11.69 MiB, max allowed: 9.00 GiB). Tried to allocate 256.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "failure_memory": {
+        "memory/live_gib": 6.82274866104126,
+        "memory/driver_gib": 9.01922607421875
+      },
+      "process_peak_rss_gib": 0.7811737060546875,
+      "measured_driver_peak_gib": 7.0269775390625,
+      "measured_live_peak_gib": 6.289985179901123
+    },
+    {
+      "file": "reports/finetune_preflight_2048_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.058345526456832886,
+          "seconds": 13.72012229199754,
+          "encoder_grad_norm": 0.030100703239440918,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 1.835404634475708,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.1447668075561523,
+              "memory/driver_gib": 5.018280029296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.290229320526123,
+              "memory/driver_gib": 7.026092529296875
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": -0.022798389196395874,
+          "seconds": 13.389989707997302,
+          "encoder_grad_norm": 0.06830251216888428,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 4.980867147445679,
+              "memory/driver_gib": 7.0084228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 6.294135570526123,
+              "memory/driver_gib": 8.018280029296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.294135570526123,
+              "memory/driver_gib": 8.026092529296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.6937255859375,
+      "measured_driver_peak_gib": 8.026092529296875,
+      "measured_live_peak_gib": 6.294135570526123
+    },
+    {
+      "file": "reports/finetune_preflight_a2_2048_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 2048,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 2,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": -0.040241777896881104,
+          "seconds": 23.539316750015132,
+          "encoder_grad_norm": 0.03729848936200142,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.835404634475708,
+              "memory/driver_gib": 3.0084228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.1442785263061523,
+              "memory/driver_gib": 5.018280029296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.144278049468994,
+              "memory/driver_gib": 5.0181884765625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.4080138206481934,
+              "memory/driver_gib": 5.0181884765625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.1442785263061523,
+              "memory/driver_gib": 5.018280029296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.144278049468994,
+              "memory/driver_gib": 5.0181884765625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.293646812438965,
+              "memory/driver_gib": 7.0260009765625
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 2048,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 9.01 GiB, other allocations: 10.69 MiB, max allowed: 9.00 GiB). Tried to allocate 256.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "failure_memory": {
+        "memory/live_gib": 6.825433731079102,
+        "memory/driver_gib": 9.01824951171875
+      },
+      "process_peak_rss_gib": 0.7040252685546875,
+      "measured_driver_peak_gib": 7.0260009765625,
+      "measured_live_peak_gib": 6.293646812438965
+    },
+    {
+      "file": "reports/finetune_preflight_3072_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 3072,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.1520242989063263,
+          "seconds": 22.089669207998668,
+          "encoder_grad_norm": 0.024687668308615685,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 1.9702017307281494,
+              "memory/driver_gib": 5.1334228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.143317222595215,
+              "memory/driver_gib": 6.147186279296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.2890238761901855,
+              "memory/driver_gib": 7.154998779296875
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "loss": 0.13803309202194214,
+          "seconds": 21.867619583004853,
+          "encoder_grad_norm": 0.045620664954185486,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 5.11590838432312,
+              "memory/driver_gib": 7.6959228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 6.2904887199401855,
+              "memory/driver_gib": 8.697967529296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.2904887199401855,
+              "memory/driver_gib": 8.705780029296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 3072,
+      "encoder_weight_max_change": 2.0265579223632812e-05,
+      "status": "ok",
+      "process_peak_rss_gib": 0.596160888671875,
+      "measured_driver_peak_gib": 8.705780029296875,
+      "measured_live_peak_gib": 6.2904887199401855
+    },
+    {
+      "file": "reports/finetune_preflight_a2_3072_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 3072,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "gradient_accumulation_steps": 2,
+      "clear_cache_between_microbatches": true,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.13826333358883858,
+          "seconds": 40.826055249985075,
+          "encoder_grad_norm": 0.01311835553497076,
+          "memory_stages": [
+            {
+              "stage": "forward_1",
+              "memory/live_gib": 1.9702017307281494,
+              "memory/driver_gib": 5.1334228515625
+            },
+            {
+              "stage": "backward_1",
+              "memory/live_gib": 3.143317222595215,
+              "memory/driver_gib": 6.147186279296875
+            },
+            {
+              "stage": "cache_clear_1",
+              "memory/live_gib": 3.1433167457580566,
+              "memory/driver_gib": 5.0220947265625
+            },
+            {
+              "stage": "forward_2",
+              "memory/live_gib": 3.5418343544006348,
+              "memory/driver_gib": 6.0084228515625
+            },
+            {
+              "stage": "backward_2",
+              "memory/live_gib": 3.143317222595215,
+              "memory/driver_gib": 7.584686279296875
+            },
+            {
+              "stage": "cache_clear_2",
+              "memory/live_gib": 3.1433167457580566,
+              "memory/driver_gib": 5.0220947265625
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.287558555603027,
+              "memory/driver_gib": 7.0299072265625
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "head_layer_checkpointing": true,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 3072,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 8.70 GiB, other allocations: 14.69 MiB, max allowed: 9.00 GiB). Tried to allocate 576.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "failure_memory": {
+        "memory/live_gib": 5.7409467697143555,
+        "memory/driver_gib": 8.70965576171875
+      },
+      "process_peak_rss_gib": 0.767578125,
+      "measured_driver_peak_gib": 7.584686279296875,
+      "measured_live_peak_gib": 6.287558555603027
+    },
+    {
+      "file": "reports/finetune_preflight_3584_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 3584,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.1033516377210617,
+          "seconds": 27.021484124998096,
+          "encoder_grad_norm": 0.019909515976905823,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 2.03833270072937,
+              "memory/driver_gib": 5.3052978515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.144301414489746,
+              "memory/driver_gib": 7.086639404296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.287810802459717,
+              "memory/driver_gib": 7.094451904296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 3584,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 8.61 GiB, other allocations: 640.00 KiB, max allowed: 9.00 GiB). Tried to allocate 784.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "process_peak_rss_gib": 0.757720947265625,
+      "measured_driver_peak_gib": 7.094451904296875,
+      "measured_live_peak_gib": 6.287810802459717
+    },
+    {
+      "file": "reports/finetune_preflight_4096_q1.json",
+      "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+      "model": {
+        "encoder": "answerdotai/ModernBERT-large",
+        "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+        "nhead": 16,
+        "num_layers": 2,
+        "dim_feedforward": 4096,
+        "dropout": 0.1,
+        "max_len": 4096,
+        "head_max_len": 128,
+        "option_max_len": 32,
+        "preserve_options": true,
+        "balanced_state": true,
+        "norm_first": true,
+        "independent_init": true,
+        "train_encoder": true,
+        "encoder_last_n_layers": null,
+        "gradient_checkpointing": true
+      },
+      "question_microbatch_size": 1,
+      "batch_rows": 1,
+      "questions_per_row": 1,
+      "mps_cap_gib": 9,
+      "steps": [
+        {
+          "step": 1,
+          "loss": 0.2781345844268799,
+          "seconds": 34.48033358300745,
+          "encoder_grad_norm": 0.036223020404577255,
+          "memory_stages": [
+            {
+              "stage": "forward",
+              "memory/live_gib": 2.106951951980591,
+              "memory/driver_gib": 6.0084228515625
+            },
+            {
+              "stage": "backward",
+              "memory/live_gib": 3.1440649032592773,
+              "memory/driver_gib": 8.010467529296875
+            },
+            {
+              "stage": "optimizer",
+              "memory/live_gib": 6.288794994354248,
+              "memory/driver_gib": 8.018280029296875
+            }
+          ]
+        }
+      ],
+      "total_parameters": 421029889,
+      "trainable_parameters": 421029889,
+      "encoder_trainable_parameters": 394781696,
+      "fp32_weights_gradients_adam_gib": 6.273834243416786,
+      "sequence_length": 4096,
+      "status": "failed",
+      "error": "RuntimeError: MPS backend out of memory (MPS allocated: 8.02 GiB, other allocations: 2.62 MiB, max allowed: 9.00 GiB). Tried to allocate 1024.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+      "process_peak_rss_gib": 0.7319488525390625,
+      "measured_driver_peak_gib": 8.018280029296875,
+      "measured_live_peak_gib": 6.288794994354248
+    }
+  ]
+}

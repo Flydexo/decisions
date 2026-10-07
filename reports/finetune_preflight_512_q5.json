@@ -1,0 +1,91 @@
+{
+  "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+  "model": {
+    "encoder": "answerdotai/ModernBERT-large",
+    "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+    "nhead": 16,
+    "num_layers": 2,
+    "dim_feedforward": 4096,
+    "dropout": 0.1,
+    "max_len": 512,
+    "head_max_len": 128,
+    "option_max_len": 32,
+    "preserve_options": true,
+    "balanced_state": true,
+    "norm_first": true,
+    "independent_init": true,
+    "train_encoder": true,
+    "encoder_last_n_layers": null,
+    "gradient_checkpointing": true
+  },
+  "question_microbatch_size": 1,
+  "batch_rows": 1,
+  "questions_per_row": 5,
+  "mps_cap_gib": 9,
+  "steps": [
+    {
+      "step": 1,
+      "loss": -0.04466846585273743,
+      "seconds": 13.814880624995567,
+      "encoder_grad_norm": 0.03202587738633156,
+      "memory_stages": [
+        {
+          "stage": "forward",
+          "memory/live_gib": 1.5753412246704102,
+          "memory/driver_gib": 2.0084228515625
+        },
+        {
+          "stage": "backward",
+          "memory/live_gib": 3.1439199447631836,
+          "memory/driver_gib": 4.010467529296875
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.288894176483154,
+          "memory/driver_gib": 7.018280029296875
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "loss": 0.06640797108411789,
+      "seconds": 13.009022625003126,
+      "encoder_grad_norm": 0.006194733548909426,
+      "memory_stages": [
+        {
+          "stage": "forward",
+          "memory/live_gib": 4.720315456390381,
+          "memory/driver_gib": 6.0103759765625
+        },
+        {
+          "stage": "backward",
+          "memory/live_gib": 6.291457653045654,
+          "memory/driver_gib": 7.049530029296875
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.291457653045654,
+          "memory/driver_gib": 7.057342529296875
+        }
+      ]
+    }
+  ],
+  "total_parameters": 421029889,
+  "trainable_parameters": 421029889,
+  "encoder_trainable_parameters": 394781696,
+  "head_layer_checkpointing": true,
+  "fp32_weights_gradients_adam_gib": 6.273834243416786,
+  "sequence_length": 512,
+  "encoder_weight_max_change": 2.0384788513183594e-05,
+  "resume_checkpoint_gib": 4.705599817447364,
+  "checkpoint_resume_memory": {
+    "memory/live_gib": 4.715918302536011,
+    "memory/driver_gib": 5.0084228515625
+  },
+  "inference_checkpoint_gib": 1.5685283923521638,
+  "checkpoint_check": "ok",
+  "status": "ok",
+  "process_peak_rss_gib": 0.817413330078125,
+  "measured_driver_peak_gib": 7.057342529296875,
+  "measured_live_peak_gib": 6.291457653045654
+}

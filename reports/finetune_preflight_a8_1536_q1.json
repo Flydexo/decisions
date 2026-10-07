@@ -1,0 +1,306 @@
+{
+  "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+  "model": {
+    "encoder": "answerdotai/ModernBERT-large",
+    "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+    "nhead": 16,
+    "num_layers": 2,
+    "dim_feedforward": 4096,
+    "dropout": 0.1,
+    "max_len": 1536,
+    "head_max_len": 128,
+    "option_max_len": 32,
+    "preserve_options": true,
+    "balanced_state": true,
+    "norm_first": true,
+    "independent_init": true,
+    "train_encoder": true,
+    "encoder_last_n_layers": null,
+    "gradient_checkpointing": true
+  },
+  "question_microbatch_size": 1,
+  "batch_rows": 1,
+  "gradient_accumulation_steps": 8,
+  "clear_cache_between_microbatches": true,
+  "questions_per_row": 1,
+  "mps_cap_gib": 9,
+  "steps": [
+    {
+      "step": 1,
+      "loss": 0.013970340602099895,
+      "seconds": 58.68918191600824,
+      "encoder_grad_norm": 0.0171726755797863,
+      "memory_stages": [
+        {
+          "stage": "forward_1",
+          "memory/live_gib": 1.7694709300994873,
+          "memory/driver_gib": 3.0084228515625
+        },
+        {
+          "stage": "backward_1",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 4.016326904296875
+        },
+        {
+          "stage": "cache_clear_1",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "forward_2",
+          "memory/live_gib": 3.3415918350219727,
+          "memory/driver_gib": 5.0162353515625
+        },
+        {
+          "stage": "backward_2",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 5.016326904296875
+        },
+        {
+          "stage": "cache_clear_2",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "forward_3",
+          "memory/live_gib": 3.3415918350219727,
+          "memory/driver_gib": 5.0162353515625
+        },
+        {
+          "stage": "backward_3",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 5.016326904296875
+        },
+        {
+          "stage": "cache_clear_3",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "forward_4",
+          "memory/live_gib": 3.3415918350219727,
+          "memory/driver_gib": 5.0162353515625
+        },
+        {
+          "stage": "backward_4",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 5.016326904296875
+        },
+        {
+          "stage": "cache_clear_4",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "forward_5",
+          "memory/live_gib": 3.3415918350219727,
+          "memory/driver_gib": 5.0162353515625
+        },
+        {
+          "stage": "backward_5",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 5.016326904296875
+        },
+        {
+          "stage": "cache_clear_5",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "forward_6",
+          "memory/live_gib": 3.3415918350219727,
+          "memory/driver_gib": 5.0162353515625
+        },
+        {
+          "stage": "backward_6",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 5.016326904296875
+        },
+        {
+          "stage": "cache_clear_6",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "forward_7",
+          "memory/live_gib": 3.3415918350219727,
+          "memory/driver_gib": 5.0162353515625
+        },
+        {
+          "stage": "backward_7",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 5.016326904296875
+        },
+        {
+          "stage": "cache_clear_7",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "forward_8",
+          "memory/live_gib": 3.3415918350219727,
+          "memory/driver_gib": 5.0162353515625
+        },
+        {
+          "stage": "backward_8",
+          "memory/live_gib": 3.143782615661621,
+          "memory/driver_gib": 5.016326904296875
+        },
+        {
+          "stage": "cache_clear_8",
+          "memory/live_gib": 3.143782138824463,
+          "memory/driver_gib": 4.0162353515625
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.288023948669434,
+          "memory/driver_gib": 7.0240478515625
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "loss": 0.040106628090143204,
+      "seconds": 62.72912795798038,
+      "encoder_grad_norm": 0.01610519178211689,
+      "memory_stages": [
+        {
+          "stage": "forward_1",
+          "memory/live_gib": 4.913712739944458,
+          "memory/driver_gib": 7.0162353515625
+        },
+        {
+          "stage": "backward_1",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_1",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "forward_2",
+          "memory/live_gib": 6.489984035491943,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "backward_2",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_2",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "forward_3",
+          "memory/live_gib": 6.489739894866943,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "backward_3",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_3",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "forward_4",
+          "memory/live_gib": 6.489739894866943,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "backward_4",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_4",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "forward_5",
+          "memory/live_gib": 6.489739894866943,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "backward_5",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_5",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "forward_6",
+          "memory/live_gib": 6.489739894866943,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "backward_6",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_6",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "forward_7",
+          "memory/live_gib": 6.489739894866943,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "backward_7",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_7",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "forward_8",
+          "memory/live_gib": 6.489739894866943,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "backward_8",
+          "memory/live_gib": 6.291930675506592,
+          "memory/driver_gib": 8.016326904296875
+        },
+        {
+          "stage": "cache_clear_8",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0162353515625
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.291930198669434,
+          "memory/driver_gib": 8.0240478515625
+        }
+      ]
+    }
+  ],
+  "total_parameters": 421029889,
+  "trainable_parameters": 421029889,
+  "encoder_trainable_parameters": 394781696,
+  "head_layer_checkpointing": true,
+  "fp32_weights_gradients_adam_gib": 6.273834243416786,
+  "sequence_length": 1536,
+  "encoder_weight_max_change": 2.0503997802734375e-05,
+  "status": "ok",
+  "process_peak_rss_gib": 0.759735107421875,
+  "measured_driver_peak_gib": 8.0240478515625,
+  "measured_live_peak_gib": 6.489984035491943
+}

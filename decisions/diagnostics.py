@@ -11,6 +11,7 @@ from .data import batches, cached_training_rows
 from .evaluation import Metrics, preprocessing
 from .losses import reward
 from .schema import collate, to_device
+from .precision import autocast_context
 
 
 def training_probe_rows(datasets, cache_dir, rows_per_dataset):
@@ -29,19 +30,21 @@ def training_probe_rows(datasets, cache_dir, rows_per_dataset):
 
 
 def marker_statistics(features, inputs):
-    positions = inputs["marker_pos"].unsqueeze(-1).expand(-1, -1, features.shape[-1])
-    markers = features.gather(1, positions)
-    statistics = []
-    for values, valid in zip(markers, inputs["marker_mask"]):
-        values = values[valid]
-        centered = values - values.mean(0, keepdim=True)
-        unit = torch.nn.functional.normalize(values, dim=-1)
-        pairs = unit @ unit.T
-        off_diagonal = ~torch.eye(len(values), device=values.device, dtype=torch.bool)
-        statistics.append({"marker_rms": centered.square().mean().sqrt().item(),
-                           "marker_cosine": pairs[off_diagonal].mean().item() if len(values) > 1 else 1.,
-                           "marker_norm": values.norm(dim=-1).mean().item()})
-    return statistics
+    # Prevent autocast from rounding near-identical option cosines to 1.
+    with torch.autocast(features.device.type, enabled=False):
+        positions = inputs["marker_pos"].unsqueeze(-1).expand(-1, -1, features.shape[-1])
+        markers = features.gather(1, positions).float()
+        statistics = []
+        for values, valid in zip(markers, inputs["marker_mask"]):
+            values = values[valid]
+            centered = values - values.mean(0, keepdim=True)
+            unit = torch.nn.functional.normalize(values, dim=-1)
+            pairs = unit @ unit.T
+            off_diagonal = ~torch.eye(len(values), device=values.device, dtype=torch.bool)
+            statistics.append({"marker_rms": centered.square().mean().sqrt().item(),
+                               "marker_cosine": pairs[off_diagonal].mean().item() if len(values) > 1 else 1.,
+                               "marker_norm": values.norm(dim=-1).mean().item()})
+        return statistics
 
 
 @torch.no_grad()
@@ -54,23 +57,25 @@ def feature_probe(model, tokenizer, rows, device, config, batch_size=2):
         for batch in batches(rows, batch_size):
             inputs, target, spans = collate(batch, tokenizer, **preprocessing(config["model"]))
             inputs, target = to_device(inputs, device), target.to(device)
-            features = model.encode(inputs)
-            stages = {"encoder": marker_statistics(features, inputs)}
-            if model.question_type is not None:
-                features = features + model.question_type(inputs["qtype"]).unsqueeze(1)
-                stages["question_type"] = marker_statistics(features, inputs)
-            if model.transformer is not None:
-                for index, layer in enumerate(model.transformer.layers, 1):
-                    features = layer(features, src_key_padding_mask=inputs["attention_mask"] == 0)
-                    stages[f"layer_{index}"] = marker_statistics(features, inputs)
-                if model.transformer.norm is not None:
-                    features = model.transformer.norm(features)
-            stages["head"] = marker_statistics(features, inputs)
-            for stage, values in stages.items():
-                for row in values:
-                    for name, value in row.items():
-                        collected.setdefault(f"features/{stage}/{name}", []).append(value)
-            logits = model.score_features(features, inputs)
+            with autocast_context(config["model"], device):
+                features = model.encode(inputs)
+                stages = {"encoder": marker_statistics(features, inputs)}
+                if model.question_type is not None:
+                    features = features + model.question_type(inputs["qtype"]).unsqueeze(1)
+                    stages["question_type"] = marker_statistics(features, inputs)
+                if model.transformer is not None:
+                    for index, layer in enumerate(model.transformer.layers, 1):
+                        features = layer(features, src_key_padding_mask=inputs["attention_mask"] == 0)
+                        stages[f"layer_{index}"] = marker_statistics(features, inputs)
+                    if model.transformer.norm is not None:
+                        features = model.transformer.norm(features)
+                stages["head"] = marker_statistics(features, inputs)
+                for stage, values in stages.items():
+                    for row in values:
+                        for name, value in row.items():
+                            collected.setdefault(f"features/{stage}/{name}", []).append(value)
+                logits = model.score_features(features, inputs)
+            logits = logits.float()
             p = logits.softmax(-1)
             scoring.update(p, target, inputs["marker_mask"])
             for value, valid in zip(logits, inputs["marker_mask"]):

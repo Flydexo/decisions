@@ -1,0 +1,83 @@
+{
+  "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+  "model": {
+    "encoder": "answerdotai/ModernBERT-large",
+    "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+    "nhead": 16,
+    "num_layers": 2,
+    "dim_feedforward": 4096,
+    "dropout": 0.1,
+    "max_len": 1024,
+    "head_max_len": 128,
+    "option_max_len": 32,
+    "preserve_options": true,
+    "balanced_state": true,
+    "norm_first": true,
+    "independent_init": true,
+    "train_encoder": true,
+    "encoder_last_n_layers": null,
+    "gradient_checkpointing": true
+  },
+  "question_microbatch_size": 1,
+  "batch_rows": 1,
+  "questions_per_row": 1,
+  "mps_cap_gib": 9,
+  "steps": [
+    {
+      "step": 1,
+      "loss": 0.03664335608482361,
+      "seconds": 6.529124749999028,
+      "encoder_grad_norm": 0.014861521311104298,
+      "memory_stages": [
+        {
+          "stage": "forward",
+          "memory/live_gib": 1.7025606632232666,
+          "memory/driver_gib": 3.0084228515625
+        },
+        {
+          "stage": "backward",
+          "memory/live_gib": 3.14401912689209,
+          "memory/driver_gib": 4.014373779296875
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.2882609367370605,
+          "memory/driver_gib": 7.022186279296875
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "loss": -0.2755569517612457,
+      "seconds": 6.451577250001719,
+      "encoder_grad_norm": 0.03284905105829239,
+      "memory_stages": [
+        {
+          "stage": "forward",
+          "memory/live_gib": 4.846802473068237,
+          "memory/driver_gib": 7.0142822265625
+        },
+        {
+          "stage": "backward",
+          "memory/live_gib": 6.2882609367370605,
+          "memory/driver_gib": 7.014373779296875
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.2882609367370605,
+          "memory/driver_gib": 8.022186279296875
+        }
+      ]
+    }
+  ],
+  "total_parameters": 421029889,
+  "trainable_parameters": 421029889,
+  "encoder_trainable_parameters": 394781696,
+  "fp32_weights_gradients_adam_gib": 6.273834243416786,
+  "sequence_length": 1024,
+  "encoder_weight_max_change": 2.0265579223632812e-05,
+  "status": "ok",
+  "process_peak_rss_gib": 0.785614013671875,
+  "measured_driver_peak_gib": 8.022186279296875,
+  "measured_live_peak_gib": 6.2882609367370605
+}

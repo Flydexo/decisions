@@ -1,0 +1,122 @@
+{
+  "protocol": "Synthetic MPS training preflight; no dataset rows or final evaluation",
+  "model": {
+    "encoder": "answerdotai/ModernBERT-large",
+    "revision": "45bb4654a4d5aaff24dd11d4781fa46d39bf8c13",
+    "nhead": 16,
+    "num_layers": 2,
+    "dim_feedforward": 4096,
+    "dropout": 0.1,
+    "max_len": 2048,
+    "head_max_len": 128,
+    "option_max_len": 32,
+    "preserve_options": true,
+    "balanced_state": true,
+    "norm_first": true,
+    "independent_init": true,
+    "train_encoder": true,
+    "encoder_last_n_layers": null,
+    "gradient_checkpointing": true,
+    "mixed_precision": "fp16",
+    "fp16_initial_scale": 1024,
+    "autocast_cache_enabled": false
+  },
+  "training": {
+    "batch_size": 1,
+    "epochs": 3,
+    "max_steps": 22000,
+    "shuffle_buffer": 2048,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "sigma": 1.0,
+    "candidates": 8,
+    "clip_grad": 1.0,
+    "log_every": 50,
+    "checkpoint_every": 1000,
+    "cache_clear_every": 10,
+    "mps_memory_budget_gib": 9,
+    "warmup_steps": 100,
+    "decay_steps": 22000,
+    "min_learning_rate_ratio": 0.1,
+    "max_seconds": 7200,
+    "validation_role": "validation",
+    "early_stopping_patience": 4,
+    "min_free_disk_gib": 2,
+    "best_checkpoint_optimizer": false,
+    "question_microbatch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "clear_cache_between_microbatches": true,
+    "encoder_learning_rate": 1e-05,
+    "optimizer_foreach": false
+  },
+  "ablation": {
+    "objective": "sampled_reward",
+    "no_question_type": false,
+    "no_transformer": false,
+    "linear_scorer": false,
+    "reward_weights": {
+      "log": 1.0,
+      "spherical": 0.5,
+      "rps": 1.0
+    },
+    "name": "baseline"
+  },
+  "seed": 42,
+  "torch_version": "2.14.0",
+  "question_microbatch_size": 1,
+  "batch_rows": 1,
+  "gradient_accumulation_steps": 1,
+  "clear_cache_between_microbatches": true,
+  "questions_per_row": 5,
+  "mps_cap_gib": 9,
+  "steps": [
+    {
+      "step": 1,
+      "loss": 0.02328944206237793,
+      "seconds": 63.95199750000029,
+      "encoder_grad_norm": 0.01719399355351925,
+      "gradient_norm": 6.143515586853027,
+      "loss_scale": 1024.0,
+      "logits_dtype": "torch.float16",
+      "memory_stages": [
+        {
+          "stage": "forward_1",
+          "memory/live_gib": 1.601097583770752,
+          "memory/driver_gib": 3.0162353515625
+        },
+        {
+          "stage": "backward_1",
+          "memory/live_gib": 3.1434245109558105,
+          "memory/driver_gib": 5.027069091796875
+        },
+        {
+          "stage": "cache_clear_1",
+          "memory/live_gib": 3.1434240341186523,
+          "memory/driver_gib": 5.0191650390625
+        },
+        {
+          "stage": "optimizer",
+          "memory/live_gib": 6.287665843963623,
+          "memory/driver_gib": 7.0269775390625
+        }
+      ]
+    }
+  ],
+  "trackio_project": "decisions-finetune-large",
+  "trackio_run": "finetune_preflight_fp16_2048_q5",
+  "total_parameters": 421029889,
+  "trainable_parameters": 421029889,
+  "encoder_trainable_parameters": 394781696,
+  "head_layer_checkpointing": true,
+  "fp32_weights_gradients_adam_gib": 6.273834243416786,
+  "sequence_length": 2048,
+  "status": "failed",
+  "error": "RuntimeError: MPS backend out of memory (MPS allocated: 9.02 GiB, other allocations: 11.72 MiB, max allowed: 9.00 GiB). Tried to allocate 256.00 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure).",
+  "failure_memory": {
+    "memory/live_gib": 5.265403985977173,
+    "memory/driver_gib": 9.027069091796875
+  },
+  "process_peak_rss_gib": 0.783447265625,
+  "measured_driver_peak_gib": 7.0269775390625,
+  "measured_live_peak_gib": 6.287665843963623
+}

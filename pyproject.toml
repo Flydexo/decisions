@@ -1,7 +1,7 @@
 [project]
 name = "decisions"
 version = "0.1.0"
-description = "MPS training of frozen-encoder typed decisions over streaming datasets"
+description = "Streaming typed-decision training and ModernBERT fine-tuning on MPS"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

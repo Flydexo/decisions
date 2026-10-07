@@ -1,0 +1,10 @@
+# @package _global_
+defaults:
+  - finetune_large
+
+# Full unfreezing exceeds the 9 GiB cap for 2048-token multi-question rows.
+# Keep context and the complete joint RLCD loss while training the last blocks.
+model:
+  encoder_last_n_layers: 2
+training:
+  gradient_accumulation_steps: 2

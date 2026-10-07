@@ -9,6 +9,7 @@ import torch
 
 from .data import batches, sampled_examples
 from .losses import confidence
+from .model import inference_logits
 from .schema import Unsupported, collate, prepare_request, to_device
 
 
@@ -100,8 +101,8 @@ def evaluate(model, tokenizer, configs, device, config, seed=42):
                     if supported:
                         inputs, target, _ = collate(supported, tokenizer,
                                                    **preprocessing(config["preprocessing"], config["strict"]))
-                        logits = model(to_device(inputs, device))
-                        metrics.update(logits.softmax(-1), target, inputs["marker_mask"])
+                        logits = inference_logits(model, to_device(inputs, device), config.get("question_microbatch_size", 0))
+                        metrics.update(logits.float().softmax(-1), target, inputs["marker_mask"])
                         del logits
                 report[dataset["name"]] = {"rows": row_count, "unsupported_rows": unsupported, **metrics.result()}
     finally:
@@ -111,13 +112,13 @@ def evaluate(model, tokenizer, configs, device, config, seed=42):
 
 class Predictor:
     def __init__(self, checkpoint, device="auto", strict=True, question_batch_size=2):
-        from .checkpoints import read_checkpoint
+        from .checkpoints import read_checkpoint, load_checkpoint_model
         from .model import load_model, select_device
         saved = read_checkpoint(checkpoint)
         self.config = saved["config"]
         self.device = select_device(device)
         self.model, self.tokenizer = load_model(self.config["model"], self.config["ablation"], self.device)
-        self.model.load_head(saved["head"])
+        load_checkpoint_model(self.model, saved)
         self.model.eval()
         self.strict = strict
         self.question_batch_size = question_batch_size
@@ -133,7 +134,7 @@ class Predictor:
         for start in range(0, len(inputs["qtype"]), self.question_batch_size):
             end = start + self.question_batch_size
             chunk = {k: v[start:end] for k, v in inputs.items()}
-            p = self.model(to_device(chunk, self.device)).softmax(-1).cpu()
+            p = self.model(to_device(chunk, self.device)).float().softmax(-1).cpu()
             certainty = confidence(p, chunk["marker_mask"])
             for index, (qid, keys) in enumerate(zip(chunk["question_ids"], chunk["option_labels"])):
                 values = p[index, :len(keys)].tolist()
@@ -148,5 +149,6 @@ class Predictor:
                 else:
                     answer["choice"] = keys[selected]
                 answers[qid] = answer
-        return {"model": "frozen-modernbert-decisions", "answers": answers,
+        return {"model": "finetuned-modernbert-decisions" if self.config["model"].get("train_encoder", False) else "frozen-modernbert-decisions",
+                "answers": answers,
                 "usage": {"input_tokens": int(inputs["attention_mask"].sum())}}

@@ -1,6 +1,6 @@
 # Decisions
 
-Python training for the notebook's decision model: frozen ModernBERT, Hydra
+Python training for the notebook's decision model: frozen or fine-tuned ModernBERT, Hydra
 configuration, streaming datasets, local Trackio logging, checkpoints, ablations,
 and normalized-entropy confidence.
 
@@ -25,10 +25,84 @@ source. Streaming transfers metadata and the chunks needed for the requested
 rows; model weights are a separate one-time download. CodeReviewer uses a Hugging
 Face `IterableDataset` over bounded HTTP ranges.
 
-BERT stays frozen and in evaluation mode, under `torch.no_grad()`. AdamW contains
+By default, BERT stays frozen and in evaluation mode, under `torch.no_grad()`. AdamW contains
 only the decision layers. Gradients and temporary graphs are released after each
 step; MPS cache is cleared periodically. `metrics.jsonl` records live tensor and
 driver memory separately. Allocator reservation growth alone is not a tensor leak.
+
+## Fine-tune ModernBERT-large
+
+```sh
+# Recommended M1 preset for the complete 22-source mixture:
+uv run python train.py experiment=finetune_large_m1 device=mps
+# Full unfreezing (single-question rows passed; five-question rows exceeded the cap):
+uv run python train.py experiment=finetune_large device=mps
+# Reproduce the synthetic memory check without reading any dataset/eval rows:
+.venv/bin/python scripts/preflight_finetune.py --max-len 512 --questions 5
+.venv/bin/python scripts/preflight_finetune.py --max-len 2048 --mixed-precision fp16 --trackio
+```
+
+`finetune_large` uses the 22-source streaming mixture and trains the entire encoder
+and head with FP16 autocast. Weights, gradients and Adam moments stay FP32.
+Encoder gradients stay connected; the encoder enters training
+mode and AdamW includes its parameters. The head learning rate is `1e-4`, the
+encoder rate is `1e-5`, and both follow the update-based schedule. The preset uses
+2,048-token sequences, one-row updates, and
+non-reentrant checkpointing of encoder and head layers. Multi-question rows also
+use one-question checkpointed forwards: their logits are combined before the
+original full RLCD reward is calculated, preserving its joint per-row loss.
+The full-encoder five-question test exceeded the cap at 2,048 tokens.
+`finetune_large_m1` trains the final two encoder blocks plus final normalization
+and the complete head, with two-row accumulation and the same 2,048-token FP16
+context. Use this separate preset for the complete mixture. Its two-update
+five-question preflight passed at 5.03 GiB observed MPS driver allocation, with
+finite gradients, encoder updates, and successful checkpoint save/resume.
+Short final accumulation groups are normalized by their actual row count.
+RLCD loss, probabilities and entropy use FP32 for numeric stability.
+`model.mixed_precision=bf16` is also configurable; `fp32` disables autocast.
+Autocast weight caching is disabled to reduce temporary copies.
+FP16 uses dynamic loss scaling (initial scale 1,024); gradients are unscaled once
+after accumulation and before clipping. Scaler
+state is checkpointed; skipped updates and loss scale are logged to Trackio.
+Autocast and FP16 training were verified on this Mac (PyTorch 2.14, macOS 26.5).
+At 2,048 tokens, both FP16 and BF16 exceeded the cap with eight-row accumulation;
+FP16 passed three one-row updates at 8.06 GiB observed driver allocation. Other
+combinations need a preflight. See [the measured context report](reports/finetune_memory.md).
+
+Before allocating model/optimizer memory, this preset prepares at most 4,000
+training-only rows per source, streaming one source at a time and closing its
+reader. Training then reads those bounded local pools; it avoids keeping 22
+remote readers and shuffle buffers alive alongside the unfrozen model. Resume
+uses the same run directory and validated sampling manifest.
+
+The MPS allocation cap stays at 9 GiB; AdamW uses `foreach=false` to limit optimizer
+temporaries. Shorter context reduces activations, but the 421,029,889 trainable
+parameters still need about 6.27 GiB for FP32 weights, gradients, and Adam moments.
+The architectural context limit is 8,192 tokens; the practical full-training limit
+is measured separately in `reports/finetune_preflight_*.json`. Each context limit
+includes instructions, options, state, and special tokens. These short synthetic
+checks do not guarantee memory or convergence over a real long-running job.
+
+This follows the encoder/head checkpointing approach in the
+[Laya MPS recipe](https://github.com/NandhaKishorM/laya/blob/main/notebooks/laya_finetune_typed_decisions_mps.py),
+with our own smaller microbatches and shorter context. Memory accounting follows
+the [Transformers breakdown](https://huggingface.co/docs/transformers/main/en/model_memory_anatomy).
+`model.encoder_last_n_layers=N` offers partial unfreezing without adding a new
+dependency. LoRA is not implemented by this preset.
+
+Fine-tuned checkpoints include the encoder as well as the head; frozen-encoder
+checkpoints remain readable. Full `last.pt` is roughly 4.7 GiB with Adam moments,
+and inference-only `best.pt` roughly 1.57 GiB. Atomic replacement temporarily needs
+space for another complete checkpoint, in addition to the 2 GiB disk reserve.
+Serialization transfers GPU storages individually instead of copying the entire
+checkpoint to CPU; reads use memory mapping. Resume verifies context, trainable
+layers, accumulation, microbatch size, and learning rates. Use a new output
+directory when switching from frozen training to this experiment.
+
+Validation remains reserved from training; final evaluation does not select
+checkpoints. Metrics, including the separate encoder learning rate, are logged
+to local Trackio project `decisions-finetune-large`. The existing frozen configs
+and saved experiments retain their behavior.
 
 ## Dataset configs
 
