@@ -1,0 +1,1148 @@
+{
+  "estimated_at": "2026-10-07T12:46:25.591741+00:00",
+  "protocol": "Read-only estimate; no training, corpus download, or final evaluation. HF API cards and bounded HTTP-range Parquet metadata only.",
+  "reference_run": "finetune_prenorm_rlcd_1024_smoke",
+  "reference_report": "finetune_1024_smoke_summary.json",
+  "measured_mean_seconds_per_update": 4.79432248829562,
+  "rows_per_update": 4,
+  "measured_seconds_per_one_question_row": 1.198580622073905,
+  "measured_rows_per_hour": 3003.552646939108,
+  "four_source_raw_training_rows": 139090,
+  "four_source_expected_rows_after_validation": 125181.0,
+  "four_source_compute_hours_one_epoch": 41.67764468106486,
+  "four_source_planning_hours_one_epoch": [
+    48,
+    72
+  ],
+  "ms_marco_source_train_queries": 808731,
+  "ms_marco_source_passage_rows": 8069749,
+  "ms_marco_expected_passage_rows_after_validation": 7262774.100000001,
+  "ms_marco_compute_days_one_epoch": 100.75254975416952,
+  "consumer_finance_raw_train_rows": 7179332,
+  "consumer_finance_expected_maximum_train_rows_after_holdouts": 5743465.600000001,
+  "consumer_finance_eligible_nonempty_rows": "Unknown: non-null Parquet strings can still be empty. Full scan not performed.",
+  "pinned_card_metadata": [
+    {
+      "name": "banking77",
+      "source": "https://huggingface.co/api/datasets/legacy-datasets/banking77/revision/f54121560de48f2852f90be299010d1d6dc612ec",
+      "sha": "f54121560de48f2852f90be299010d1d6dc612ec",
+      "config": "default",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 715028,
+          "num_examples": 10003
+        },
+        {
+          "name": "test",
+          "num_bytes": 204010,
+          "num_examples": 3080
+        }
+      ],
+      "available_configs": [
+        "default"
+      ]
+    },
+    {
+      "name": "boolq",
+      "source": "https://huggingface.co/api/datasets/google/boolq/revision/35b264d03638db9f4ce671b711558bf7ff0f80d5",
+      "sha": "35b264d03638db9f4ce671b711558bf7ff0f80d5",
+      "config": "default",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 5829584,
+          "num_examples": 9427
+        },
+        {
+          "name": "validation",
+          "num_bytes": 1998182,
+          "num_examples": 3270
+        }
+      ],
+      "available_configs": [
+        "default"
+      ]
+    },
+    {
+      "name": "ag_news",
+      "source": "https://huggingface.co/api/datasets/fancyzhx/ag_news/revision/eb185aade064a813bc0b7f42de02595523103ca4",
+      "sha": "eb185aade064a813bc0b7f42de02595523103ca4",
+      "config": "default",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 29817303,
+          "num_examples": 120000
+        },
+        {
+          "name": "test",
+          "num_bytes": 1879474,
+          "num_examples": 7600
+        }
+      ],
+      "available_configs": [
+        "default"
+      ]
+    },
+    {
+      "name": "mnli",
+      "source": "https://huggingface.co/api/datasets/nyu-mll/multi_nli/revision/da70db2af9d09693783c3320c4249840212ee221",
+      "sha": "da70db2af9d09693783c3320c4249840212ee221",
+      "config": "default",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 410210306,
+          "num_examples": 392702
+        },
+        {
+          "name": "validation_matched",
+          "num_bytes": 10063907,
+          "num_examples": 9815
+        },
+        {
+          "name": "validation_mismatched",
+          "num_bytes": 10610189,
+          "num_examples": 9832
+        }
+      ],
+      "available_configs": [
+        "default"
+      ]
+    },
+    {
+      "name": "sst5",
+      "source": "https://huggingface.co/api/datasets/SetFit/sst5/revision/e51bdcd8cd3a30da231967c1a249ba59361279a3",
+      "sha": "e51bdcd8cd3a30da231967c1a249ba59361279a3",
+      "config": "default",
+      "splits": [],
+      "available_configs": []
+    },
+    {
+      "name": "yelp_review_full",
+      "source": "https://huggingface.co/api/datasets/Yelp/yelp_review_full/revision/c1f9ee939b7d05667af864ee1cb066393154bf85",
+      "sha": "c1f9ee939b7d05667af864ee1cb066393154bf85",
+      "config": "yelp_review_full",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 483811554,
+          "num_examples": 650000
+        },
+        {
+          "name": "test",
+          "num_bytes": 37271188,
+          "num_examples": 50000
+        }
+      ],
+      "available_configs": [
+        "yelp_review_full"
+      ]
+    },
+    {
+      "name": "trec",
+      "error": "no HF pinned card endpoint"
+    },
+    {
+      "name": "dbpedia14",
+      "source": "https://huggingface.co/api/datasets/fancyzhx/dbpedia_14/revision/9abd46cf7fc8b4c64290f26993c540b92aa145ac",
+      "sha": "9abd46cf7fc8b4c64290f26993c540b92aa145ac",
+      "config": "dbpedia_14",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 178428970,
+          "num_examples": 560000
+        },
+        {
+          "name": "test",
+          "num_bytes": 22310285,
+          "num_examples": 70000
+        }
+      ],
+      "available_configs": [
+        "dbpedia_14"
+      ]
+    },
+    {
+      "name": "amazon_reviews_multi_en",
+      "source": "https://huggingface.co/api/datasets/SetFit/amazon_reviews_multi_en/revision/ec73b665e4be0f567b69d39425355401cfe0d29b",
+      "sha": "ec73b665e4be0f567b69d39425355401cfe0d29b",
+      "config": "default",
+      "splits": [],
+      "available_configs": []
+    },
+    {
+      "name": "imdb",
+      "source": "https://huggingface.co/api/datasets/stanfordnlp/imdb/revision/e6281661ce1c48d982bc483cf8a173c1bbeb5d31",
+      "sha": "e6281661ce1c48d982bc483cf8a173c1bbeb5d31",
+      "config": "plain_text",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 33432823,
+          "num_examples": 25000
+        },
+        {
+          "name": "test",
+          "num_bytes": 32650685,
+          "num_examples": 25000
+        },
+        {
+          "name": "unsupervised",
+          "num_bytes": 67106794,
+          "num_examples": 50000
+        }
+      ],
+      "available_configs": [
+        "plain_text"
+      ]
+    },
+    {
+      "name": "arc_challenge",
+      "source": "https://huggingface.co/api/datasets/allenai/ai2_arc/revision/210d026faf9955653af8916fad021475a3f00453",
+      "sha": "210d026faf9955653af8916fad021475a3f00453",
+      "config": "ARC-Challenge",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 349760,
+          "num_examples": 1119
+        },
+        {
+          "name": "test",
+          "num_bytes": 375511,
+          "num_examples": 1172
+        },
+        {
+          "name": "validation",
+          "num_bytes": 96660,
+          "num_examples": 299
+        }
+      ],
+      "available_configs": [
+        "ARC-Challenge",
+        "ARC-Easy"
+      ]
+    },
+    {
+      "name": "openbookqa",
+      "source": "https://huggingface.co/api/datasets/allenai/openbookqa/revision/388097ea7776314e93a529163e0fea805b8a6454",
+      "sha": "388097ea7776314e93a529163e0fea805b8a6454",
+      "config": "main",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 895386,
+          "num_examples": 4957
+        },
+        {
+          "name": "validation",
+          "num_bytes": 95428,
+          "num_examples": 500
+        },
+        {
+          "name": "test",
+          "num_bytes": 91759,
+          "num_examples": 500
+        }
+      ],
+      "available_configs": [
+        "additional",
+        "main"
+      ]
+    },
+    {
+      "name": "commonsenseqa",
+      "source": "https://huggingface.co/api/datasets/tau/commonsense_qa/revision/94630fe30dad47192a8546eb75f094926d47e155",
+      "sha": "94630fe30dad47192a8546eb75f094926d47e155",
+      "config": "default",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 2207794,
+          "num_examples": 9741
+        },
+        {
+          "name": "validation",
+          "num_bytes": 273848,
+          "num_examples": 1221
+        },
+        {
+          "name": "test",
+          "num_bytes": 257842,
+          "num_examples": 1140
+        }
+      ],
+      "available_configs": [
+        "default"
+      ]
+    },
+    {
+      "name": "codereviewer",
+      "error": "no HF pinned card endpoint"
+    },
+    {
+      "name": "aegis",
+      "source": "https://huggingface.co/api/datasets/nvidia/Aegis-AI-Content-Safety-Dataset-2.0/revision/d86bb8bedff51d25ac834ab7838f1cc61acb7a2c",
+      "sha": "d86bb8bedff51d25ac834ab7838f1cc61acb7a2c",
+      "config": "default",
+      "splits": [],
+      "available_configs": []
+    },
+    {
+      "name": "consumer_finance",
+      "source": "https://huggingface.co/api/datasets/davidheineman/consumer-finance-complaints-large/revision/44cfa170a402e254407470275ce05d7dcaccde30",
+      "sha": "44cfa170a402e254407470275ce05d7dcaccde30",
+      "config": "default",
+      "splits": [
+        {
+          "name": "train",
+          "num_bytes": 5044183478,
+          "num_examples": 7179332
+        }
+      ],
+      "available_configs": [
+        "default"
+      ]
+    },
+    {
+      "name": "flakeflagger",
+      "error": "no HF pinned card endpoint"
+    },
+    {
+      "name": "enron_spam",
+      "source": "https://huggingface.co/api/datasets/SetFit/enron_spam/revision/1916f66c89d52221ae33eb57d44498b4f3a5df22",
+      "sha": "1916f66c89d52221ae33eb57d44498b4f3a5df22",
+      "config": "default",
+      "splits": [],
+      "available_configs": []
+    },
+    {
+      "name": "phishing_email",
+      "source": "https://huggingface.co/api/datasets/zefang-liu/phishing-email-dataset/revision/34085a032c123ca237f314a01a67909cdea35e34",
+      "sha": "34085a032c123ca237f314a01a67909cdea35e34",
+      "config": "default",
+      "splits": [],
+      "available_configs": []
+    },
+    {
+      "name": "customer_support",
+      "source": "https://huggingface.co/api/datasets/Tobi-Bueck/customer-support-tickets/revision/ddf1c81a5475992c4fa6752bf1e8b4e31f07bbeb",
+      "sha": "ddf1c81a5475992c4fa6752bf1e8b4e31f07bbeb",
+      "config": "default",
+      "splits": [],
+      "available_configs": []
+    },
+    {
+      "name": "ms_marco",
+      "source": "https://huggingface.co/api/datasets/microsoft/ms_marco/revision/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a",
+      "sha": "a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a",
+      "config": "v2.1",
+      "splits": [
+        {
+          "name": "validation",
+          "num_bytes": 413765365,
+          "num_examples": 101093
+        },
+        {
+          "name": "train",
+          "num_bytes": 3462807709,
+          "num_examples": 808731
+        },
+        {
+          "name": "test",
+          "num_bytes": 405691932,
+          "num_examples": 101092
+        }
+      ],
+      "available_configs": [
+        "v1.1",
+        "v2.1"
+      ]
+    },
+    {
+      "name": "typed_decisions_all",
+      "source": "https://huggingface.co/api/datasets/LocalLLaMA/typed-decisions/revision/d0e2f0c42fef86cc15d1688d25a19f5ba7c85b18",
+      "sha": "d0e2f0c42fef86cc15d1688d25a19f5ba7c85b18",
+      "config": "all",
+      "splits": [],
+      "available_configs": []
+    }
+  ],
+  "latest_viewer_metadata": [
+    {
+      "name": "sst5",
+      "url": "https://datasets-server.huggingface.co/size?dataset=SetFit%2Fsst5",
+      "status": 200,
+      "size": {
+        "dataset": {
+          "dataset": "SetFit/sst5",
+          "num_bytes_original_files": 1837903,
+          "num_bytes_parquet_files": 902438,
+          "num_bytes_memory": 1517214,
+          "num_rows": 11855,
+          "estimated_num_rows": null
+        },
+        "configs": [
+          {
+            "dataset": "SetFit/sst5",
+            "config": "default",
+            "num_bytes_original_files": 1837903,
+            "num_bytes_parquet_files": 902438,
+            "num_bytes_memory": 1517214,
+            "num_rows": 11855,
+            "num_columns": 3,
+            "estimated_num_rows": null
+          }
+        ],
+        "splits": [
+          {
+            "dataset": "SetFit/sst5",
+            "config": "default",
+            "split": "train",
+            "num_bytes_parquet_files": 645723,
+            "num_bytes_memory": 1092518,
+            "num_rows": 8544,
+            "num_columns": 3,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "SetFit/sst5",
+            "config": "default",
+            "split": "validation",
+            "num_bytes_parquet_files": 86747,
+            "num_bytes_memory": 141651,
+            "num_rows": 1101,
+            "num_columns": 3,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "SetFit/sst5",
+            "config": "default",
+            "split": "test",
+            "num_bytes_parquet_files": 169968,
+            "num_bytes_memory": 283045,
+            "num_rows": 2210,
+            "num_columns": 3,
+            "estimated_num_rows": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "amazon_reviews_multi_en",
+      "url": "https://datasets-server.huggingface.co/size?dataset=SetFit%2Famazon_reviews_multi_en",
+      "status": 200,
+      "size": {
+        "dataset": {
+          "dataset": "SetFit/amazon_reviews_multi_en",
+          "num_bytes_original_files": 49814882,
+          "num_bytes_parquet_files": 26804233,
+          "num_bytes_memory": 44174865,
+          "num_rows": 210000,
+          "estimated_num_rows": null
+        },
+        "configs": [
+          {
+            "dataset": "SetFit/amazon_reviews_multi_en",
+            "config": "default",
+            "num_bytes_original_files": 49814882,
+            "num_bytes_parquet_files": 26804233,
+            "num_bytes_memory": 44174865,
+            "num_rows": 210000,
+            "num_columns": 4,
+            "estimated_num_rows": null
+          }
+        ],
+        "splits": [
+          {
+            "dataset": "SetFit/amazon_reviews_multi_en",
+            "config": "default",
+            "split": "train",
+            "num_bytes_parquet_files": 25530295,
+            "num_bytes_memory": 42068790,
+            "num_rows": 200000,
+            "num_columns": 4,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "SetFit/amazon_reviews_multi_en",
+            "config": "default",
+            "split": "validation",
+            "num_bytes_parquet_files": 641888,
+            "num_bytes_memory": 1059876,
+            "num_rows": 5000,
+            "num_columns": 4,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "SetFit/amazon_reviews_multi_en",
+            "config": "default",
+            "split": "test",
+            "num_bytes_parquet_files": 632050,
+            "num_bytes_memory": 1046199,
+            "num_rows": 5000,
+            "num_columns": 4,
+            "estimated_num_rows": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "trec",
+      "url": "https://datasets-server.huggingface.co/size?dataset=CogComp%2Ftrec",
+      "status": 501,
+      "size": null
+    },
+    {
+      "name": "aegis",
+      "url": "https://datasets-server.huggingface.co/size?dataset=nvidia%2FAegis-AI-Content-Safety-Dataset-2.0",
+      "status": 200,
+      "size": {
+        "dataset": {
+          "dataset": "nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+          "num_bytes_original_files": 28443283,
+          "num_bytes_parquet_files": 11365221,
+          "num_bytes_memory": 20042701,
+          "num_rows": 33416,
+          "estimated_num_rows": null
+        },
+        "configs": [
+          {
+            "dataset": "nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+            "config": "default",
+            "num_bytes_original_files": 28443283,
+            "num_bytes_parquet_files": 11365221,
+            "num_bytes_memory": 20042701,
+            "num_rows": 33416,
+            "num_columns": 9,
+            "estimated_num_rows": null
+          }
+        ],
+        "splits": [
+          {
+            "dataset": "nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+            "config": "default",
+            "split": "train",
+            "num_bytes_parquet_files": 10149218,
+            "num_bytes_memory": 17937007,
+            "num_rows": 30007,
+            "num_columns": 9,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+            "config": "default",
+            "split": "validation",
+            "num_bytes_parquet_files": 514044,
+            "num_bytes_memory": 884294,
+            "num_rows": 1445,
+            "num_columns": 9,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+            "config": "default",
+            "split": "test",
+            "num_bytes_parquet_files": 701959,
+            "num_bytes_memory": 1221400,
+            "num_rows": 1964,
+            "num_columns": 9,
+            "estimated_num_rows": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "enron_spam",
+      "url": "https://datasets-server.huggingface.co/size?dataset=SetFit%2Fenron_spam",
+      "status": 200,
+      "size": {
+        "dataset": {
+          "dataset": "SetFit/enron_spam",
+          "num_bytes_original_files": 107342656,
+          "num_bytes_parquet_files": 61528826,
+          "num_bytes_memory": 102994547,
+          "num_rows": 33716,
+          "estimated_num_rows": null
+        },
+        "configs": [
+          {
+            "dataset": "SetFit/enron_spam",
+            "config": "default",
+            "num_bytes_original_files": 107342656,
+            "num_bytes_parquet_files": 61528826,
+            "num_bytes_memory": 102994547,
+            "num_rows": 33716,
+            "num_columns": 7,
+            "estimated_num_rows": null
+          }
+        ],
+        "splits": [
+          {
+            "dataset": "SetFit/enron_spam",
+            "config": "default",
+            "split": "train",
+            "num_bytes_parquet_files": 57954153,
+            "num_bytes_memory": 96980930,
+            "num_rows": 31716,
+            "num_columns": 7,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "SetFit/enron_spam",
+            "config": "default",
+            "split": "test",
+            "num_bytes_parquet_files": 3574673,
+            "num_bytes_memory": 6013617,
+            "num_rows": 2000,
+            "num_columns": 7,
+            "estimated_num_rows": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "phishing_email",
+      "url": "https://datasets-server.huggingface.co/size?dataset=zefang-liu%2Fphishing-email-dataset",
+      "status": 200,
+      "size": {
+        "dataset": {
+          "dataset": "zefang-liu/phishing-email-dataset",
+          "num_bytes_original_files": 52034604,
+          "num_bytes_parquet_files": 29747965,
+          "num_bytes_memory": 51989929,
+          "num_rows": 18650,
+          "estimated_num_rows": null
+        },
+        "configs": [
+          {
+            "dataset": "zefang-liu/phishing-email-dataset",
+            "config": "default",
+            "num_bytes_original_files": 52034604,
+            "num_bytes_parquet_files": 29747965,
+            "num_bytes_memory": 51989929,
+            "num_rows": 18650,
+            "num_columns": 3,
+            "estimated_num_rows": null
+          }
+        ],
+        "splits": [
+          {
+            "dataset": "zefang-liu/phishing-email-dataset",
+            "config": "default",
+            "split": "train",
+            "num_bytes_parquet_files": 29747965,
+            "num_bytes_memory": 51989929,
+            "num_rows": 18650,
+            "num_columns": 3,
+            "estimated_num_rows": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "customer_support",
+      "url": "https://datasets-server.huggingface.co/size?dataset=Tobi-Bueck%2Fcustomer-support-tickets",
+      "status": 200,
+      "size": {
+        "dataset": {
+          "dataset": "Tobi-Bueck/customer-support-tickets",
+          "num_bytes_original_files": null,
+          "num_bytes_parquet_files": 25037652,
+          "num_bytes_memory": 56290512,
+          "num_rows": 61765,
+          "estimated_num_rows": null
+        },
+        "configs": [
+          {
+            "dataset": "Tobi-Bueck/customer-support-tickets",
+            "config": "default",
+            "num_bytes_original_files": null,
+            "num_bytes_parquet_files": 25037652,
+            "num_bytes_memory": 56290512,
+            "num_rows": 61765,
+            "num_columns": 16,
+            "estimated_num_rows": null
+          }
+        ],
+        "splits": [
+          {
+            "dataset": "Tobi-Bueck/customer-support-tickets",
+            "config": "default",
+            "split": "train",
+            "num_bytes_parquet_files": 25037652,
+            "num_bytes_memory": 56290512,
+            "num_rows": 61765,
+            "num_columns": 16,
+            "estimated_num_rows": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "typed_decisions_all",
+      "url": "https://datasets-server.huggingface.co/size?dataset=LocalLLaMA%2Ftyped-decisions",
+      "status": 200,
+      "size": {
+        "dataset": {
+          "dataset": "LocalLLaMA/typed-decisions",
+          "num_bytes_original_files": 1978388,
+          "num_bytes_parquet_files": 1978388,
+          "num_bytes_memory": 8181250,
+          "num_rows": 3200,
+          "estimated_num_rows": null
+        },
+        "configs": [
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "agent_trace_observability",
+            "num_bytes_original_files": 229093,
+            "num_bytes_parquet_files": 229093,
+            "num_bytes_memory": 963020,
+            "num_rows": 400,
+            "num_columns": 27,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "all",
+            "num_bytes_original_files": 820964,
+            "num_bytes_parquet_files": 820964,
+            "num_bytes_memory": 3799285,
+            "num_rows": 1600,
+            "num_columns": 9,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "customer_service",
+            "num_bytes_original_files": 382317,
+            "num_bytes_parquet_files": 382317,
+            "num_bytes_memory": 1251899,
+            "num_rows": 400,
+            "num_columns": 27,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "invoice_processing",
+            "num_bytes_original_files": 257006,
+            "num_bytes_parquet_files": 257006,
+            "num_bytes_memory": 1078441,
+            "num_rows": 400,
+            "num_columns": 28,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "security_incidents",
+            "num_bytes_original_files": 289008,
+            "num_bytes_parquet_files": 289008,
+            "num_bytes_memory": 1088605,
+            "num_rows": 400,
+            "num_columns": 28,
+            "estimated_num_rows": null
+          }
+        ],
+        "splits": [
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "agent_trace_observability",
+            "split": "train",
+            "num_bytes_parquet_files": 157731,
+            "num_bytes_memory": 714052,
+            "num_rows": 300,
+            "num_columns": 27,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "agent_trace_observability",
+            "split": "test",
+            "num_bytes_parquet_files": 71362,
+            "num_bytes_memory": 248968,
+            "num_rows": 100,
+            "num_columns": 27,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "all",
+            "split": "train",
+            "num_bytes_parquet_files": 598824,
+            "num_bytes_memory": 2841036,
+            "num_rows": 1200,
+            "num_columns": 9,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "all",
+            "split": "test",
+            "num_bytes_parquet_files": 222140,
+            "num_bytes_memory": 958249,
+            "num_rows": 400,
+            "num_columns": 9,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "customer_service",
+            "split": "train",
+            "num_bytes_parquet_files": 267280,
+            "num_bytes_memory": 928198,
+            "num_rows": 300,
+            "num_columns": 27,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "customer_service",
+            "split": "test",
+            "num_bytes_parquet_files": 115037,
+            "num_bytes_memory": 323701,
+            "num_rows": 100,
+            "num_columns": 27,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "invoice_processing",
+            "split": "train",
+            "num_bytes_parquet_files": 177403,
+            "num_bytes_memory": 800939,
+            "num_rows": 300,
+            "num_columns": 28,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "invoice_processing",
+            "split": "test",
+            "num_bytes_parquet_files": 79603,
+            "num_bytes_memory": 277502,
+            "num_rows": 100,
+            "num_columns": 28,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "security_incidents",
+            "split": "train",
+            "num_bytes_parquet_files": 201079,
+            "num_bytes_memory": 808924,
+            "num_rows": 300,
+            "num_columns": 28,
+            "estimated_num_rows": null
+          },
+          {
+            "dataset": "LocalLLaMA/typed-decisions",
+            "config": "security_incidents",
+            "split": "test",
+            "num_bytes_parquet_files": 87929,
+            "num_bytes_memory": 279681,
+            "num_rows": 100,
+            "num_columns": 28,
+            "estimated_num_rows": null
+          }
+        ]
+      }
+    }
+  ],
+  "pinned_parquet_metadata": [
+    {
+      "name": "ms_marco",
+      "url": "https://huggingface.co/datasets/microsoft/ms_marco/resolve/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a/v2.1/train-00000-of-00007.parquet",
+      "rows": 115533,
+      "columns": {
+        "passages.passage_text.list.item": {
+          "num_values": 1152451,
+          "null_count": 0,
+          "stats_complete": true
+        },
+        "query": {
+          "num_values": 115533,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 235374
+    },
+    {
+      "name": "ms_marco",
+      "url": "https://huggingface.co/datasets/microsoft/ms_marco/resolve/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a/v2.1/train-00001-of-00007.parquet",
+      "rows": 115533,
+      "columns": {
+        "passages.passage_text.list.item": {
+          "num_values": 1152736,
+          "null_count": 0,
+          "stats_complete": true
+        },
+        "query": {
+          "num_values": 115533,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 231691
+    },
+    {
+      "name": "ms_marco",
+      "url": "https://huggingface.co/datasets/microsoft/ms_marco/resolve/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a/v2.1/train-00002-of-00007.parquet",
+      "rows": 115533,
+      "columns": {
+        "passages.passage_text.list.item": {
+          "num_values": 1152912,
+          "null_count": 0,
+          "stats_complete": true
+        },
+        "query": {
+          "num_values": 115533,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 234296
+    },
+    {
+      "name": "ms_marco",
+      "url": "https://huggingface.co/datasets/microsoft/ms_marco/resolve/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a/v2.1/train-00003-of-00007.parquet",
+      "rows": 115533,
+      "columns": {
+        "passages.passage_text.list.item": {
+          "num_values": 1152948,
+          "null_count": 0,
+          "stats_complete": true
+        },
+        "query": {
+          "num_values": 115533,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 231019
+    },
+    {
+      "name": "ms_marco",
+      "url": "https://huggingface.co/datasets/microsoft/ms_marco/resolve/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a/v2.1/train-00004-of-00007.parquet",
+      "rows": 115533,
+      "columns": {
+        "passages.passage_text.list.item": {
+          "num_values": 1152733,
+          "null_count": 0,
+          "stats_complete": true
+        },
+        "query": {
+          "num_values": 115533,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 225649
+    },
+    {
+      "name": "ms_marco",
+      "url": "https://huggingface.co/datasets/microsoft/ms_marco/resolve/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a/v2.1/train-00005-of-00007.parquet",
+      "rows": 115533,
+      "columns": {
+        "passages.passage_text.list.item": {
+          "num_values": 1152917,
+          "null_count": 0,
+          "stats_complete": true
+        },
+        "query": {
+          "num_values": 115533,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 229835
+    },
+    {
+      "name": "ms_marco",
+      "url": "https://huggingface.co/datasets/microsoft/ms_marco/resolve/a47ee7aae8d7d466ba15f9f0bfac3b3681087b3a/v2.1/train-00006-of-00007.parquet",
+      "rows": 115533,
+      "columns": {
+        "passages.passage_text.list.item": {
+          "num_values": 1153052,
+          "null_count": 0,
+          "stats_complete": true
+        },
+        "query": {
+          "num_values": 115533,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 238775
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00000-of-00011.parquet",
+      "rows": 652667,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652667,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1669785
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00001-of-00011.parquet",
+      "rows": 652667,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652667,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1660703
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00002-of-00011.parquet",
+      "rows": 652667,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652667,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1613002
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00003-of-00011.parquet",
+      "rows": 652667,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652667,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1606720
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00004-of-00011.parquet",
+      "rows": 652667,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652667,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1569776
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00005-of-00011.parquet",
+      "rows": 652667,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652667,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1560766
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00006-of-00011.parquet",
+      "rows": 652666,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652666,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1552854
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00007-of-00011.parquet",
+      "rows": 652666,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652666,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1577355
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00008-of-00011.parquet",
+      "rows": 652666,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652666,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1579593
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00009-of-00011.parquet",
+      "rows": 652666,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652666,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1572473
+    },
+    {
+      "name": "consumer_finance",
+      "url": "https://huggingface.co/datasets/davidheineman/consumer-finance-complaints-large/resolve/44cfa170a402e254407470275ce05d7dcaccde30/data/train-00010-of-00011.parquet",
+      "rows": 652666,
+      "columns": {
+        "complaint_what_happened": {
+          "num_values": 652666,
+          "null_count": 0,
+          "stats_complete": true
+        }
+      },
+      "metadata_bytes": 1598770
+    }
+  ],
+  "limitations": [
+    "Current pilots/presets use bounded sample caches and step/time budgets, not the complete corpus.",
+    "Viewer metadata is current and not revision-addressed; pinned API cards and Parquet footers are revision-addressed.",
+    "MS MARCO expands one query to one model row per passage. Typed decisions typically have five questions per source row; Aegis has two.",
+    "Validation and final-evaluation rows remain excluded from training. Ten-percent validation partition counts are expectations, not an exact hash-partition census.",
+    "Longer text, per-question microbatching, option counts, thermal throttling, streaming I/O and frequent evaluation change throughput.",
+    "6\u201322 weeks is a planning range, not a guarantee or convergence estimate."
+  ],
+  "excluded_from_requested_estimate": [
+    "ms_marco",
+    "CommitPackFT"
+  ],
+  "remaining_21_planning_days_one_epoch": [
+    42,
+    154
+  ],
+  "remaining_21_workload_equivalent_rows_approx": [
+    2200000,
+    8000000
+  ],
+  "remaining_21_planning_note": "Order-of-magnitude estimate excluding MS MARCO. About 2.2 million equivalent eligible rows from other sources plus an unknown Consumer Finance eligible-narrative population (up to about 5.74 million). Approximate counts, not a full eligibility census. Long text can exceed the smoke throughput extrapolation.",
+  "ms_marco_metadata_note": "Previously inspected metadata retained for provenance; excluded from the requested final estimate."
+}
