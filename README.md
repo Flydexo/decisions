@@ -451,6 +451,14 @@ Rebuild it from the saved measurements with:
 uv run python scripts/build_results_page.py
 ```
 
+The [RTX 4090 curriculum results page](reports/curriculum-results.html) compares
+the locally evaluated partial stage-16 checkpoint with uniform random guessing,
+the RTX 4090 pilot baseline, and the last completed curriculum stage. It includes
+all 21 validation datasets and opens offline. Rebuild the page from its tracked
+data snapshot with `python3 scripts/build_curriculum_results_page.py`; use
+`--refresh` to recompute that snapshot from the local checkpoint evaluation and
+validation samples.
+
 For ModernBERT-large across all 17 requested datasets:
 
 ```sh

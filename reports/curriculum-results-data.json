@@ -1,0 +1,449 @@
+{
+  "generated_at": "2026-10-08T05:45:18.871789+00:00",
+  "checkpoint_sha256": "e009fe101e9846279b26be6b292a33f5672894a1b319bd1210a6b71632ea5dee",
+  "checkpoint_step": 60928,
+  "completed_stages": 15,
+  "total_stages": 21,
+  "current_stage": "Amazon Reviews · EN",
+  "current_stage_rows": 136392,
+  "source_count": 21,
+  "question_count": 832,
+  "macro": {
+    "latest": 0.6520833333333333,
+    "chance": 0.2904391491445063,
+    "pilot": 0.4331845238095238,
+    "previous": 0.6732142857142857
+  },
+  "mean_nll": {
+    "latest": 7.2633322337659205,
+    "previous": 4.728961761299566
+  },
+  "counts": {
+    "above_chance": 19,
+    "chance_p_below_005": 17,
+    "above_pilot": 17,
+    "tied_pilot": 2,
+    "above_previous": 6
+  },
+  "datasets": [
+    {
+      "id": "arc_challenge",
+      "name": "ARC-Challenge",
+      "stage": 1,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.34375,
+      "latest_nll": 14.205450528301299,
+      "chance": 0.25,
+      "random_tail_probability": 0.15359463323830216,
+      "pilot": 0.25,
+      "previous": 0.4375,
+      "previous_nll": 11.732999816536903
+    },
+    {
+      "id": "typed_decisions_all",
+      "name": "Typed Decisions · All workflows",
+      "stage": 2,
+      "training_status": "completed",
+      "questions": 160,
+      "rows": 32,
+      "latest": 0.6,
+      "latest_nll": 1.1011284209787846,
+      "chance": 0.3171875000000002,
+      "random_tail_probability": 2.419361894851632e-14,
+      "pilot": 0.3625,
+      "previous": 0.6375,
+      "previous_nll": 1.0735219433903693
+    },
+    {
+      "id": "openbookqa",
+      "name": "OpenBookQA",
+      "stage": 3,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.53125,
+      "latest_nll": 10.715282948687673,
+      "chance": 0.25,
+      "random_tail_probability": 0.0006002945916912439,
+      "pilot": 0.28125,
+      "previous": 0.46875,
+      "previous_nll": 10.3998048343758
+    },
+    {
+      "id": "trec",
+      "name": "TREC",
+      "stage": 4,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.84375,
+      "latest_nll": 3.9347085803747177,
+      "chance": 0.16666666666666669,
+      "random_tail_probability": 8.197453717242055e-17,
+      "pilot": 0.125,
+      "previous": 0.84375,
+      "previous_nll": 3.3405773360282187
+    },
+    {
+      "id": "sst5",
+      "name": "SST-5",
+      "stage": 5,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.65625,
+      "latest_nll": 7.557053232565522,
+      "chance": 0.2000000000000001,
+      "random_tail_probability": 2.6496301993336565e-08,
+      "pilot": 0.375,
+      "previous": 0.53125,
+      "previous_nll": 9.92773438245058
+    },
+    {
+      "id": "boolq",
+      "name": "BoolQ",
+      "stage": 6,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.71875,
+      "latest_nll": 6.960615517105907,
+      "chance": 0.5,
+      "random_tail_probability": 0.010030803503468633,
+      "pilot": 0.59375,
+      "previous": 0.625,
+      "previous_nll": 7.966554634738724
+    },
+    {
+      "id": "commonsenseqa",
+      "name": "CommonsenseQA",
+      "stage": 7,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.65625,
+      "latest_nll": 7.0549712516367435,
+      "chance": 0.2000000000000001,
+      "random_tail_probability": 2.6496301993336565e-08,
+      "pilot": 0.3125,
+      "previous": 0.65625,
+      "previous_nll": 7.413088858263337
+    },
+    {
+      "id": "banking77",
+      "name": "Banking77",
+      "stage": 8,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.78125,
+      "latest_nll": 3.4712665234692395,
+      "chance": 0.01298701298701299,
+      "random_tail_probability": 2.1214252777535848e-41,
+      "pilot": 0.0,
+      "previous": 0.875,
+      "previous_nll": 2.8085937537252907
+    },
+    {
+      "id": "phishing_email",
+      "name": "Phishing Email",
+      "stage": 9,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.875,
+      "latest_nll": 3.109898626804352,
+      "chance": 0.5,
+      "random_tail_probability": 9.650597348809242e-06,
+      "pilot": 0.6875,
+      "previous": 0.90625,
+      "previous_nll": 2.1648887330666184
+    },
+    {
+      "id": "imdb",
+      "name": "IMDb",
+      "stage": 10,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.875,
+      "latest_nll": 3.2377529414370656,
+      "chance": 0.5,
+      "random_tail_probability": 9.650597348809242e-06,
+      "pilot": 0.5,
+      "previous": 0.90625,
+      "previous_nll": 2.1250000074505815
+    },
+    {
+      "id": "flakeflagger",
+      "name": "FlakeFlagger",
+      "stage": 11,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 1.0,
+      "latest_nll": 0.0,
+      "chance": 0.5,
+      "random_tail_probability": 2.3283064365386963e-10,
+      "pilot": 1.0,
+      "previous": 1.0,
+      "previous_nll": 0.0
+    },
+    {
+      "id": "aegis",
+      "name": "Aegis Safety 2.0",
+      "stage": 12,
+      "training_status": "completed",
+      "questions": 64,
+      "rows": 32,
+      "latest": 0.9375,
+      "latest_nll": 1.2158478647470474,
+      "chance": 0.5,
+      "random_tail_probability": 3.681522317902641e-14,
+      "pilot": 0.921875,
+      "previous": 0.96875,
+      "previous_nll": 0.24992132745683193
+    },
+    {
+      "id": "enron_spam",
+      "name": "Enron Spam",
+      "stage": 13,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.96875,
+      "latest_nll": 0.34911975264549255,
+      "chance": 0.5,
+      "random_tail_probability": 7.683411240577698e-09,
+      "pilot": 0.84375,
+      "previous": 0.9375,
+      "previous_nll": 1.201171875
+    },
+    {
+      "id": "customer_support",
+      "name": "Customer Support Tickets",
+      "stage": 14,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.46875,
+      "latest_nll": 12.636290967464447,
+      "chance": 0.10000000000000005,
+      "random_tail_probability": 1.0676687949363956e-07,
+      "pilot": 0.40625,
+      "previous": 0.46875,
+      "previous_nll": 9.13064062409113
+    },
+    {
+      "id": "ag_news",
+      "name": "AG News",
+      "stage": 15,
+      "training_status": "completed",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.90625,
+      "latest_nll": 1.7662754394114017,
+      "chance": 0.25,
+      "random_tail_probability": 7.507070052398257e-15,
+      "pilot": 0.34375,
+      "previous": 0.90625,
+      "previous_nll": 1.6962890699505815
+    },
+    {
+      "id": "amazon_reviews_multi_en",
+      "name": "Amazon Reviews · EN",
+      "stage": 16,
+      "training_status": "partial",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.1875,
+      "latest_nll": 21.820576429367065,
+      "chance": 0.2000000000000001,
+      "random_tail_probability": 0.6398089661695272,
+      "pilot": 0.1875,
+      "previous": 0.46875,
+      "previous_nll": 3.9807141147975926
+    },
+    {
+      "id": "codereviewer",
+      "name": "CodeReviewer",
+      "stage": 17,
+      "training_status": "unseen",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.53125,
+      "latest_nll": 6.8991395980137415,
+      "chance": 0.5,
+      "random_tail_probability": 0.4300250329542905,
+      "pilot": 0.59375,
+      "previous": 0.5625,
+      "previous_nll": 0.9846848517190665
+    },
+    {
+      "id": "mnli",
+      "name": "MultiNLI",
+      "stage": 18,
+      "training_status": "unseen",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.5,
+      "latest_nll": 7.324649859444893,
+      "chance": 0.33333333333333337,
+      "random_tail_probability": 0.03765333591516296,
+      "pilot": 0.3125,
+      "previous": 0.4375,
+      "previous_nll": 6.3515724018808335
+    },
+    {
+      "id": "dbpedia14",
+      "name": "DBpedia 14",
+      "stage": 19,
+      "training_status": "unseen",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.78125,
+      "latest_nll": 4.272489864204488,
+      "chance": 0.07142857142857142,
+      "random_tail_probability": 4.546287998521933e-23,
+      "pilot": 0.65625,
+      "previous": 0.84375,
+      "previous_nll": 2.141083117632665
+    },
+    {
+      "id": "yelp_review_full",
+      "name": "Yelp Review Full",
+      "stage": 20,
+      "training_status": "unseen",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.0625,
+      "latest_nll": 24.861446380615234,
+      "chance": 0.2000000000000001,
+      "random_tail_probability": 0.9928694653737185,
+      "pilot": 0.3125,
+      "previous": 0.40625,
+      "previous_nll": 4.241300011622428
+    },
+    {
+      "id": "consumer_finance",
+      "name": "Consumer Finance",
+      "stage": 21,
+      "training_status": "unseen",
+      "questions": 32,
+      "rows": 32,
+      "latest": 0.46875,
+      "latest_nll": 10.036012181809227,
+      "chance": 0.04761904761904765,
+      "random_tail_probability": 3.825165825830523e-12,
+      "pilot": 0.03125,
+      "previous": 0.25,
+      "previous_nll": 10.378055293113349
+    }
+  ],
+  "history": [
+    {
+      "stage": 1,
+      "name": "ARC-Challenge",
+      "accuracy": 0.3099702380952381,
+      "partial": false
+    },
+    {
+      "stage": 2,
+      "name": "Typed Decisions · All workflows",
+      "accuracy": 0.31830357142857146,
+      "partial": false
+    },
+    {
+      "stage": 3,
+      "name": "OpenBookQA",
+      "accuracy": 0.3318452380952381,
+      "partial": false
+    },
+    {
+      "stage": 4,
+      "name": "TREC",
+      "accuracy": 0.42544642857142856,
+      "partial": false
+    },
+    {
+      "stage": 5,
+      "name": "SST-5",
+      "accuracy": 0.42410714285714285,
+      "partial": false
+    },
+    {
+      "stage": 6,
+      "name": "BoolQ",
+      "accuracy": 0.5043154761904761,
+      "partial": false
+    },
+    {
+      "stage": 7,
+      "name": "CommonsenseQA",
+      "accuracy": 0.5699404761904762,
+      "partial": false
+    },
+    {
+      "stage": 8,
+      "name": "Banking77",
+      "accuracy": 0.5681547619047619,
+      "partial": false
+    },
+    {
+      "stage": 9,
+      "name": "Phishing Email",
+      "accuracy": 0.5776785714285714,
+      "partial": false
+    },
+    {
+      "stage": 10,
+      "name": "IMDb",
+      "accuracy": 0.32336309523809526,
+      "partial": false
+    },
+    {
+      "stage": 11,
+      "name": "FlakeFlagger",
+      "accuracy": 0.3330357142857143,
+      "partial": false
+    },
+    {
+      "stage": 12,
+      "name": "Aegis Safety 2.0",
+      "accuracy": 0.5168154761904762,
+      "partial": false
+    },
+    {
+      "stage": 13,
+      "name": "Enron Spam",
+      "accuracy": 0.640625,
+      "partial": false
+    },
+    {
+      "stage": 14,
+      "name": "Customer Support Tickets",
+      "accuracy": 0.6720238095238096,
+      "partial": false
+    },
+    {
+      "stage": 15,
+      "name": "AG News",
+      "accuracy": 0.6732142857142857,
+      "partial": false
+    },
+    {
+      "stage": 16,
+      "name": "Amazon Reviews · EN",
+      "accuracy": 0.6520833333333333,
+      "partial": true
+    }
+  ],
+  "sources": [
+    "outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/latest_bf16.json",
+    "reports/rtx4090_pilot_baseline_summary.json",
+    "outputs/rtx4090_curriculum/full_split_ordered/stages/15-ag_news.json",
+    "outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/validation_samples/"
+  ]
+}
