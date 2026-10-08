@@ -19,9 +19,9 @@ thumbnail: https://huggingface.co/flydexo/bad-laya/resolve/main/assets/overview.
 
 ![Evaluation overview](https://huggingface.co/flydexo/bad-laya/resolve/main/assets/overview.png)
 
-**Explore:** [Results](#at-a-glance) · [Quickstart](#load-and-score-a-request) · [Calibration](#temperature-calibration) · [Provenance](#training-and-evaluation-provenance) · [Limitations](#limitations-and-use)
+**Explore:** [Results](#at-a-glance) · [WinoGrande 0.3](#decision-index-03-winogrande) · [Quickstart](#load-and-score-a-request) · [Calibration](#temperature-calibration) · [Provenance](#training-and-evaluation-provenance) · [Limitations](#limitations-and-use)
 
-> **Research use.** The model is weak on some review tasks, even after calibration. The 21-source comparison uses validation samples; the calibration check uses separate evaluation partitions. An official Decision Index 0.3 score has not yet been completed.
+> **Research use.** The model is weak on some review tasks, even after calibration. The 21-source comparison uses validation samples; the calibration check uses separate evaluation partitions. Its WinoGrande result is close to random choice; no complete Decision Index 0.3 score is available.
 
 ## Model details
 
@@ -63,6 +63,24 @@ These are equal-weight averages of per-source results, **not** an accuracy poole
 | AG News | 90.6% | 25.0% | 100.0% |
 
 Yelp and Amazon are below random expectation in this small validation sample. The model was trained on all 15 smaller curriculum splits, then stopped partway through Amazon Reviews after 136,392 rows of that split. CodeReviewer, MultiNLI, DBpedia 14, Yelp, and Consumer Finance had **not** yet been training stages, although all were included in every cross-source validation. The very high confidence and poor review accuracy make the limitations concrete.
+
+## Decision Index 0.3: WinoGrande
+
+The released checkpoint answered all **1,267** frozen WinoGrande questions through the pinned [Decision Index 0.3 reproduction kit](https://github.com/apolinario/decision-index). It got **642 correct: 50.7% accuracy**. The 95% Wilson interval is **47.9%–53.4%**, which includes the 50% random-choice expectation. The calibrated temperature does not change the chosen answers.
+
+| Model or reference | WinoGrande accuracy |
+|:--|--:|
+| Cloudflare clef | 93.5% |
+| Jev | 92.0% |
+| Kev 27B | 88.3% |
+| Kev 9B v2 | 75.1% |
+| Kev 4B r10 | 70.2% |
+| Kev 0.8B r15 | 52.8% |
+| **bad-laya** | **50.7%** |
+| Laya | 50.5% |
+| Uniform random choice | 50.0% expected |
+
+Comparator values come from the [Decision Index public results snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/main/data/index.json) generated on 2026-10-07. All displayed published models answered the same 1,267 questions. The rebuilt WinoGrande source hash and full-case selection match the official manifest; other parts of the locally rebuilt suite do not pass the full-suite hash check. This is therefore a **single-benchmark result**, not a full index score or official leaderboard submission. The [aggregate result and provenance](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-winogrande.json) and [visual comparison](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html#index-section) are in the project repository.
 
 ## What is in this repository
 
@@ -153,6 +171,6 @@ The curriculum comparison above is **validation**, not a held-out final benchmar
 - **Useful experiments:** English text classification, routing, triage, and typed decision research where the allowed answers are supplied with each question. Refit or verify calibration on a labelled sample of the actual workload before choosing confidence thresholds.
 - **Poor fit:** Open-ended generation, fact retrieval, image or video inputs, and fully automated decisions with medical, legal, financial, employment, or safety consequences.
 - **Known failure modes:** Review sentiment collapsed in the partial stage-16 checkpoint: Yelp Review Full scored 6.3% and Amazon Reviews 18.8% on their small validation samples. Temperature reduces reported certainty but does not fix these answers. A 1,024-token context can also refuse or truncate long requests, depending on preprocessing settings.
-- **Evaluation limits:** The 21-source validation set influenced checkpoint selection. The separate calibration evaluation has 832 questions and is too small to establish reliability within every source or on shifted domains. The 0.3 Decision Index run is pending; do not compare these local percentages to its leaderboard.
+- **Evaluation limits:** The 21-source validation set influenced checkpoint selection. The separate calibration evaluation has 832 questions and is too small to establish reliability within every source or on shifted domains. Only the WinoGrande part of Decision Index 0.3 was run; do not treat it as a full leaderboard score.
 
 For the per-source results and training trajectory, see the [results page source](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html) and its [data snapshot](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results-data.json). The base encoder is [ModernBERT-large](https://huggingface.co/answerdotai/ModernBERT-large) (Apache 2.0). A license for this combined checkpoint is not declared here.

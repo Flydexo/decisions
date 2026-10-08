@@ -304,39 +304,53 @@ confidence, unsupported cases, and errors. These include supplementary tracks
 listed on the website. The rows are independently sampled, not the frozen
 leaderboard selection; **no overall Decision Index is reported for this pilot**.
 
+### Decision Index 0.3: WinoGrande only
+
 The [official reproduction kit](https://github.com/apolinario/decision-index)
-is pinned here to edition 0.3 at commit `9eb2dbe`. Its complete frozen corpus
-is not publicly redistributed; rebuilding takes about 7 GB of downloads and
-17 GB of working space. Accept the HLE dataset terms on the Hub first. The
-calibrated `bad-laya` checkpoint can run through the kit's strict engine:
+is pinned here to edition 0.3 at commit `9eb2dbe`. To keep the evaluation
+efficient, `bad-laya` was run on its **1,267 WinoGrande requests only**. It
+answered every request and scored **642/1,267 = 50.7% accuracy**. Random choice
+expects 50%; the 95% Wilson interval, 47.9–53.4%, includes that baseline.
+The [comparison report](reports/bad-laya-winogrande.json) records the published
+Jev, Kev, Laya, and Clef reference scores and their source snapshot. The
+[results page](reports/curriculum-results.html#index-section) visualizes them.
+
+The local WinoGrande normalized-source SHA-256 and all-case selection match the
+kit's official manifest. Other parts of the locally rebuilt 0.3 suite have a
+hash mismatch, so the result is **one benchmark, not a full public index score
+or leaderboard submission**. The kit's `scores.json` also correctly records
+`complete: false`. Its numerical `decision_index` field is not meaningful for
+this partial run and is not published as an index score.
+
+With a locally imported 0.3 suite, extract only WinoGrande rows and run the
+released checkpoint through the kit's strict engine:
 
 ```sh
 uv sync --extra benchmark
-GIT_LFS_SKIP_SMUDGE=1 HF_HUB_DISABLE_XET=1 HF_HUB_DOWNLOAD_TIMEOUT=60 \
-  uv run --extra benchmark python -m decision_index suite rebuild \
-  --edition 0.3 --work outputs/decision_index_03/work
-uv run --extra benchmark python -m decision_index suite import --edition 0.3 \
-  --dir outputs/decision_index_03/suite-0.3 \
-  --rows outputs/decision_index_03/work/artifacts/benchmark-suite/release-v2-rebuilt/selected-rows.jsonl.gz \
-  --added-rows outputs/decision_index_03/work/artifacts/benchmark-suite/release-v2-rebuilt/added-rows.jsonl.gz \
-  --gsm8k-rows outputs/decision_index_03/work/artifacts/benchmark-suite/release-v3-rebuilt/gsm8k-rows.jsonl.gz
-uv run --extra benchmark python -m decision_index pipeline --edition 0.3 \
-  --suite-dir outputs/decision_index_03/suite-0.3 \
+uv run --extra benchmark python scripts/extract_decision_index_winogrande.py \
+  outputs/decision_index_03/suite-0.3 \
+  outputs/decision_index_03/winogrande-0.3.jsonl.gz
+uv run --extra benchmark python -m decision_index run --edition 0.3 \
+  --rows outputs/decision_index_03/winogrande-0.3.jsonl.gz \
   --engine decisions.benchmark:DecisionEngine \
   --option checkpoint="$PWD/outputs/rtx4090_curriculum/full_split_ordered/last_bf16_fresh_optimizer.pt" \
   --option device=cpu --option temperature=12.595144782442853 \
-  --out outputs/decision_index_03/runs/bad-laya
+  --out outputs/decision_index_03/runs/bad-laya-winogrande
+uv run --extra benchmark python -m decision_index score --edition 0.3 \
+  --suite-dir outputs/decision_index_03/suite-0.3 \
+  --results outputs/decision_index_03/runs/bad-laya-winogrande/results.jsonl \
+  --engine decisions.benchmark:DecisionEngine \
+  --out outputs/decision_index_03/runs/bad-laya-winogrande
 ```
 
-The run resumes from `results.jsonl`. Only `state` and `questions` reach the
-model; gold/scoring fields stay with the evaluator. No option pruning or context
-truncation is allowed: requests beyond capacity become `unsupported`. The
-official kit supplies benchmark-specific scoring, coverage, and the public
-index. The model's calibrated chosen-answer probability is `confidence`; its
-normalized entropy certainty is returned separately as `entropy_confidence`.
-`GIT_LFS_SKIP_SMUDGE=1` avoids an extra Git LFS transfer of the large ESCI
-files; the suite builder downloads those files itself and checks their pinned
-hashes.
+The row file is produced by selecting catalog ID 28 from the imported suite;
+benchmark questions and gold answers are not committed. The run resumes from
+`results.jsonl`. Only `state` and `questions` reach the model; gold/scoring
+fields stay with the evaluator. The model's calibrated chosen-answer
+probability is `confidence`; normalized entropy certainty is returned
+separately as `entropy_confidence`. The tracked comparison is regenerated with
+`scripts/build_winogrande_comparison.py` and
+`scripts/build_curriculum_results_page.py` once the kit score exists.
 
 ## Verification
 

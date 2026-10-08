@@ -20,6 +20,7 @@ RUN = ROOT / "outputs/rtx4090_curriculum/full_split_ordered"
 SNAPSHOT = REPORTS / "curriculum-results-data.json"
 PAGE = REPORTS / "curriculum-results.html"
 TEMPLATE = REPORTS / "curriculum-results.template.html"
+WINOGRANDE = REPORTS / "bad-laya-winogrande.json"
 
 NAMES = {
     "ag_news": "AG News", "boolq": "BoolQ", "sst5": "SST-5",
@@ -169,7 +170,12 @@ def main() -> None:
     template = TEMPLATE.read_text()
     if template.count("__CURRICULUM_DATA__") != 1:
         raise ValueError("Template must have one data placeholder")
-    PAGE.write_text(template.replace("__CURRICULUM_DATA__", payload))
+    if template.count("__WINOGRANDE_DATA__") != 1:
+        raise ValueError("Template must have one WinoGrande data placeholder")
+    comparison = json.dumps(read_json(WINOGRANDE), ensure_ascii=False, allow_nan=False).replace(
+        "<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    PAGE.write_text(template.replace("__CURRICULUM_DATA__", payload).replace(
+        "__WINOGRANDE_DATA__", comparison))
     print(f"Wrote {SNAPSHOT} and {PAGE}" if args.refresh else f"Wrote {PAGE}")
 
 

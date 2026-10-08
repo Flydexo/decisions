@@ -1,0 +1,55 @@
+{
+  "model": "flydexo/bad-laya",
+  "edition": "0.3",
+  "dataset": "WinoGrande",
+  "catalog_id": 28,
+  "cases": 1267,
+  "answered": 1267,
+  "coverage": 1.0,
+  "correct": 642,
+  "accuracy": 0.5067087608524072,
+  "accuracy_wilson_95": [
+    0.4792005922325123,
+    0.5341763699317731
+  ],
+  "chance": 0.5,
+  "jev_accuracy": 0.9195,
+  "comparators": [
+    {
+      "name": "Cloudflare clef",
+      "accuracy": 0.9353
+    },
+    {
+      "name": "Kev 27B",
+      "accuracy": 0.8832
+    },
+    {
+      "name": "Kev 9B v2",
+      "accuracy": 0.7506
+    },
+    {
+      "name": "Kev 4B r10",
+      "accuracy": 0.7024
+    },
+    {
+      "name": "Kev 0.8B r15",
+      "accuracy": 0.528
+    },
+    {
+      "name": "Laya",
+      "accuracy": 0.5051
+    }
+  ],
+  "comparator_snapshot": {
+    "url": "https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/main/data/index.json",
+    "revision": "960c70899ef5da38d39b2c645b83f46e198e1a6a",
+    "generated_utc": "2026-10-07T18:25:58Z"
+  },
+  "kit_revision": "9eb2dbe",
+  "winogrande_source_sha256": "3cb341bb2494cdb3fe8f0434490034637c6da861950cd7ad5f799743cb4ccd69",
+  "winogrande_source_matches_official": true,
+  "full_suite_verified": false,
+  "full_suite_score": null,
+  "calibration_temperature": 12.595144782442853,
+  "checkpoint_sha256": "e009fe101e9846279b26be6b292a33f5672894a1b319bd1210a6b71632ea5dee"
+}
