@@ -355,6 +355,28 @@ certainty is returned separately as `entropy_confidence`. Regenerate the
 comparison with `scripts/build_arc_easy_comparison.py` and
 `scripts/build_curriculum_results_page.py` once the kit score exists.
 
+### Sequential full 0.3 evaluation (in progress)
+
+`scripts/run_decision_index_03_sequential.py` runs all 43 public suite entries
+one benchmark at a time on MPS, smaller counted benchmarks first. It writes
+resumable rows and results under `outputs/decision_index_03/`, checks free
+disk before each stage, and stops if a stage leaves pending requests or errors.
+Its run directory is `outputs/decision_index_03/runs/bad-laya-full-03`.
+To resume it in a shell with Apple GPU access:
+
+```sh
+.venv/bin/python -u scripts/run_decision_index_03_sequential.py
+```
+
+The locally rebuilt base row file does not match the kit's frozen hash because
+RouterBench's normalized source differs. RouterBench is displayed but not
+counted in the 0.3 public index; all other base source hashes and case counts,
+the added rows, and the rebuilt GSM8K rows match the pinned references. A
+`complete: true` score from this provisional local suite would still need the
+canonical base hash resolved before it could be presented as a verified public
+submission. The **Full score** on the board also includes private tests that
+only the maintainers run; this local process can compute the public component.
+
 ## Verification
 
 ### Small RLCD collapse pilots
