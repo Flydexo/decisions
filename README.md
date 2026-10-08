@@ -312,7 +312,8 @@ calibrated `bad-laya` checkpoint can run through the kit's strict engine:
 
 ```sh
 uv sync --extra benchmark
-HF_HUB_DISABLE_XET=1 uv run --extra benchmark python -m decision_index suite rebuild \
+GIT_LFS_SKIP_SMUDGE=1 HF_HUB_DISABLE_XET=1 HF_HUB_DOWNLOAD_TIMEOUT=60 \
+  uv run --extra benchmark python -m decision_index suite rebuild \
   --edition 0.3 --work outputs/decision_index_03/work
 uv run --extra benchmark python -m decision_index suite import --edition 0.3 \
   --dir outputs/decision_index_03/suite-0.3 \
@@ -333,6 +334,9 @@ truncation is allowed: requests beyond capacity become `unsupported`. The
 official kit supplies benchmark-specific scoring, coverage, and the public
 index. The model's calibrated chosen-answer probability is `confidence`; its
 normalized entropy certainty is returned separately as `entropy_confidence`.
+`GIT_LFS_SKIP_SMUDGE=1` avoids an extra Git LFS transfer of the large ESCI
+files; the suite builder downloads those files itself and checks their pinned
+hashes.
 
 ## Verification
 
