@@ -277,8 +277,9 @@ spherical or ranked-probability terms.
 
 ## Confidence
 
-Every prediction returns the selected answer, all option probabilities,
-`chosen_probability`, and:
+Every prediction returns the selected answer, all option probabilities, and
+`chosen_probability`. The `confidence` field is the chosen option's probability
+(after temperature scaling, if supplied), while `entropy_confidence` is:
 
 ```text
 confidence = 1 + sum(p_k * log(max(p_k, 1e-12))) / log(K)
@@ -286,7 +287,7 @@ confidence = 1 + sum(p_k * log(max(p_k, 1e-12))) / log(K)
 
 Only valid options count toward K. Uniform gives 0, one-hot gives 1, and a
 singleton is defined as 1. Entropy confidence describes certainty; it is not a
-calibrated probability of correctness. Evaluation reports accuracy, NLL, Brier,
+probability of correctness. Evaluation reports accuracy, NLL, Brier,
 chosen-option probability calibration error, and a diagnostic binned gap between
 entropy certainty and accuracy. The entropy gap is not probability calibration.
 
@@ -304,33 +305,34 @@ listed on the website. The rows are independently sampled, not the frozen
 leaderboard selection; **no overall Decision Index is reported for this pilot**.
 
 The [official reproduction kit](https://github.com/apolinario/decision-index)
-uses edition 0.2.1. Its complete frozen corpus is not publicly redistributed;
-rebuilding requires substantial downloads and working space. This pipeline does
-not trigger that rebuild. When an authorized local frozen suite is available,
-the pinned optional kit can run our strict engine and its official scorers:
+is pinned here to edition 0.3 at commit `9eb2dbe`. Its complete frozen corpus
+is not publicly redistributed; rebuilding takes about 7 GB of downloads and
+17 GB of working space. Accept the HLE dataset terms on the Hub first. The
+calibrated `bad-laya` checkpoint can run through the kit's strict engine:
 
 ```sh
 uv sync --extra benchmark
-uv run --extra benchmark python -m decision_index run \
-  --edition 0.2.1 --engine decisions.benchmark:DecisionEngine \
-  --option checkpoint="$PWD/outputs/pilot_streaming/last.pt" --option device=mps \
-  --rows /absolute/path/to/selected-rows.jsonl.gz --out outputs/full-index
-uv run --extra benchmark python -m decision_index run \
-  --edition 0.2.1 --engine decisions.benchmark:DecisionEngine \
-  --option checkpoint="$PWD/outputs/pilot_streaming/last.pt" --option device=mps \
-  --rows /absolute/path/to/added-rows.jsonl.gz --out outputs/full-index
-uv run --extra benchmark python -m decision_index score --edition 0.2.1 \
-  --suite-dir /absolute/path/to/verified-suite \
-  --results outputs/full-index/results.jsonl --out outputs/full-index
+HF_HUB_DISABLE_XET=1 uv run --extra benchmark python -m decision_index suite rebuild \
+  --edition 0.3 --work outputs/decision_index_03/work
+uv run --extra benchmark python -m decision_index suite import --edition 0.3 \
+  --dir outputs/decision_index_03/suite-0.3 \
+  --rows outputs/decision_index_03/work/artifacts/benchmark-suite/release-v2-rebuilt/selected-rows.jsonl.gz \
+  --added-rows outputs/decision_index_03/work/artifacts/benchmark-suite/release-v2-rebuilt/added-rows.jsonl.gz \
+  --gsm8k-rows outputs/decision_index_03/work/artifacts/benchmark-suite/release-v3-rebuilt/gsm8k-rows.jsonl.gz
+uv run --extra benchmark python -m decision_index pipeline --edition 0.3 \
+  --suite-dir outputs/decision_index_03/suite-0.3 \
+  --engine decisions.benchmark:DecisionEngine \
+  --option checkpoint="$PWD/outputs/rtx4090_curriculum/full_split_ordered/last_bf16_fresh_optimizer.pt" \
+  --option device=cpu --option temperature=12.595144782442853 \
+  --out outputs/decision_index_03/runs/bad-laya
 ```
 
-These commands read supplied row files incrementally; they do not download or
-rebuild a suite. Only `state` and `questions` reach the model. Gold/scoring fields
-stay with the evaluator. No option pruning or context truncation is allowed;
-requests beyond capacity become `unsupported`. The official kit supplies
-benchmark-specific scoring, coverage, edition selection, and the leaderboard
-formula. Its calibration uses the returned probabilities; entropy confidence
-is retained separately.
+The run resumes from `results.jsonl`. Only `state` and `questions` reach the
+model; gold/scoring fields stay with the evaluator. No option pruning or context
+truncation is allowed: requests beyond capacity become `unsupported`. The
+official kit supplies benchmark-specific scoring, coverage, and the public
+index. The model's calibrated chosen-answer probability is `confidence`; its
+normalized entropy certainty is returned separately as `entropy_confidence`.
 
 ## Verification
 

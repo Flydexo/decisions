@@ -30,6 +30,8 @@ def font(size: int, *, serif: bool = False, bold: bool = False) -> ImageFont.Fre
 def main() -> None:
     data = json.loads(SOURCE.read_text())
     macro = data["macro"]
+    calibration = data["calibration"]
+    test = calibration["test"]
     pct = lambda value: f"{value * 100:.1f}%"
     image = Image.new("RGB", (1600, 750), "#f5f6ef")
     draw = ImageDraw.Draw(image)
@@ -51,12 +53,15 @@ def main() -> None:
         draw.text((773, y - 5), pct(value), font=font(28, bold=True), fill=color)
 
     draw.rounded_rectangle((970, 315, 1505, 652), radius=28, fill="#203840")
-    draw.text((1013, 347), "THE CONFIDENCE GAP", font=font(20, bold=True), fill="#a7dcca")
-    draw.text((1013, 383), pct(macro["entropy_confidence"]), font=font(71, serif=True, bold=True), fill="#fffefa")
-    draw.text((1017, 467), "entropy confidence", font=font(22), fill="#d5e7df")
-    draw.text((1017, 522), f"{pct(macro['latest'])} accuracy", font=font(24, bold=True), fill="#b9e5ca")
-    draw.text((1017, 568), f"{pct(macro['probability_ece'])} probability ECE", font=font(24, bold=True), fill="#f1b6a8")
-    draw.text((95, 671), "Local validation · 832 scored questions · exploratory, not a final benchmark", font=font(19), fill=muted)
+    draw.text((1013, 347), "HELD-OUT CALIBRATION", font=font(20, bold=True), fill="#a7dcca")
+    draw.text((1013, 383), pct(test["calibrated"]["mean_chosen_probability"]),
+              font=font(71, serif=True, bold=True), fill="#fffefa")
+    draw.text((1017, 467), "chosen-answer probability", font=font(22), fill="#d5e7df")
+    draw.text((1017, 522), f"{pct(test['raw']['accuracy'])} accuracy  ·  T = {calibration['temperature']:.2f}",
+              font=font(24, bold=True), fill="#b9e5ca")
+    draw.text((1017, 568), f"ECE  {pct(test['raw']['probability_ece'])}  →  {pct(test['calibrated']['probability_ece'])}",
+              font=font(22, bold=True), fill="#f1b6a8")
+    draw.text((95, 671), "Left: 21-source validation  ·  Right: 832 separate evaluation questions", font=font(19), fill=muted)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     image.save(OUTPUT, optimize=True)
     print(f"Wrote {OUTPUT}")

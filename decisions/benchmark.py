@@ -28,9 +28,11 @@ class DecisionEngine(Engine):
     name = "frozen-modernbert-decisions"
     latency = "Synchronized in-process request time, including tokenization; excludes model loading."
 
-    def __init__(self, checkpoint, device="auto", question_batch_size=2, **options):
-        super().__init__(checkpoint=checkpoint, device=device, question_batch_size=question_batch_size, **options)
-        self.predictor = Predictor(checkpoint, device, strict=True, question_batch_size=int(question_batch_size))
+    def __init__(self, checkpoint, device="auto", question_batch_size=2, temperature=1.0, **options):
+        super().__init__(checkpoint=checkpoint, device=device, question_batch_size=question_batch_size,
+                         temperature=temperature, **options)
+        self.predictor = Predictor(checkpoint, device, strict=True, question_batch_size=int(question_batch_size),
+                                   temperature=float(temperature))
         digest = hashlib.sha256()
         with open(checkpoint, "rb") as handle:
             for block in iter(lambda: handle.read(2**20), b""):
@@ -38,7 +40,8 @@ class DecisionEngine(Engine):
         self.provenance = {"checkpoint_sha256": digest.hexdigest(), "encoder": self.predictor.config["model"],
                            "ablation": self.predictor.config["ablation"],
                            "training_sources": self.predictor.config["dataset_configs"],
-                           "strict_context": True, "confidence": "1 - normalized Shannon entropy"}
+                           "strict_context": True, "confidence": "calibrated chosen-option probability",
+                           "temperature": self.predictor.temperature}
 
     def __call__(self, state, questions):
         try:

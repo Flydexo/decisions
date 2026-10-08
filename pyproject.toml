@@ -16,8 +16,8 @@ dependencies = [
 
 [project.optional-dependencies]
 benchmark = [
-    "decision-index",
+    "decision-index[rebuild]",
 ]
 
 [tool.uv.sources]
-decision-index = { url = "https://github.com/apolinario/decision-index/archive/87d4650b42b377c0291a89c1f1a879f9b31082bf.tar.gz" }
+decision-index = { url = "https://github.com/apolinario/decision-index/archive/9eb2dbe2a358004c8782c66e40a83ac07b953fec.tar.gz" }

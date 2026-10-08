@@ -3,6 +3,7 @@ from __future__ import annotations
 import itertools
 import hashlib
 import json
+import math
 from pathlib import Path
 
 import torch
@@ -111,7 +112,8 @@ def evaluate(model, tokenizer, configs, device, config, seed=42):
 
 
 class Predictor:
-    def __init__(self, checkpoint, device="auto", strict=True, question_batch_size=2):
+    def __init__(self, checkpoint, device="auto", strict=True, question_batch_size=2,
+                 temperature=1.0):
         from .checkpoints import read_checkpoint, load_checkpoint_model
         from .model import load_model, select_device
         saved = read_checkpoint(checkpoint)
@@ -124,6 +126,9 @@ class Predictor:
         self.question_batch_size = question_batch_size
         if question_batch_size < 1:
             raise ValueError("question_batch_size must be positive")
+        if not math.isfinite(temperature) or temperature <= 0:
+            raise ValueError("temperature must be finite and positive")
+        self.temperature = float(temperature)
 
     @torch.no_grad()
     def __call__(self, state, questions):
@@ -134,14 +139,15 @@ class Predictor:
         for start in range(0, len(inputs["qtype"]), self.question_batch_size):
             end = start + self.question_batch_size
             chunk = {k: v[start:end] for k, v in inputs.items()}
-            p = self.model(to_device(chunk, self.device)).float().softmax(-1).cpu()
+            p = (self.model(to_device(chunk, self.device)).float() / self.temperature).softmax(-1).cpu()
             certainty = confidence(p, chunk["marker_mask"])
             for index, (qid, keys) in enumerate(zip(chunk["question_ids"], chunk["option_labels"])):
                 values = p[index, :len(keys)].tolist()
                 selected = max(range(len(values)), key=values.__getitem__)
                 kind = questions[qid]["type"]
                 answer = {"type": kind, "probabilities": dict(zip(keys, values)),
-                          "confidence": certainty[index].item(), "chosen_probability": values[selected]}
+                          "confidence": values[selected], "chosen_probability": values[selected],
+                          "entropy_confidence": certainty[index].item()}
                 if kind == "noul":
                     answer["noul"] = answer["probabilities"]["true"]
                 elif kind == "score":

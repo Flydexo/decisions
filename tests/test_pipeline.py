@@ -533,11 +533,11 @@ class ModelAndCheckpointTests(unittest.TestCase):
                                          full["config"]["dataset_configs"], torch.device("cpu"))
             self.assertEqual(progress["best_accuracy"], -1.)
 
-    def test_predictor_returns_entropy_and_original_key_semantics(self):
+    def test_predictor_returns_chosen_probability_and_entropy(self):
         predictor = Predictor.__new__(Predictor)
         predictor.config = {"model": {"max_len": 512, "head_max_len": 192, "option_max_len": 48}}
         predictor.tokenizer, predictor.device = Tokenizer(), torch.device("cpu")
-        predictor.strict, predictor.question_batch_size = True, 1
+        predictor.strict, predictor.question_batch_size, predictor.temperature = True, 1, 1.0
         predictor.model = lambda x: torch.zeros(x["marker_mask"].shape).masked_fill(~x["marker_mask"], -1e4)
         s = sample()
         result = predictor(s["state"], s["questions"])
@@ -545,7 +545,8 @@ class ModelAndCheckpointTests(unittest.TestCase):
         self.assertAlmostEqual(result["answers"]["yes"]["noul"], .5)
         self.assertAlmostEqual(result["answers"]["sentiment"]["score"], 1., places=6)
         for a in result["answers"].values():
-            self.assertAlmostEqual(a["confidence"], 0., places=6)
+            self.assertAlmostEqual(a["confidence"], a["chosen_probability"], places=6)
+            self.assertAlmostEqual(a["entropy_confidence"], 0., places=6)
 
 
 if __name__ == "__main__":

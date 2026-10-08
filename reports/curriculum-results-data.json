@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T06:05:49.797414+00:00",
+  "generated_at": "2026-10-08T10:21:53.412987+00:00",
   "checkpoint_sha256": "e009fe101e9846279b26be6b292a33f5672894a1b319bd1210a6b71632ea5dee",
   "checkpoint_step": 60928,
   "completed_stages": 15,
@@ -485,10 +485,174 @@
       "partial": true
     }
   ],
+  "calibration": {
+    "temperature": 12.595144782442853,
+    "fit_questions": 832,
+    "test": {
+      "role": "eval",
+      "description": "Separate dataset eval partitions; no temperature selection",
+      "raw": {
+        "questions": 832,
+        "accuracy": 0.6538461538461539,
+        "mean_chosen_probability": 0.9124184985473408,
+        "nll": 6.075739293144633,
+        "brier": 0.5495115861270571,
+        "probability_ece": 0.2618336556889736,
+        "entropy_confidence": 0.8368456016353318,
+        "bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 4,
+            "confidence": 0.053136305894016196,
+            "accuracy": 0.0
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 2,
+            "confidence": 0.16233783178584815,
+            "accuracy": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 3,
+            "confidence": 0.21585293453959883,
+            "accuracy": 0.3333333333333333
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 7,
+            "confidence": 0.3724985169893676,
+            "accuracy": 0.2857142857142857
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 38,
+            "confidence": 0.45160874977405147,
+            "accuracy": 0.47368421052631576
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 36,
+            "confidence": 0.550961203723554,
+            "accuracy": 0.5555555555555556
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 38,
+            "confidence": 0.6358359782479779,
+            "accuracy": 0.631578947368421
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 23,
+            "confidence": 0.7525020643763767,
+            "accuracy": 0.6086956521739131
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 19,
+            "confidence": 0.8590069417070288,
+            "accuracy": 0.5263157894736842
+          },
+          {
+            "lower": 0.9,
+            "upper": 1.0,
+            "count": 662,
+            "confidence": 0.99781531587571,
+            "accuracy": 0.6873111782477341
+          }
+        ]
+      },
+      "calibrated": {
+        "questions": 832,
+        "accuracy": 0.6538461538461539,
+        "mean_chosen_probability": 0.6008282562788685,
+        "nll": 1.1272864350823428,
+        "brier": 0.45237775773126754,
+        "probability_ece": 0.15262696983052562,
+        "entropy_confidence": 0.2516610343284849,
+        "bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.1,
+            "count": 40,
+            "confidence": 0.071072198357436,
+            "accuracy": 0.525
+          },
+          {
+            "lower": 0.1,
+            "upper": 0.2,
+            "count": 6,
+            "confidence": 0.15227495325832965,
+            "accuracy": 0.3333333333333333
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.3,
+            "count": 126,
+            "confidence": 0.2662012219587223,
+            "accuracy": 0.5396825396825397
+          },
+          {
+            "lower": 0.3,
+            "upper": 0.4,
+            "count": 54,
+            "confidence": 0.34979554242392336,
+            "accuracy": 0.7407407407407407
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.5,
+            "count": 27,
+            "confidence": 0.460648169904345,
+            "accuracy": 0.3333333333333333
+          },
+          {
+            "lower": 0.5,
+            "upper": 0.6,
+            "count": 76,
+            "confidence": 0.5389541972490197,
+            "accuracy": 0.6052631578947368
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.7,
+            "count": 108,
+            "confidence": 0.6412829597399041,
+            "accuracy": 0.6018518518518519
+          },
+          {
+            "lower": 0.7,
+            "upper": 0.8,
+            "count": 182,
+            "confidence": 0.7348423836383571,
+            "accuracy": 0.5494505494505495
+          },
+          {
+            "lower": 0.8,
+            "upper": 0.9,
+            "count": 213,
+            "confidence": 0.8793632171833184,
+            "accuracy": 0.9061032863849765
+          }
+        ]
+      }
+    }
+  },
   "sources": [
     "outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/latest_bf16.json",
     "reports/rtx4090_pilot_baseline_summary.json",
     "outputs/rtx4090_curriculum/full_split_ordered/stages/15-ag_news.json",
-    "outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/validation_samples/"
+    "outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/validation_samples/",
+    "reports/bad-laya-calibration.json"
   ]
 }

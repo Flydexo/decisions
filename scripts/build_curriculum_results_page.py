@@ -79,6 +79,9 @@ def refresh_snapshot() -> dict:
             digest.update(block)
     if latest["identity"]["checkpoint_sha256"] != digest.hexdigest():
         raise ValueError("Local evaluation belongs to a different checkpoint")
+    calibration = read_json(REPORTS / "bad-laya-calibration.json")
+    if calibration["checkpoint_sha256"] != digest.hexdigest():
+        raise ValueError("Calibration belongs to a different checkpoint")
     tokenizer = AutoTokenizer.from_pretrained(config["model"]["encoder"], revision=config["model"].get("revision"))
     settings = preprocessing(config["model"], config["evaluation"]["strict"])
     datasets = []
@@ -141,10 +144,14 @@ def refresh_snapshot() -> dict:
                    "confidence_above_accuracy": sum(
                        row["entropy_confidence"] > row["latest"] for row in datasets)},
         "datasets": datasets, "history": history,
+        "calibration": {"temperature": calibration["temperature"],
+                        "fit_questions": calibration["fit"]["raw"]["questions"],
+                        "test": calibration["test"]},
         "sources": ["outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/latest_bf16.json",
                     "reports/rtx4090_pilot_baseline_summary.json",
                     f"outputs/rtx4090_curriculum/full_split_ordered/stages/{progress['stage_index']:02d}-{previous_name}.json",
-                    "outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/validation_samples/"],
+                    "outputs/rtx4090_curriculum/full_split_ordered/local_evaluation/validation_samples/",
+                    "reports/bad-laya-calibration.json"],
     }
 
 

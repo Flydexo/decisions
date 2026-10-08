@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CHECKPOINT = ROOT / "outputs/rtx4090_curriculum/full_split_ordered/last_bf16_fresh_optimizer.pt"
 DEFAULT_OUTPUT = ROOT / "outputs/huggingface/bad-laya"
 CARD = ROOT / "hf/bad-laya"
+CALIBRATION = ROOT / "reports/bad-laya-calibration.json"
 
 
 def sha256(path: Path) -> str:
@@ -72,6 +73,21 @@ def main() -> None:
         "weights_sha256": sha256(weights_path),
     }
     config_path.write_text(json.dumps(config, indent=2, ensure_ascii=False, allow_nan=False) + "\n")
+    if CALIBRATION.exists():
+        report = json.loads(CALIBRATION.read_text())
+        if report["checkpoint_sha256"] != source_hash:
+            raise ValueError("Calibration belongs to a different checkpoint")
+        (output / "calibration.json").write_text(json.dumps({
+            "method": "single temperature minimizing pooled validation negative log-likelihood",
+            "temperature": report["temperature"],
+            "checkpoint_sha256": source_hash,
+            "fit_questions": report["fit"]["raw"]["questions"],
+            "held_out_eval_questions": report["test"]["raw"]["questions"],
+            "held_out_eval_raw": {key: report["test"]["raw"][key] for key in
+                                  ("accuracy", "mean_chosen_probability", "nll", "brier", "probability_ece")},
+            "held_out_eval_calibrated": {key: report["test"]["calibrated"][key] for key in
+                                         ("accuracy", "mean_chosen_probability", "nll", "brier", "probability_ece")},
+        }, indent=2, allow_nan=False) + "\n")
     tokenizer = AutoTokenizer.from_pretrained(model["encoder"], revision=model["revision"])
     tokenizer.save_pretrained(output / "tokenizer")
     shutil.copy2(CARD / "README.md", output / "README.md")
