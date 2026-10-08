@@ -304,52 +304,55 @@ confidence, unsupported cases, and errors. These include supplementary tracks
 listed on the website. The rows are independently sampled, not the frozen
 leaderboard selection; **no overall Decision Index is reported for this pilot**.
 
-### Decision Index 0.3: WinoGrande only
+### Decision Index 0.3: single-benchmark comparisons
 
 The [official reproduction kit](https://github.com/apolinario/decision-index)
-is pinned here to edition 0.3 at commit `9eb2dbe`. To keep the evaluation
-efficient, `bad-laya` was run on its **1,267 WinoGrande requests only**. It
-answered every request and scored **642/1,267 = 50.7% accuracy**. Random choice
-expects 50%; the 95% Wilson interval, 47.9–53.4%, includes that baseline.
-The [comparison report](reports/bad-laya-winogrande.json) records the published
-Jev, Kev, Laya, and Clef reference scores and their source snapshot. The
+is pinned here to edition 0.3 at commit `9eb2dbe`. On **ARC-Easy**, the
+released checkpoint answered all 2,376 requests and got **1,277 correct:
+53.7% accuracy** (95% Wilson interval 51.7–55.7%). Uniform random choice
+expects 25.0%. The [ARC-Easy comparison report](reports/bad-laya-arc-easy.json)
+records the published reference scores and their source snapshot; the
 [results page](reports/curriculum-results.html#index-section) visualizes them.
+ARC-Easy is **shown on the public board but not counted in its overall index**.
+The older [WinoGrande result](reports/bad-laya-winogrande.json) remains
+642/1,267 = 50.7%, near its 50% random-choice expectation. WinoGrande is
+counted in the index. Neither single-benchmark run establishes a full score.
 
-The local WinoGrande normalized-source SHA-256 and all-case selection match the
-kit's official manifest. Other parts of the locally rebuilt 0.3 suite have a
-hash mismatch, so the result is **one benchmark, not a full public index score
-or leaderboard submission**. The kit's `scores.json` also correctly records
-`complete: false`. Its numerical `decision_index` field is not meaningful for
-this partial run and is not published as an index score.
+The normalized ARC-Easy and WinoGrande sources and all-case selections match
+the kit's official manifest. Other parts of the locally rebuilt 0.3 suite have
+a hash mismatch, so neither run is a full leaderboard submission. The kit's
+`scores.json` records `complete: false`; its numerical `decision_index` field
+is not meaningful for these partial runs and is not published as an index score.
 
-With a locally imported 0.3 suite, extract only WinoGrande rows and run the
-released checkpoint through the kit's strict engine:
+With a locally imported 0.3 suite, extract ARC-Easy rows and run the released
+checkpoint through the kit's strict engine on an Apple GPU:
 
 ```sh
 uv sync --extra benchmark
-uv run --extra benchmark python scripts/extract_decision_index_winogrande.py \
-  outputs/decision_index_03/suite-0.3 \
-  outputs/decision_index_03/winogrande-0.3.jsonl.gz
+uv run --extra benchmark python scripts/extract_decision_index_rows.py \
+  outputs/decision_index_03/suite-0.3 26 2376 \
+  outputs/decision_index_03/arc-easy-0.3.jsonl.gz
 uv run --extra benchmark python -m decision_index run --edition 0.3 \
-  --rows outputs/decision_index_03/winogrande-0.3.jsonl.gz \
+  --rows outputs/decision_index_03/arc-easy-0.3.jsonl.gz \
   --engine decisions.benchmark:DecisionEngine \
   --option checkpoint="$PWD/outputs/rtx4090_curriculum/full_split_ordered/last_bf16_fresh_optimizer.pt" \
-  --option device=cpu --option temperature=12.595144782442853 \
-  --out outputs/decision_index_03/runs/bad-laya-winogrande
+  --option device=mps --option temperature=12.595144782442853 \
+  --out outputs/decision_index_03/runs/bad-laya-arc-easy
 uv run --extra benchmark python -m decision_index score --edition 0.3 \
   --suite-dir outputs/decision_index_03/suite-0.3 \
-  --results outputs/decision_index_03/runs/bad-laya-winogrande/results.jsonl \
+  --results outputs/decision_index_03/runs/bad-laya-arc-easy/results.jsonl \
   --engine decisions.benchmark:DecisionEngine \
-  --out outputs/decision_index_03/runs/bad-laya-winogrande
+  --out outputs/decision_index_03/runs/bad-laya-arc-easy
 ```
 
-The row file is produced by selecting catalog ID 28 from the imported suite;
-benchmark questions and gold answers are not committed. The run resumes from
-`results.jsonl`. Only `state` and `questions` reach the model; gold/scoring
-fields stay with the evaluator. The model's calibrated chosen-answer
-probability is `confidence`; normalized entropy certainty is returned
-separately as `entropy_confidence`. The tracked comparison is regenerated with
-`scripts/build_winogrande_comparison.py` and
+The full ARC-Easy inference took about 5.5 minutes on MPS. This command needs
+an environment with Apple GPU access; the restricted shell can hide MPS even
+when the host GPU is available. Benchmark questions and gold answers are not
+committed. The run resumes from `results.jsonl`. Only `state` and `questions`
+reach the model; gold/scoring fields stay with the evaluator. The model's
+calibrated chosen-answer probability is `confidence`; normalized entropy
+certainty is returned separately as `entropy_confidence`. Regenerate the
+comparison with `scripts/build_arc_easy_comparison.py` and
 `scripts/build_curriculum_results_page.py` once the kit score exists.
 
 ## Verification

@@ -19,9 +19,9 @@ thumbnail: https://huggingface.co/flydexo/bad-laya/resolve/main/assets/overview.
 
 ![Evaluation overview](https://huggingface.co/flydexo/bad-laya/resolve/main/assets/overview.png)
 
-**Explore:** [Results](#at-a-glance) · [WinoGrande 0.3](#decision-index-03-winogrande) · [Quickstart](#load-and-score-a-request) · [Calibration](#temperature-calibration) · [Provenance](#training-and-evaluation-provenance) · [Limitations](#limitations-and-use)
+**Explore:** [Results](#at-a-glance) · [ARC-Easy 0.3](#decision-index-03-arc-easy) · [Quickstart](#load-and-score-a-request) · [Calibration](#temperature-calibration) · [Provenance](#training-and-evaluation-provenance) · [Limitations](#limitations-and-use)
 
-> **Research use.** The model is weak on some review tasks, even after calibration. The 21-source comparison uses validation samples; the calibration check uses separate evaluation partitions. Its WinoGrande result is close to random choice; no complete Decision Index 0.3 score is available.
+> **Research use.** The model is weak on some review tasks, even after calibration. The 21-source comparison uses validation samples; the calibration check uses separate evaluation partitions. ARC-Easy is above chance, while WinoGrande is near chance. No complete Decision Index 0.3 score is available.
 
 ## Model details
 
@@ -64,7 +64,24 @@ These are equal-weight averages of per-source results, **not** an accuracy poole
 
 Yelp and Amazon are below random expectation in this small validation sample. The model was trained on all 15 smaller curriculum splits, then stopped partway through Amazon Reviews after 136,392 rows of that split. CodeReviewer, MultiNLI, DBpedia 14, Yelp, and Consumer Finance had **not** yet been training stages, although all were included in every cross-source validation. The very high confidence and poor review accuracy make the limitations concrete.
 
-## Decision Index 0.3: WinoGrande
+## Decision Index 0.3: ARC-Easy
+
+The released checkpoint answered all **2,376** frozen ARC-Easy questions through the pinned [Decision Index 0.3 reproduction kit](https://github.com/apolinario/decision-index), using MPS inference. It got **1,277 correct: 53.7% accuracy**. The 95% Wilson interval is **51.7%–55.7%**; uniform random choice expects **25.0%**. This is a separate ARC-Easy split; ARC-Challenge was one of the training sources. The calibrated temperature changes reported probabilities, not the chosen answers or accuracy.
+
+| Model or reference | ARC-Easy accuracy |
+|:--|--:|
+| Cloudflare clef | 99.03% |
+| Kev 4B r10 | 97.22% |
+| Kev 0.8B r15 | 82.15% |
+| LiquidAI d1-omni-600M | 70.20% |
+| Bekko System One v0 68M | 57.03% |
+| **bad-laya** | **53.75%** |
+| Bekko System One v0 17M | 42.97% |
+| Uniform random choice | 25.02% expected |
+
+Comparator values come from the [Decision Index public results snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/960c70899ef5da38d39b2c645b83f46e198e1a6a/data/index.json) generated on 2026-10-07; each displayed published model answered all 2,376 requests. Jev has no published ARC-Easy raw score in that snapshot. The ARC-Easy source hash and full-case selection match the official manifest. **ARC-Easy is shown on the board but not counted in its overall index.** This is a single-benchmark comparison, not a full index score or official leaderboard submission. See the [aggregate result and provenance](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-arc-easy.json) and [visual comparison](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html#index-section).
+
+### Earlier WinoGrande result
 
 The released checkpoint answered all **1,267** frozen WinoGrande questions through the pinned [Decision Index 0.3 reproduction kit](https://github.com/apolinario/decision-index). It got **642 correct: 50.7% accuracy**. The 95% Wilson interval is **47.9%–53.4%**, which includes the 50% random-choice expectation. The calibrated temperature does not change the chosen answers.
 
@@ -80,7 +97,7 @@ The released checkpoint answered all **1,267** frozen WinoGrande questions throu
 | Laya | 50.5% |
 | Uniform random choice | 50.0% expected |
 
-Comparator values come from the [Decision Index public results snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/main/data/index.json) generated on 2026-10-07. All displayed published models answered the same 1,267 questions. The rebuilt WinoGrande source hash and full-case selection match the official manifest; other parts of the locally rebuilt suite do not pass the full-suite hash check. This is therefore a **single-benchmark result**, not a full index score or official leaderboard submission. The [aggregate result and provenance](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-winogrande.json) and [visual comparison](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html#index-section) are in the project repository.
+Comparator values come from the [Decision Index public results snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/960c70899ef5da38d39b2c645b83f46e198e1a6a/data/index.json) generated on 2026-10-07. All displayed published models answered the same 1,267 questions. WinoGrande counts toward the overall index, but this result alone does not establish a full index score. The rebuilt WinoGrande source hash and full-case selection match the official manifest; other parts of the locally rebuilt suite do not pass the full-suite hash check. See the [aggregate result and provenance](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-winogrande.json).
 
 ## What is in this repository
 
@@ -171,6 +188,6 @@ The curriculum comparison above is **validation**, not a held-out final benchmar
 - **Useful experiments:** English text classification, routing, triage, and typed decision research where the allowed answers are supplied with each question. Refit or verify calibration on a labelled sample of the actual workload before choosing confidence thresholds.
 - **Poor fit:** Open-ended generation, fact retrieval, image or video inputs, and fully automated decisions with medical, legal, financial, employment, or safety consequences.
 - **Known failure modes:** Review sentiment collapsed in the partial stage-16 checkpoint: Yelp Review Full scored 6.3% and Amazon Reviews 18.8% on their small validation samples. Temperature reduces reported certainty but does not fix these answers. A 1,024-token context can also refuse or truncate long requests, depending on preprocessing settings.
-- **Evaluation limits:** The 21-source validation set influenced checkpoint selection. The separate calibration evaluation has 832 questions and is too small to establish reliability within every source or on shifted domains. Only the WinoGrande part of Decision Index 0.3 was run; do not treat it as a full leaderboard score.
+- **Evaluation limits:** The 21-source validation set influenced checkpoint selection. The separate calibration evaluation has 832 questions and is too small to establish reliability within every source or on shifted domains. Only the ARC-Easy and WinoGrande parts of Decision Index 0.3 were run; do not treat either as a full leaderboard score. ARC-Easy was chosen after earlier ARC-Challenge validation suggested it might be stronger, so this comparison is exploratory.
 
 For the per-source results and training trajectory, see the [results page source](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html) and its [data snapshot](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results-data.json). The base encoder is [ModernBERT-large](https://huggingface.co/answerdotai/ModernBERT-large) (Apache 2.0). A license for this combined checkpoint is not declared here.

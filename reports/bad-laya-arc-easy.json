@@ -1,0 +1,64 @@
+{
+  "model": "flydexo/bad-laya",
+  "edition": "0.3",
+  "dataset": "ARC-Easy",
+  "catalog_id": 26,
+  "cases": 2376,
+  "answered": 2376,
+  "coverage": 1.0,
+  "correct": 1277,
+  "accuracy": 0.5374579124579124,
+  "accuracy_wilson_95": [
+    0.517365097745314,
+    0.5574297961669529
+  ],
+  "chance": 0.2502,
+  "in_index": false,
+  "jev_accuracy": null,
+  "comparators": [
+    {
+      "name": "Cloudflare clef",
+      "display_name": "Cloudflare clef",
+      "accuracy": 0.9903
+    },
+    {
+      "name": "Kev 4B r10",
+      "display_name": "Kev 4B r10",
+      "accuracy": 0.9722
+    },
+    {
+      "name": "Kev 0.8B r15",
+      "display_name": "Kev 0.8B r15",
+      "accuracy": 0.8215
+    },
+    {
+      "name": "LiquidAI d1-omni-600M",
+      "display_name": "LiquidAI 600M",
+      "accuracy": 0.702
+    },
+    {
+      "name": "Bekko System One v0 68M",
+      "display_name": "Bekko 68M",
+      "accuracy": 0.5703
+    },
+    {
+      "name": "Bekko System One v0 17M",
+      "display_name": "Bekko 17M",
+      "accuracy": 0.4297
+    }
+  ],
+  "comparator_snapshot": {
+    "url": "https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/main/data/index.json",
+    "revision": "960c70899ef5da38d39b2c645b83f46e198e1a6a",
+    "generated_utc": "2026-10-07T18:25:58Z"
+  },
+  "kit_revision": "9eb2dbe",
+  "arc_easy_source_sha256": "366d7fb14a305fc132a80bd92f103baa4f474887263d964366d0ff76398fea31",
+  "arc_easy_source_matches_official": true,
+  "full_suite_verified": false,
+  "full_suite_score": null,
+  "selection_note": "Chosen before this run based on earlier ARC-Challenge validation and a short single-question request format.",
+  "device": "mps",
+  "calibration_temperature": 12.595144782442853,
+  "checkpoint_sha256": "e009fe101e9846279b26be6b292a33f5672894a1b319bd1210a6b71632ea5dee"
+}

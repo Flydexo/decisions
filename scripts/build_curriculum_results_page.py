@@ -21,6 +21,7 @@ SNAPSHOT = REPORTS / "curriculum-results-data.json"
 PAGE = REPORTS / "curriculum-results.html"
 TEMPLATE = REPORTS / "curriculum-results.template.html"
 WINOGRANDE = REPORTS / "bad-laya-winogrande.json"
+ARC_EASY = REPORTS / "bad-laya-arc-easy.json"
 
 NAMES = {
     "ag_news": "AG News", "boolq": "BoolQ", "sst5": "SST-5",
@@ -172,10 +173,14 @@ def main() -> None:
         raise ValueError("Template must have one data placeholder")
     if template.count("__WINOGRANDE_DATA__") != 1:
         raise ValueError("Template must have one WinoGrande data placeholder")
-    comparison = json.dumps(read_json(WINOGRANDE), ensure_ascii=False, allow_nan=False).replace(
+    if template.count("__ARC_EASY_DATA__") != 1:
+        raise ValueError("Template must have one ARC-Easy data placeholder")
+    previous_comparison = json.dumps(read_json(WINOGRANDE), ensure_ascii=False, allow_nan=False).replace(
+        "<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+    comparison = json.dumps(read_json(ARC_EASY), ensure_ascii=False, allow_nan=False).replace(
         "<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
     PAGE.write_text(template.replace("__CURRICULUM_DATA__", payload).replace(
-        "__WINOGRANDE_DATA__", comparison))
+        "__WINOGRANDE_DATA__", previous_comparison).replace("__ARC_EASY_DATA__", comparison))
     print(f"Wrote {SNAPSHOT} and {PAGE}" if args.refresh else f"Wrote {PAGE}")
 
 
