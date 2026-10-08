@@ -461,6 +461,13 @@ Rebuild the page from its tracked data snapshot with
 `--refresh` to recompute that snapshot from the local checkpoint evaluation and
 validation samples.
 
+The partial stage-16 model is published as
+[bad-laya on Hugging Face](https://huggingface.co/flydexo/bad-laya), with BF16
+encoder weights, FP32 decision-head weights, tokenizer files, and an evaluation
+model card. Recreate the upload folder from the verified local checkpoint with
+`.venv/bin/python scripts/build_bad_laya_card_art.py` and
+`.venv/bin/python scripts/export_bad_laya_hf.py`.
+
 For ModernBERT-large across all 17 requested datasets:
 
 ```sh
