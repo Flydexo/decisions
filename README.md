@@ -370,8 +370,11 @@ To resume it in a shell with Apple GPU access:
 
 The locally rebuilt base row file does not match the kit's frozen hash because
 RouterBench's normalized source differs. RouterBench is displayed but not
-counted in the 0.3 public index; all other base source hashes and case counts,
-the added rows, and the rebuilt GSM8K rows match the pinned references. A
+counted in the 0.3 public index. Against a [published complete 0.2.1 run](https://huggingface.co/datasets/Lukitaduarte/dinah-0-decision-index-results),
+all 107,121 shared base request IDs match, and the 97,121 non-RouterBench
+payload hashes match exactly. The added rows and rebuilt GSM8K rows match the
+kit's pinned hashes. The [suite audit](reports/decision-index-03-suite-audit.json)
+records the comparison without republishing benchmark inputs. A
 `complete: true` score from this provisional local suite would still need the
 canonical base hash resolved before it could be presented as a verified public
 submission. The **Full score** on the board also includes private tests that

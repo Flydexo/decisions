@@ -1,0 +1,211 @@
+{
+  "edition": "0.3",
+  "reference": {
+    "dataset": "Lukitaduarte/dinah-0-decision-index-results",
+    "revision": "f1c4c6f50d7ff6721022aa0d531f2d6f36346f18",
+    "results_path": "runs/dinah-0/results.jsonl",
+    "results_sha256": "24361903c38bb5b66e298b52120b70ffadbd31d403f5fb50e05960892870730c",
+    "scores_path": "runs/dinah-0/scores.json",
+    "scores_sha256": "fa2c847b9ef7e2bd605ac276a1b57fe0e02672f2a3e8dacb7fb80c3608fcc1ff",
+    "edition": "0.2.1",
+    "complete": true,
+    "base_rows_sha256": "b2b56d6fb636837ca469e689087bdbf373dda8de7638aa2da6793e6eda0792d5"
+  },
+  "comparison_scope": "Shared 0.2.1 base requests still used in 0.3; excludes new benchmarks and replaced GSM8K rows",
+  "shared_base_totals": {
+    "requests": 107121,
+    "matching_ids": 107121,
+    "matching_payload_sha256": 97121
+  },
+  "by_catalog_id": {
+    "1": {
+      "requests": 1694,
+      "matching_ids": 1694,
+      "matching_payload_sha256": 1694
+    },
+    "2": {
+      "requests": 685,
+      "matching_ids": 685,
+      "matching_payload_sha256": 685
+    },
+    "3": {
+      "requests": 508,
+      "matching_ids": 508,
+      "matching_payload_sha256": 508
+    },
+    "4": {
+      "requests": 3080,
+      "matching_ids": 3080,
+      "matching_payload_sha256": 3080
+    },
+    "5": {
+      "requests": 5500,
+      "matching_ids": 5500,
+      "matching_payload_sha256": 5500
+    },
+    "6": {
+      "requests": 10000,
+      "matching_ids": 10000,
+      "matching_payload_sha256": 0
+    },
+    "9": {
+      "requests": 88,
+      "matching_ids": 88,
+      "matching_payload_sha256": 88
+    },
+    "10": {
+      "requests": 2500,
+      "matching_ids": 2500,
+      "matching_payload_sha256": 2500
+    },
+    "11": {
+      "requests": 123,
+      "matching_ids": 123,
+      "matching_payload_sha256": 123
+    },
+    "12": {
+      "requests": 3200,
+      "matching_ids": 3200,
+      "matching_payload_sha256": 3200
+    },
+    "20": {
+      "requests": 5000,
+      "matching_ids": 5000,
+      "matching_payload_sha256": 5000
+    },
+    "21": {
+      "requests": 2628,
+      "matching_ids": 2628,
+      "matching_payload_sha256": 2628
+    },
+    "22": {
+      "requests": 2000,
+      "matching_ids": 2000,
+      "matching_payload_sha256": 2000
+    },
+    "23": {
+      "requests": 5000,
+      "matching_ids": 5000,
+      "matching_payload_sha256": 5000
+    },
+    "24": {
+      "requests": 14033,
+      "matching_ids": 14033,
+      "matching_payload_sha256": 14033
+    },
+    "25": {
+      "requests": 196,
+      "matching_ids": 196,
+      "matching_payload_sha256": 196
+    },
+    "26": {
+      "requests": 2376,
+      "matching_ids": 2376,
+      "matching_payload_sha256": 2376
+    },
+    "27": {
+      "requests": 1172,
+      "matching_ids": 1172,
+      "matching_payload_sha256": 1172
+    },
+    "28": {
+      "requests": 1267,
+      "matching_ids": 1267,
+      "matching_payload_sha256": 1267
+    },
+    "29": {
+      "requests": 10042,
+      "matching_ids": 10042,
+      "matching_payload_sha256": 10042
+    },
+    "31": {
+      "requests": 5000,
+      "matching_ids": 5000,
+      "matching_payload_sha256": 5000
+    },
+    "32": {
+      "requests": 752,
+      "matching_ids": 752,
+      "matching_payload_sha256": 752
+    },
+    "33": {
+      "requests": 1650,
+      "matching_ids": 1650,
+      "matching_payload_sha256": 1650
+    },
+    "34": {
+      "requests": 10,
+      "matching_ids": 10,
+      "matching_payload_sha256": 10
+    },
+    "36": {
+      "requests": 220,
+      "matching_ids": 220,
+      "matching_payload_sha256": 220
+    },
+    "37": {
+      "requests": 5000,
+      "matching_ids": 5000,
+      "matching_payload_sha256": 5000
+    },
+    "38": {
+      "requests": 1565,
+      "matching_ids": 1565,
+      "matching_payload_sha256": 1565
+    },
+    "39": {
+      "requests": 979,
+      "matching_ids": 979,
+      "matching_payload_sha256": 979
+    },
+    "40": {
+      "requests": 4600,
+      "matching_ids": 4600,
+      "matching_payload_sha256": 4600
+    },
+    "41": {
+      "requests": 3006,
+      "matching_ids": 3006,
+      "matching_payload_sha256": 3006
+    },
+    "42": {
+      "requests": 5500,
+      "matching_ids": 5500,
+      "matching_payload_sha256": 5500
+    },
+    "43": {
+      "requests": 570,
+      "matching_ids": 570,
+      "matching_payload_sha256": 570
+    },
+    "44": {
+      "requests": 5000,
+      "matching_ids": 5000,
+      "matching_payload_sha256": 5000
+    },
+    "45": {
+      "requests": 501,
+      "matching_ids": 501,
+      "matching_payload_sha256": 501
+    },
+    "50": {
+      "requests": 1676,
+      "matching_ids": 1676,
+      "matching_payload_sha256": 1676
+    }
+  },
+  "routerbench": {
+    "catalog_id": 6,
+    "requests": 10000,
+    "matching_ids": 10000,
+    "matching_payload_sha256": 0,
+    "in_public_index": false
+  },
+  "all_other_shared_base_payloads_match": true,
+  "added_rows_sha256_match": true,
+  "gsm8k_rows_sha256_match": true,
+  "full_base_file_sha256_match": false,
+  "canonical_suite_verified": false,
+  "official_submission_ready": false,
+  "note": "All shared base request IDs match. Only RouterBench payload hashes differ; it is shown but not counted. The base file still fails the official frozen hash, so a completed local score remains provisional."
+}
