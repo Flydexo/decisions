@@ -1,0 +1,302 @@
+{
+  "model": "flydexo/bad-laya",
+  "edition": "0.3",
+  "complete": false,
+  "canonical_suite_verified": true,
+  "completed_requests": 6801,
+  "complete_benchmarks_in_sequential_run": 12,
+  "board_snapshot": {
+    "repo": "multimodalart/jev-decision-index",
+    "revision": "e452ca53f88e735031ca0605559c7d83fd1aa1b6",
+    "generated_utc": "2026-10-07T18:25:58Z"
+  },
+  "comparators": [
+    "Laya",
+    "Kev 0.8B r15",
+    "Kev 4B r10",
+    "Cloudflare clef"
+  ],
+  "benchmarks": [
+    {
+      "catalog_id": 2,
+      "dataset": "ToolRet",
+      "metric": "nDCG@10",
+      "requests": 685,
+      "answered": 548,
+      "unsupported": 137,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.1662,
+      "coverage_adjusted_score": 0.133,
+      "chance": 0.1341,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.1269,
+        "Kev 0.8B r15": 0.5166,
+        "Kev 4B r10": 0.6098,
+        "Cloudflare clef": 0.6906
+      }
+    },
+    {
+      "catalog_id": 3,
+      "dataset": "API-Bank",
+      "metric": "accuracy",
+      "requests": 508,
+      "answered": 0,
+      "unsupported": 508,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": null,
+      "coverage_adjusted_score": null,
+      "chance": 0.0189,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.1141,
+        "Kev 0.8B r15": 0.437,
+        "Kev 4B r10": 0.5335,
+        "Cloudflare clef": 0.9193
+      }
+    },
+    {
+      "catalog_id": 9,
+      "dataset": "Home appliance simulator",
+      "metric": "case exact accuracy",
+      "requests": 88,
+      "answered": 0,
+      "unsupported": 88,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": null,
+      "coverage_adjusted_score": null,
+      "chance": 0.0,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0,
+        "Kev 0.8B r15": 0,
+        "Kev 4B r10": 0.1477,
+        "Cloudflare clef": 0.8068
+      }
+    },
+    {
+      "catalog_id": 11,
+      "dataset": "ContractNLI",
+      "metric": "macro-F1",
+      "requests": 123,
+      "answered": 14,
+      "unsupported": 109,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.1544,
+      "coverage_adjusted_score": 0.0172,
+      "chance": 0.3085,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.2875,
+        "Kev 0.8B r15": 0.4086,
+        "Kev 4B r10": 0.6436,
+        "Cloudflare clef": 0.8135
+      }
+    },
+    {
+      "catalog_id": 25,
+      "dataset": "GPQA Diamond",
+      "metric": "accuracy",
+      "requests": 196,
+      "answered": 195,
+      "unsupported": 1,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.2615,
+      "coverage_adjusted_score": 0.2602,
+      "chance": 0.25,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.2755,
+        "Kev 0.8B r15": 0.3316,
+        "Kev 4B r10": 0.3776,
+        "Cloudflare clef": 0.4847
+      }
+    },
+    {
+      "catalog_id": 26,
+      "dataset": "ARC-Easy",
+      "metric": "accuracy",
+      "requests": 2376,
+      "answered": 2376,
+      "unsupported": 0,
+      "pending": 0,
+      "status": "complete, separate run",
+      "score_on_answered": 0.5374579124579124,
+      "coverage_adjusted_score": 0.5374579124579124,
+      "chance": 0.2502,
+      "in_index": false,
+      "comparators": {
+        "Laya": 0.4697,
+        "Kev 0.8B r15": 0.8215,
+        "Kev 4B r10": 0.9722,
+        "Cloudflare clef": 0.9903
+      }
+    },
+    {
+      "catalog_id": 28,
+      "dataset": "WinoGrande",
+      "metric": "accuracy",
+      "requests": 1267,
+      "answered": 1267,
+      "unsupported": 0,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.5091,
+      "coverage_adjusted_score": 0.5091,
+      "chance": 0.5,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.5051,
+        "Kev 0.8B r15": 0.528,
+        "Kev 4B r10": 0.7024,
+        "Cloudflare clef": 0.9353
+      }
+    },
+    {
+      "catalog_id": 32,
+      "dataset": "MuSR",
+      "metric": "accuracy",
+      "requests": 752,
+      "answered": 383,
+      "unsupported": 369,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.2846,
+      "coverage_adjusted_score": 0.1449,
+      "chance": 0.371,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.4322,
+        "Kev 0.8B r15": 0.4894,
+        "Kev 4B r10": 0.5625,
+        "Cloudflare clef": 0.8378
+      }
+    },
+    {
+      "catalog_id": 36,
+      "dataset": "BRIGHT",
+      "metric": "nDCG@10",
+      "requests": 220,
+      "answered": 78,
+      "unsupported": 142,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.1196,
+      "coverage_adjusted_score": 0.0424,
+      "chance": 0.116,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.199,
+        "Kev 0.8B r15": 0.3175,
+        "Kev 4B r10": 0.3895,
+        "Cloudflare clef": 0.4746
+      }
+    },
+    {
+      "catalog_id": 38,
+      "dataset": "ACOS",
+      "metric": "per-review F1",
+      "requests": 1565,
+      "answered": 384,
+      "unsupported": 0,
+      "pending": 1181,
+      "status": "partial",
+      "score_on_answered": 0.0063,
+      "coverage_adjusted_score": 0.0015,
+      "chance": 0.031,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.0345,
+        "Kev 0.8B r15": 0.0987,
+        "Kev 4B r10": 0.0978,
+        "Cloudflare clef": 0.3317
+      }
+    },
+    {
+      "catalog_id": 39,
+      "dataset": "FinEntity",
+      "metric": "macro-F1",
+      "requests": 979,
+      "answered": 979,
+      "unsupported": 0,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.52,
+      "coverage_adjusted_score": 0.52,
+      "chance": 0.3201,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.6098,
+        "Kev 0.8B r15": 0.7141,
+        "Kev 4B r10": 0.871,
+        "Cloudflare clef": 0.9609
+      }
+    },
+    {
+      "catalog_id": 43,
+      "dataset": "CRUXEval",
+      "metric": "accuracy",
+      "requests": 570,
+      "answered": 570,
+      "unsupported": 0,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.3877,
+      "coverage_adjusted_score": 0.3877,
+      "chance": 0.3697,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.4018,
+        "Kev 0.8B r15": 0.3772,
+        "Kev 4B r10": 0.4807,
+        "Cloudflare clef": 0.8649
+      }
+    },
+    {
+      "catalog_id": 45,
+      "dataset": "HLE",
+      "metric": "accuracy",
+      "requests": 501,
+      "answered": 471,
+      "unsupported": 30,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.1401,
+      "coverage_adjusted_score": 0.1317,
+      "chance": 0.1641,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.1397,
+        "Kev 0.8B r15": 0.1377,
+        "Kev 4B r10": 0.1018,
+        "Cloudflare clef": 0.1277
+      }
+    },
+    {
+      "catalog_id": 64,
+      "dataset": "New Yorker caption matching",
+      "metric": "accuracy",
+      "requests": 528,
+      "answered": 528,
+      "unsupported": 0,
+      "pending": 0,
+      "status": "complete",
+      "score_on_answered": 0.2614,
+      "coverage_adjusted_score": 0.2614,
+      "chance": 0.2,
+      "in_index": true,
+      "comparators": {
+        "Laya": 0.2708,
+        "Kev 0.8B r15": 0.2784,
+        "Kev 4B r10": 0.5227,
+        "Cloudflare clef": 0.7027
+      }
+    }
+  ],
+  "note": "Completed rows use the kit's coverage-adjusted index_raw metric. ACOS is partial and is not comparable with full peer scores. A complete public index is unavailable."
+}

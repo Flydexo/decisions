@@ -19,9 +19,9 @@ thumbnail: https://huggingface.co/flydexo/bad-laya/resolve/main/assets/overview.
 
 ![Evaluation overview](https://huggingface.co/flydexo/bad-laya/resolve/main/assets/overview.png)
 
-**Explore:** [Results](#at-a-glance) · [ARC-Easy 0.3](#decision-index-03-arc-easy) · [Quickstart](#load-and-score-a-request) · [Calibration](#temperature-calibration) · [Provenance](#training-and-evaluation-provenance) · [Limitations](#limitations-and-use)
+**Explore:** [Decision Index 0.3 results](#decision-index-03-benchmarks) · [Quickstart](#load-and-score-a-request) · [Calibration](#temperature-calibration)
 
-> **Research use.** The model is weak on some review tasks, even after calibration. The 21-source comparison uses validation samples; the calibration check uses separate evaluation partitions. ARC-Easy is above chance, while WinoGrande is near chance. No complete Decision Index 0.3 score is available.
+> **Research checkpoint.** Results vary by task, and the 0.3 run is paused before completion. The table below reports every completed benchmark and the partial ACOS stage; no overall public-index score is available.
 
 ## Model details
 
@@ -39,65 +39,30 @@ thumbnail: https://huggingface.co/flydexo/bad-laya/resolve/main/assets/overview.
 
 The question’s options define the answer space at inference time. `choice` returns the most likely named option, `score` returns the probability-weighted level index, and `noul` returns the probability of true. The custom [`decisions` code](https://github.com/Flydexo/decisions) handles preprocessing and option-marker scoring. **This repository is not a drop-in `transformers.AutoModel.from_pretrained` or text-generation model.**
 
-## At a glance
+## Decision Index 0.3 benchmarks
 
-| 21-source validation macro average | Score |
-|:--|--:|
-| **bad-laya · step 60,928** | **65.2% accuracy** |
-| Uniform random choice over each question's valid options | 29.0% expected accuracy |
-| Earlier bounded RTX 4090 pilot | 43.3% accuracy |
-| Previous complete curriculum stage (stage 15) | 67.3% accuracy |
-| Normalized entropy confidence | 91.8% |
-| Chosen-option probability ECE (10 bins per source) | 33.5% |
+The [verified public 0.3 suite](https://github.com/Flydexo/decisions/blob/main/reports/decision-index-03-canonical-suite.json) was run one benchmark at a time on Apple MPS. The run paused after 12 of 43 benchmarks; ARC-Easy was completed in a separate run. **These are partial public results, not a full index or leaderboard submission.**
 
-These are equal-weight averages of per-source results, **not** an accuracy pooled across all questions. The local validation used up to 32 rows per source, yielding 832 scored questions. The checkpoint beat the random expectation on 19/21 sources and the pilot on 17/21, but it **regressed by 2.1 percentage points** from stage 15. The random line is an analytical expectation, not a sampled model run. Entropy confidence measures how concentrated the option distribution is; it is not a probability that the decision is correct. ECE uses the selected option's actual probability.
+| Benchmark / metric | bad-laya | Answered | Chance / baseline | Laya | Kev 0.8B | Kev 4B | Cloudflare clef |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| ToolRet · nDCG@10 | 13.3% | 548/685 | 13.4% | 12.7% | 51.7% | 61.0% | 69.1% |
+| API-Bank · accuracy | — | 0/508 | 1.9% | 11.4% | 43.7% | 53.3% | 91.9% |
+| Home appliance · case exact accuracy | — | 0/88 | 0.0% | 0.0% | 0.0% | 14.8% | 80.7% |
+| ContractNLI · macro-F1 | 1.7% | 14/123 | 30.9% | 28.7% | 40.9% | 64.4% | 81.3% |
+| GPQA Diamond · accuracy | 26.0% | 195/196 | 25.0% | 27.6% | 33.2% | 37.8% | 48.5% |
+| ARC-Easy (shown only) · accuracy | 53.7% | 2376/2376 | 25.0% | 47.0% | 82.2% | 97.2% | 99.0% |
+| WinoGrande · accuracy | 50.9% | 1267/1267 | 50.0% | 50.5% | 52.8% | 70.2% | 93.5% |
+| MuSR · accuracy | 14.5% | 383/752 | 37.1% | 43.2% | 48.9% | 56.2% | 83.8% |
+| BRIGHT · nDCG@10 | 4.2% | 78/220 | 11.6% | 19.9% | 31.8% | 39.0% | 47.5% |
+| ACOS (partial) · per-review F1 | 0.15% | 384/1565 | 3.1% | 3.5% | 9.9% | 9.8% | 33.2% |
+| FinEntity · macro-F1 | 52.0% | 979/979 | 32.0% | 61.0% | 71.4% | 87.1% | 96.1% |
+| CRUXEval · accuracy | 38.8% | 570/570 | 37.0% | 40.2% | 37.7% | 48.1% | 86.5% |
+| HLE · accuracy | 13.2% | 471/501 | 16.4% | 14.0% | 13.8% | 10.2% | 12.8% |
+| New Yorker captions · accuracy | 26.1% | 528/528 | 20.0% | 27.1% | 27.8% | 52.3% | 70.3% |
 
-### Where it struggles
+Scores are the kit’s **coverage-adjusted raw metric**, so unsupported requests count against bad-laya. The “Chance / baseline” column is the board’s task-specific random/reference baseline; accuracy, F1 and nDCG are distinct metrics. A dash means the model answered no requests. **ACOS is partial**: its 0.15% interim figure covers only 384 of 1,565 requests and must not be treated as a full-benchmark comparison. ARC-Easy comes from a separate completed run and is shown on the board but does not count toward the public index. The other 12 completed rows are from the paused sequential run. Peer values come from the [public Decision Index snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/e452ca53f88e735031ca0605559c7d83fd1aa1b6/data/index.json) (generated 2026-10-07); each peer result has the same request count for the row. The full 0.3 public index is unavailable while 31 benchmarks remain. The board’s Full score also requires private tests.
 
-| Validation source | Accuracy | Random expectation | Entropy confidence |
-|:--|--:|--:|--:|
-| Yelp Review Full | 6.3% | 20.0% | 100.0% |
-| Amazon Reviews · EN | 18.8% | 20.0% | 100.0% |
-| ARC-Challenge | 34.4% | 25.0% | 92.5% |
-| BoolQ | 71.9% | 50.0% | 82.7% |
-| AG News | 90.6% | 25.0% | 100.0% |
-
-Yelp and Amazon are below random expectation in this small validation sample. The model was trained on all 15 smaller curriculum splits, then stopped partway through Amazon Reviews after 136,392 rows of that split. CodeReviewer, MultiNLI, DBpedia 14, Yelp, and Consumer Finance had **not** yet been training stages, although all were included in every cross-source validation. The very high confidence and poor review accuracy make the limitations concrete.
-
-## Decision Index 0.3: ARC-Easy
-
-The released checkpoint answered all **2,376** frozen ARC-Easy questions through the pinned [Decision Index 0.3 reproduction kit](https://github.com/apolinario/decision-index), using MPS inference. It got **1,277 correct: 53.7% accuracy**. The 95% Wilson interval is **51.7%–55.7%**; uniform random choice expects **25.0%**. This is a separate ARC-Easy split; ARC-Challenge was one of the training sources. The calibrated temperature changes reported probabilities, not the chosen answers or accuracy.
-
-| Model or reference | ARC-Easy accuracy |
-|:--|--:|
-| Cloudflare clef | 99.03% |
-| Kev 4B r10 | 97.22% |
-| Kev 0.8B r15 | 82.15% |
-| LiquidAI d1-omni-600M | 70.20% |
-| Bekko System One v0 68M | 57.03% |
-| **bad-laya** | **53.75%** |
-| Bekko System One v0 17M | 42.97% |
-| Uniform random choice | 25.02% expected |
-
-Comparator values come from the [Decision Index public results snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/960c70899ef5da38d39b2c645b83f46e198e1a6a/data/index.json) generated on 2026-10-07; each displayed published model answered all 2,376 requests. Jev has no published ARC-Easy raw score in that snapshot. The ARC-Easy source hash and full-case selection match the official manifest. **ARC-Easy is shown on the board but not counted in its overall index.** This is a single-benchmark comparison, not a full index score or official leaderboard submission. See the [aggregate result and provenance](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-arc-easy.json) and [visual comparison](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html#index-section).
-
-### Earlier WinoGrande result
-
-The released checkpoint answered all **1,267** frozen WinoGrande questions through the pinned [Decision Index 0.3 reproduction kit](https://github.com/apolinario/decision-index). It got **642 correct: 50.7% accuracy**. The 95% Wilson interval is **47.9%–53.4%**, which includes the 50% random-choice expectation. The calibrated temperature does not change the chosen answers.
-
-| Model or reference | WinoGrande accuracy |
-|:--|--:|
-| Cloudflare clef | 93.5% |
-| Jev | 92.0% |
-| Kev 27B | 88.3% |
-| Kev 9B v2 | 75.1% |
-| Kev 4B r10 | 70.2% |
-| Kev 0.8B r15 | 52.8% |
-| **bad-laya** | **50.7%** |
-| Laya | 50.5% |
-| Uniform random choice | 50.0% expected |
-
-Comparator values come from the [Decision Index public results snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/960c70899ef5da38d39b2c645b83f46e198e1a6a/data/index.json) generated on 2026-10-07. All displayed published models answered the same 1,267 questions. WinoGrande counts toward the overall index, but this result alone does not establish a full index score. The rebuilt WinoGrande source hash and full-case selection match the official manifest; other parts of the locally rebuilt suite do not pass the full-suite hash check. See the [aggregate result and provenance](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-winogrande.json).
+The [aggregate report](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-decision-index-03-paused.json) gives exact scores and provenance. WinoGrande scored 50.9% in this sequential run; an earlier isolated run scored 50.7%.
 
 ## What is in this repository
 
@@ -170,24 +135,4 @@ The published `calibration.json` holds one positive temperature fitted to raw lo
 | Negative log-likelihood | 6.08 | 1.13 |
 | Chosen-answer probability ECE · 10 bins | 26.2% | 15.3% |
 
-The original 91.8% figure above is normalized entropy confidence from the validation sample. For a decision forecast, use the probability of the chosen option after temperature scaling. A shared temperature can still be wrong for a particular source or a new domain. See the [calibration report](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-calibration.json) and [results page](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html) for the separate evaluation metrics and reliability plot.
-
-## Training and evaluation provenance
-
-- **Architecture:** `answerdotai/ModernBERT-large` encoder, two-layer transformer decision head, option-marker scoring; 1,024-token decision context.
-- **Objective:** sampled reward using log, spherical, and ordinal ranked-probability components.
-- **Training:** complete splits in ascending-size curriculum order; 15 stages completed, stage 16 (Amazon Reviews) interrupted; 398,779 cumulative training rows and 60,928 optimizer steps.
-- **Checkpoint:** BF16 encoder and FP32 head exported from the locally evaluated `last_bf16_fresh_optimizer.pt`. `decision_config.json` records SHA-256 hashes of both the source checkpoint and published weights.
-- **Validation:** 21 sources, seed 42, up to 32 rows per source, 832 scored questions; local FP32 CPU operations on the BF16 encoder weights.
-- **Comparators:** uniform chance computed from valid option counts; bounded mixed-pool RTX 4090 pilot at step 672; complete stage-15 curriculum checkpoint.
-
-The curriculum comparison above is **validation**, not a held-out final benchmark. The calibration check uses separate evaluation partitions but is also small. Small per-source samples, nonuniform option counts, and the difference in training budgets limit what the comparisons establish. Accuracy and confidence can change substantially across stages: the partial stage-16 checkpoint is weaker overall than stage 15. Sensitive domains represented among the sources include finance, customer support, phishing, and safety; do not use this model to make consequential decisions without a separate domain-specific evaluation and human oversight.
-
-## Limitations and use
-
-- **Useful experiments:** English text classification, routing, triage, and typed decision research where the allowed answers are supplied with each question. Refit or verify calibration on a labelled sample of the actual workload before choosing confidence thresholds.
-- **Poor fit:** Open-ended generation, fact retrieval, image or video inputs, and fully automated decisions with medical, legal, financial, employment, or safety consequences.
-- **Known failure modes:** Review sentiment collapsed in the partial stage-16 checkpoint: Yelp Review Full scored 6.3% and Amazon Reviews 18.8% on their small validation samples. Temperature reduces reported certainty but does not fix these answers. A 1,024-token context can also refuse or truncate long requests, depending on preprocessing settings.
-- **Evaluation limits:** The 21-source validation set influenced checkpoint selection. The separate calibration evaluation has 832 questions and is too small to establish reliability within every source or on shifted domains. Only the ARC-Easy and WinoGrande parts of Decision Index 0.3 were run; do not treat either as a full leaderboard score. ARC-Easy was chosen after earlier ARC-Challenge validation suggested it might be stronger, so this comparison is exploratory.
-
-For the per-source results and training trajectory, see the [results page source](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html) and its [data snapshot](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results-data.json). The base encoder is [ModernBERT-large](https://huggingface.co/answerdotai/ModernBERT-large) (Apache 2.0). A license for this combined checkpoint is not declared here.
+For a decision forecast, use the probability of the chosen option after temperature scaling; normalized entropy confidence describes distribution sharpness instead. A shared temperature can still be wrong for a particular source or a new domain. See the [calibration report](https://github.com/Flydexo/decisions/blob/main/reports/bad-laya-calibration.json) and [results page](https://github.com/Flydexo/decisions/blob/main/reports/curriculum-results.html) for the separate evaluation metrics and reliability plot.

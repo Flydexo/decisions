@@ -304,85 +304,30 @@ confidence, unsupported cases, and errors. These include supplementary tracks
 listed on the website. The rows are independently sampled, not the frozen
 leaderboard selection; **no overall Decision Index is reported for this pilot**.
 
-### Decision Index 0.3: single-benchmark comparisons
+### Decision Index 0.3: paused public benchmark
 
-The [official reproduction kit](https://github.com/apolinario/decision-index)
-is pinned here to edition 0.3 at commit `9eb2dbe`. On **ARC-Easy**, the
-released checkpoint answered all 2,376 requests and got **1,277 correct:
-53.7% accuracy** (95% Wilson interval 51.7–55.7%). Uniform random choice
-expects 25.0%. The [ARC-Easy comparison report](reports/bad-laya-arc-easy.json)
-records the published reference scores and their source snapshot; the
-[results page](reports/curriculum-results.html#index-section) visualizes them.
-ARC-Easy is **shown on the public board but not counted in its overall index**.
-The older [WinoGrande result](reports/bad-laya-winogrande.json) remains
-642/1,267 = 50.7%, near its 50% random-choice expectation. WinoGrande is
-counted in the index. Neither single-benchmark run establishes a full score.
+The checkpoint was evaluated through the pinned 0.3 kit on local MPS. At the user’s request, the sequential run stopped after **12 of 43 benchmarks**; ACOS is partial, and ARC-Easy was completed separately. The canonical suite passes all published hashes. **There is no final public-index score.**
 
-The normalized ARC-Easy and WinoGrande sources and all-case selections match
-the kit's official manifest. The full 0.3 suite is now hash verified, but
-neither single-benchmark run is a full leaderboard submission. The kit's
-`scores.json` records `complete: false`; its numerical `decision_index` field
-is not meaningful for these partial runs and is not published as an index score.
+| Benchmark / metric | bad-laya | Answered | Chance / baseline | Laya | Kev 0.8B | Kev 4B | Cloudflare clef |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| ToolRet · nDCG@10 | 13.3% | 548/685 | 13.4% | 12.7% | 51.7% | 61.0% | 69.1% |
+| API-Bank · accuracy | — | 0/508 | 1.9% | 11.4% | 43.7% | 53.3% | 91.9% |
+| Home appliance · case exact accuracy | — | 0/88 | 0.0% | 0.0% | 0.0% | 14.8% | 80.7% |
+| ContractNLI · macro-F1 | 1.7% | 14/123 | 30.9% | 28.7% | 40.9% | 64.4% | 81.3% |
+| GPQA Diamond · accuracy | 26.0% | 195/196 | 25.0% | 27.6% | 33.2% | 37.8% | 48.5% |
+| ARC-Easy (shown only) · accuracy | 53.7% | 2376/2376 | 25.0% | 47.0% | 82.2% | 97.2% | 99.0% |
+| WinoGrande · accuracy | 50.9% | 1267/1267 | 50.0% | 50.5% | 52.8% | 70.2% | 93.5% |
+| MuSR · accuracy | 14.5% | 383/752 | 37.1% | 43.2% | 48.9% | 56.2% | 83.8% |
+| BRIGHT · nDCG@10 | 4.2% | 78/220 | 11.6% | 19.9% | 31.8% | 39.0% | 47.5% |
+| ACOS (partial) · per-review F1 | 0.15% | 384/1565 | 3.1% | 3.5% | 9.9% | 9.8% | 33.2% |
+| FinEntity · macro-F1 | 52.0% | 979/979 | 32.0% | 61.0% | 71.4% | 87.1% | 96.1% |
+| CRUXEval · accuracy | 38.8% | 570/570 | 37.0% | 40.2% | 37.7% | 48.1% | 86.5% |
+| HLE · accuracy | 13.2% | 471/501 | 16.4% | 14.0% | 13.8% | 10.2% | 12.8% |
+| New Yorker captions · accuracy | 26.1% | 528/528 | 20.0% | 27.1% | 27.8% | 52.3% | 70.3% |
 
-With a locally imported 0.3 suite, extract ARC-Easy rows and run the released
-checkpoint through the kit's strict engine on an Apple GPU:
+Scores are the kit’s **coverage-adjusted raw metric**, so unsupported requests count against bad-laya. The “Chance / baseline” column is the board’s task-specific random/reference baseline; accuracy, F1 and nDCG are distinct metrics. A dash means the model answered no requests. **ACOS is partial**: its 0.15% interim figure covers only 384 of 1,565 requests and must not be treated as a full-benchmark comparison. ARC-Easy comes from a separate completed run and is shown on the board but does not count toward the public index. The other 12 completed rows are from the paused sequential run. Peer values come from the [public Decision Index snapshot](https://huggingface.co/spaces/multimodalart/jev-decision-index/blob/e452ca53f88e735031ca0605559c7d83fd1aa1b6/data/index.json) (generated 2026-10-07); each peer result has the same request count for the row. The full 0.3 public index is unavailable while 31 benchmarks remain. The board’s Full score also requires private tests.
 
-```sh
-uv sync --extra benchmark
-uv run --extra benchmark python scripts/extract_decision_index_rows.py \
-  outputs/decision_index_03/suite-0.3 26 2376 \
-  outputs/decision_index_03/arc-easy-0.3.jsonl.gz
-uv run --extra benchmark python -m decision_index run --edition 0.3 \
-  --rows outputs/decision_index_03/arc-easy-0.3.jsonl.gz \
-  --engine decisions.benchmark:DecisionEngine \
-  --option checkpoint="$PWD/outputs/rtx4090_curriculum/full_split_ordered/last_bf16_fresh_optimizer.pt" \
-  --option device=mps --option temperature=12.595144782442853 \
-  --out outputs/decision_index_03/runs/bad-laya-arc-easy
-uv run --extra benchmark python -m decision_index score --edition 0.3 \
-  --suite-dir outputs/decision_index_03/suite-0.3 \
-  --results outputs/decision_index_03/runs/bad-laya-arc-easy/results.jsonl \
-  --engine decisions.benchmark:DecisionEngine \
-  --out outputs/decision_index_03/runs/bad-laya-arc-easy
-```
-
-The full ARC-Easy inference took about 5.5 minutes on MPS. This command needs
-an environment with Apple GPU access; the restricted shell can hide MPS even
-when the host GPU is available. Benchmark questions and gold answers are not
-committed. The run resumes from `results.jsonl`. Only `state` and `questions`
-reach the model; gold/scoring fields stay with the evaluator. The model's
-calibrated chosen-answer probability is `confidence`; normalized entropy
-certainty is returned separately as `entropy_confidence`. Regenerate the
-comparison with `scripts/build_arc_easy_comparison.py` and
-`scripts/build_curriculum_results_page.py` once the kit score exists.
-
-### Sequential full 0.3 evaluation (in progress)
-
-`scripts/run_decision_index_03_sequential.py` runs all 43 public suite entries
-one benchmark at a time on MPS, smaller counted benchmarks first. It writes
-resumable rows and results under `outputs/decision_index_03/`, checks free
-disk before each stage, and stops if a stage leaves pending requests or errors.
-Its run directory is `outputs/decision_index_03/runs/bad-laya-full-03`.
-To resume it in a shell with Apple GPU access:
-
-```sh
-.venv/bin/python -u scripts/run_decision_index_03_sequential.py
-```
-
-The pinned kit's RouterBench adapter uses ordinary `sum` for calibration
-averages, while the released normalized files use compensated `math.fsum`.
-`scripts/rebuild_canonical_decision_index_03.py` applies that correction to
-RouterBench, verifies both published source hashes, rebuilds the suite, and
-checks every official 0.3 row and exclusion hash. The
-[canonical suite verification](reports/decision-index-03-canonical-suite.json)
-records the hashes without redistributing benchmark inputs. An earlier
-[audit of the provisional rebuild](reports/decision-index-03-suite-audit.json)
-documents how the mismatch was isolated. The ongoing sequential run began
-before the repair; its completed request payload hashes were checked against
-the canonical suite, and its future RouterBench requests now use canonical
-rows. The final results must be scored against `suite-0.3` with `complete:
-true` before reporting a public index. The board's **Full score** also
-includes private tests that only the maintainers run; this local process
-computes the public component.
+The [aggregate report](reports/bad-laya-decision-index-03-paused.json) records exact values, request counts, and the comparator revision. The [resume guide](docs/decision-index-03-resume.md) tells the next agent how to continue on MPS, verify results, and publish only after the suite is complete. Earlier isolated WinoGrande inference scored 50.7%; this table uses the paused sequential run’s 50.9%.
 
 ## Verification
 
