@@ -319,8 +319,8 @@ The older [WinoGrande result](reports/bad-laya-winogrande.json) remains
 counted in the index. Neither single-benchmark run establishes a full score.
 
 The normalized ARC-Easy and WinoGrande sources and all-case selections match
-the kit's official manifest. Other parts of the locally rebuilt 0.3 suite have
-a hash mismatch, so neither run is a full leaderboard submission. The kit's
+the kit's official manifest. The full 0.3 suite is now hash verified, but
+neither single-benchmark run is a full leaderboard submission. The kit's
 `scores.json` records `complete: false`; its numerical `decision_index` field
 is not meaningful for these partial runs and is not published as an index score.
 
@@ -368,17 +368,21 @@ To resume it in a shell with Apple GPU access:
 .venv/bin/python -u scripts/run_decision_index_03_sequential.py
 ```
 
-The locally rebuilt base row file does not match the kit's frozen hash because
-RouterBench's normalized source differs. RouterBench is displayed but not
-counted in the 0.3 public index. Against a [published complete 0.2.1 run](https://huggingface.co/datasets/Lukitaduarte/dinah-0-decision-index-results),
-all 107,121 shared base request IDs match, and the 97,121 non-RouterBench
-payload hashes match exactly. The added rows and rebuilt GSM8K rows match the
-kit's pinned hashes. The [suite audit](reports/decision-index-03-suite-audit.json)
-records the comparison without republishing benchmark inputs. A
-`complete: true` score from this provisional local suite would still need the
-canonical base hash resolved before it could be presented as a verified public
-submission. The **Full score** on the board also includes private tests that
-only the maintainers run; this local process can compute the public component.
+The pinned kit's RouterBench adapter uses ordinary `sum` for calibration
+averages, while the released normalized files use compensated `math.fsum`.
+`scripts/rebuild_canonical_decision_index_03.py` applies that correction to
+RouterBench, verifies both published source hashes, rebuilds the suite, and
+checks every official 0.3 row and exclusion hash. The
+[canonical suite verification](reports/decision-index-03-canonical-suite.json)
+records the hashes without redistributing benchmark inputs. An earlier
+[audit of the provisional rebuild](reports/decision-index-03-suite-audit.json)
+documents how the mismatch was isolated. The ongoing sequential run began
+before the repair; its completed request payload hashes were checked against
+the canonical suite, and its future RouterBench requests now use canonical
+rows. The final results must be scored against `suite-0.3` with `complete:
+true` before reporting a public index. The board's **Full score** also
+includes private tests that only the maintainers run; this local process
+computes the public component.
 
 ## Verification
 

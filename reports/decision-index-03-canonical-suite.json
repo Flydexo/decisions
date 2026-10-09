@@ -1,0 +1,27 @@
+{
+  "edition": "0.3",
+  "kit_revision": "9eb2dbe",
+  "routerbench_average": "math.fsum",
+  "routerbench_normalized_sha256": {
+    "RouterBench-0shot.jsonl": "dbc7cdc7aa4fc7ba6d32300659786c401773cbc09af42fa32354d75fb2c87464",
+    "RouterBench-5shot.jsonl": "b1a609d626016a79ee23778f3d17542e9e2d6970318d6c1b159f231bc12732d7"
+  },
+  "release_v1_byte_identical": true,
+  "release_v2_byte_identical": true,
+  "added_byte_identical": true,
+  "gsm8k_byte_identical": true,
+  "suite": {
+    "expected_sha256": "25aac5e890a54a3172c7a0c184b4cc8b9a43f10b6ee89bbad8da923be423c656",
+    "match": true,
+    "uncompressed_sha256": "b2b56d6fb636837ca469e689087bdbf373dda8de7638aa2da6793e6eda0792d5",
+    "uncompressed_match": true,
+    "added_sha256": "7429f3c9cdddb772c1cfc42bb2a45e8516b0032152b746e6929f1c8b52f4ce89",
+    "added_match": true,
+    "gsm8k_sha256": "759334894858a37d6bd7bd07298eac8e55da236e31dad327ccd06a9979f4738a",
+    "gsm8k_match": true,
+    "exclusions_sha256": "331df32d4b719c7db43214d0e5d85859d39c3b2eb7d0b3812214cce150155e81",
+    "exclusions_match": true,
+    "subsets_match": true
+  },
+  "scope": "Public Decision Index 0.3 suite; private board tests are not included."
+}

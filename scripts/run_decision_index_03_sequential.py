@@ -1,9 +1,4 @@
-"""Resume the public Decision Index 0.3 suite, one benchmark at a time on MPS.
-
-The local base suite currently differs from the published hash in RouterBench,
-which is shown but not counted. This runner records that limitation and does
-not claim a verified official submission merely because scoring completes.
-"""
+"""Resume the verified public Decision Index 0.3 suite, one benchmark at a time on MPS."""
 from __future__ import annotations
 
 import argparse
@@ -24,7 +19,7 @@ from decision_index.suite.io import Suite
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "outputs/decision_index_03"
-SUITE = BASE / "suite-0.3-provisional"
+SUITE = BASE / "suite-0.3"
 RUN = BASE / "runs/bad-laya-full-03"
 ROWS = BASE / "per-benchmark-rows"
 CHECKPOINT = ROOT / "outputs/rtx4090_curriculum/full_split_ordered/last_bf16_fresh_optimizer.pt"
@@ -47,21 +42,16 @@ def stamp() -> str:
 
 def preflight() -> tuple[Suite, dict]:
     suite = Suite(SUITE, edition="0.3")
-    verification = suite.verify(strict=False)
-    if verification["match"] is False and not (
-        verification["added_match"] and verification["gsm8k_match"]
-        and verification["exclusions_match"] and verification["subsets_match"]
-    ):
-        raise ValueError("More than the known base-row hash differs from the official 0.3 suite")
+    verification = suite.verify(strict=True)
+    if not verification["match"]:
+        raise ValueError("The 0.3 suite does not match the official published hashes")
     local = {x["catalog_id"]: x for x in json.loads(LOCAL_MANIFEST.read_text())["benchmarks"]}
     official = {x["catalog_id"]: x for x in json.loads(OFFICIAL_MANIFEST.read_text())["benchmarks"]}
     mismatched = [n for n in official if local[n]["sources"] != official[n]["sources"]
                   or local[n]["selected_cases"] != official[n]["selected_cases"]]
-    if mismatched != [6]:
-        raise ValueError(f"Unexpected base source or selection mismatch: {mismatched}")
-    return suite, {"suite_verification": verification,
-                   "base_manifest_mismatch": {"catalog_id": 6, "dataset": "RouterBench",
-                                              "in_index": False}}
+    if mismatched:
+        raise ValueError(f"Base source or selection mismatch: {mismatched}")
+    return suite, {"suite_verification": verification, "base_manifest_mismatch": None}
 
 
 def prepare_rows(suite: Suite) -> dict[int, dict]:
@@ -135,7 +125,7 @@ def score() -> dict:
         subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
     result = json.loads((RUN / "scores.json").read_text())
     return {"completed": result["completed"], "complete": result["complete"],
-            "provisional_public_index": result["decision_index"] if result["complete"] else None}
+            "public_index": result["decision_index"] if result["complete"] else None}
 
 
 def main() -> None:
